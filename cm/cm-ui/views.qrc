@@ -9,5 +9,6 @@
         <file alias="FindClientView.qml">views/FindClientView.qml</file>
         <file alias="ControlCMView.qml">views/ControlCMView.qml</file>
         <file alias="TestView.qml">views/TestView.qml</file>
+        <file alias="ACMasterView.qml">views/ACMasterView.qml</file>
     </qresource>
 </RCC>

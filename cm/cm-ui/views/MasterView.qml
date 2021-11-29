@@ -11,7 +11,7 @@ Window {
     visible: true
     title: qsTr("Client Management")
 
-    Component.onCompleted: contentFrame.replace("qrc:/views/ControlCMView.qml");
+    Component.onCompleted: contentFrame.replace("qrc:/views/ACMasterView.qml");
 
     Connections {
         target: masterController.ui_navigationController
