@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/components">
+        <file alias="qmldir">components/qmldir</file>
+        <file alias="NavigationButton.qml">components/NavigationButton.qml</file>
+        <file alias="NavigationBar.qml">components/NavigationBar.qml</file>
+        <file alias="CommandBar.qml">components/CommandBar.qml</file>
+        <file alias="CommandButton.qml">components/CommandButton.qml</file>
+        <file alias="StringEditorSingleLine.qml">components/StringEditorSingleLine.qml</file>
+        <file alias="CMCoffeeColumnChart.qml">components/CMCoffeeColumnChart.qml</file>
+        <file alias="CMCoffeeMakeButton.qml">components/CMCoffeeMakeButton.qml</file>
+        <file alias="CMWarningOnOffBar.qml">components/CMWarningOnOffBar.qml</file>
+        <file alias="CMChangeColumnChart.qml">components/CMChangeColumnChart.qml</file>
+        <file alias="CMMilkCircularChart.qml">components/CMMilkCircularChart.qml</file>
+        <file alias="RadialBarShape.qml">components/RadialBarShape.qml</file>
+        <file alias="CMWaterCircularChart.qml">components/CMWaterCircularChart.qml</file>
+        <file alias="CMControlPanel.qml">components/CMControlPanel.qml</file>
+    </qresource>
+</RCC>
