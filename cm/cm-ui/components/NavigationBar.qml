@@ -15,11 +15,11 @@ Item{
 
     Rectangle {
         anchors.fill: parent
-        color: Style.colourNavigationBarBackground
+        color: Style.colorAcNavigationBarBackground
 
         Column {
             width: parent.width
-
+            visible: !isCollapsed
             NavigationButton {
                 iconCharacter: "\uf0c9"
                 description: ""

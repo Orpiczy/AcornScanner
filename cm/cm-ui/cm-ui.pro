@@ -14,7 +14,7 @@ LIBS += -L$$PWD/../binaries/$$DESTINATION_PATH -lcm-lib
 #!build_pass:message(ORPICZY ui output dir: $${DESTDIR})
 ######################
 
-QT += qml quick
+QT += qml quick charts
 QT += widgets
 
 TEMPLATE = app

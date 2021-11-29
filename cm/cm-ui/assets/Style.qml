@@ -66,6 +66,40 @@ Item {
     readonly property color colorCmWaterCircleForeground: "#147AD6"
     readonly property color colorCmMilkCircleBackground: "#C7C8D0"
 
+    //AC colors
+    readonly property color colorAcBackground: "#FFFFFF"
+    readonly property color colorAcForeground: "#E4E4E4"
+    readonly property color colorAcEdges: "#707070"
+    readonly property color colorAcLetter: "#707070"
+    readonly property color colorAcAccent1: "#6200EE"
+    readonly property color colorAcAccent2: "#CB5959"
+    readonly property color colorAcAccent3: "#CB5959"
+    readonly property color colorAcMeasureButton1: "#F2ED60"
+    readonly property color colorAcMeasureButton2: "#60F273"
+    readonly property color colorAcNavigationBarBackground: "#E4E4E4"
+    readonly property color colorAcNavigationButtonBackground: "#E4E4E4"
+    readonly property color colorAcTextUnderline: "#E4E4E4"
+    readonly property color colorAcNavigationButtonBackgroundHovered: "#D6D6D6"
+
+    //dim
+    readonly property int   acEdgesRadius: 60
+    readonly property int   acButtonEdgesRadius: 15
+    readonly property int   acButtonDimension: 50
+    readonly property int   textAndDescriptionTextHeight: 65
+    readonly property int   textAndDescriptionTextWidth: 100
+    readonly property int   textAndDescriptionTextWidthBig: 180
+
+
+    //font size
+    readonly property int   fontSizeAcDescription: 10
+    readonly property int   fontSizeAcMainText: 20
+
+    //font stype
+    readonly property string fontTypeAcMain: "Siemens AD Sans"
+
+    //margins
+    readonly property int    marginAcDeviceTextTop: 40
+
 }
 
 

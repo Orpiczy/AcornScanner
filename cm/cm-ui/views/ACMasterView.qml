@@ -3,18 +3,13 @@ import assets 1.0
 import components 1.0
 import CM 1.0
 import QtQuick.Layouts 1.12
+import QtQuick.Controls
 
 Item {
     property Storage basicStorage: masterController.ui_basicStorage
     width: 1840
     height: 1080
-    Image {
-        id: backgroundPhoto
-        height:1080
-        width: 1920
-        source: "qrc:/assets/ControlViewBackground.png"
-        anchors.centerIn: parent
-    }
+
     Item {
         anchors{
             fill: parent
@@ -23,68 +18,96 @@ Item {
             rightMargin: 40
             bottomMargin: 20
         }
-
+        Rectangle {
+            id: background
+            anchors.fill: parent
+            color: Style.colorAcBackground
+        }
         GridLayout {
 
             id: grid
-            columns: 3
-            rows: 2
             anchors{
                 margins: 20
                 fill: parent
             }
+            columns: 2
+            rows: 2
             anchors.centerIn: parent
-            rowSpacing: 20
+            rowSpacing: 10
             columnSpacing: 20
 
-            CMChangeColumnChart{
-                mapDecorator: basicStorage.ui_change
-                Layout.fillWidth: true
-                Layout.fillHeight: true
+            ACDummyComponent{
+                Layout.preferredWidth: 900
+                Layout.preferredHeight: 500
             }
 
-            CMMilkCircularChart{
-                mapDecorator: basicStorage.ui_milk
-                Layout.fillWidth: true
-                Layout.fillHeight: true
+            ACDummyComponent{
+                Layout.preferredWidth: 700
+                Layout.preferredHeight: 500
+
             }
-
-            CMWaterCircularChart{
-                mapDecorator: basicStorage.ui_water
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
-
-            ColumnLayout{
-                spacing: 20
-
-                CMCoffeeColumnChart{
-                    mapDecorator: basicStorage.ui_coffee
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                }
-                CMCoffeeMakeButton{
-                    Layout.alignment:  Qt.AlignRight
-                }
-            }
+            Item{
+                width: 900
+                height: 300
 
 
-
-            CMControlPanel{
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
-            Item {
-                implicitHeight: Style.cmChartHeight
-                implicitWidth: Style.cmChartWidth
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-
-                Image {
-                    id: coffeIcon
-                    source: "qrc:/assets/coffeeMaker.svg"
+                ScrollView {
+                    anchors.fill: parent
                     anchors.centerIn: parent
+//                    contentWidth: row.width; contentHeight: row.height
+
+                   ScrollBar.horizontal.interactive: true
+                   ScrollBar.vertical.interactive: true
+//                   ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+//                   ScrollBar.vertical.policy: ScrollBar.Alwaysoff
+                   clip: true
+
+//                    Keys.onUpPressed: scrollBar.decrease()
+//                    Keys.onDownPressed: scrollBar.increase()
+
+//                    ScrollBar.vertical: ScrollBar { id: scrollBar }
+
+                    RowLayout{
+                        id:row
+                        anchors.fill: parent
+                        spacing: 80
+                        Item{
+                            Layout.preferredWidth: 380
+                            Layout.preferredHeight: 250
+                            ACDevice{
+                            }
+                        }
+
+
+                        Item{
+                            Layout.preferredWidth: 380
+                            Layout.preferredHeight: 250
+                            ACDevice{
+                            }
+                        }
+
+                        Item{
+                            Layout.preferredWidth: 380
+                            Layout.preferredHeight: 250
+                            ACDevice{
+                            }
+                        }
+
+                        Item{
+                            Layout.preferredWidth: 380
+                            Layout.preferredHeight: 250
+                            ACDevice{
+                            }
+                        }
+                    }
                 }
+
+
+            }
+
+            ACDummyComponent{
+                Layout.preferredWidth: 700
+                Layout.preferredHeight: 250
             }
         }
     }

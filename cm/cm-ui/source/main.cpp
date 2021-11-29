@@ -3,6 +3,10 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include <QtQuick>
+#include <QtWidgets>
+#include <QtCharts>
+
 #include <controllers/master-controller.h>
 #include <controllers/command-controller.h>
 #include <controllers/navigation-controller.h>
@@ -10,19 +14,57 @@
 #include <data/enumerator-decorator.h>
 #include <data/int-decorator.h>
 #include <data/string-decorator.h>
-//#include <data/dropdown.h>
-//#include <data/dropdown-value.h>
 #include <framework/command.h>
-//#include <framework/object-factory.h>
 #include <models/address.h>
 #include <models/appointment.h>
 #include <models/client.h>
 #include <models/client-search.h>
 #include <models/contact.h>
 #include <models/storage.h>
-//#include <rss/rss-channel.h>
-//#include <rss/rss-image.h>
-//#include <rss/rss-item.h>
+
+
+class Helper: public QObject
+{
+    Q_OBJECT
+public:
+    Q_INVOKABLE void update_chart(QQuickItem *item){
+        if(QGraphicsScene *scene = item->findChild<QGraphicsScene *>()){
+            for(QGraphicsItem *it : scene->items()){
+                if(QChart *chart = dynamic_cast<QChart *>(it)){
+                    // Customize chart background
+                    QLinearGradient backgroundGradient;
+                    backgroundGradient.setStart(QPointF(0, 0));
+                    backgroundGradient.setFinalStop(QPointF(0, 1));
+                    backgroundGradient.setColorAt(0.0, QRgb(0xd2d0d1));
+                    backgroundGradient.setColorAt(1.0, QRgb(0x4c4547));
+                    backgroundGradient.setCoordinateMode(QGradient::ObjectBoundingMode);
+                    chart->setBackgroundBrush(backgroundGradient);
+                    // Customize plot area background
+                    QLinearGradient plotAreaGradient;
+                    plotAreaGradient.setStart(QPointF(0, 1));
+                    plotAreaGradient.setFinalStop(QPointF(1, 0));
+                    plotAreaGradient.setColorAt(0.0, QRgb(0x555555));
+                    plotAreaGradient.setColorAt(1.0, QRgb(0x55aa55));
+                    plotAreaGradient.setCoordinateMode(QGradient::ObjectBoundingMode);
+                    chart->setPlotAreaBackgroundBrush(plotAreaGradient);
+                    chart->setPlotAreaBackgroundVisible(true);
+                }
+            }
+        }
+    }
+    Q_INVOKABLE void update_axes(QAbstractAxis *axisX, QAbstractAxis *axisY){
+        if(axisX && axisY){
+            // Customize axis colors
+            QPen axisPen(QRgb(0xd18952));
+            axisPen.setWidth(2);
+            axisX->setLinePen(axisPen);
+            axisY->setLinePen(axisPen);
+            // Customize grid lines and shades
+            axisY->setShadesPen(Qt::NoPen);
+            axisY->setShadesBrush(QBrush(QColor(0x99, 0xcc, 0xcc, 0x55)));
+        }
+    }
+};
 
 int main(int argc, char *argv[])
 {
@@ -30,32 +72,18 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     qmlRegisterType<cm::controllers::MasterController>("CM", 1, 0, "MasterController");
-
- //   qmlRegisterUncreatableType<cm::controllers::INavigationController>("CM", 1, 0, "INavigationController", "Interface");
- //   qmlRegisterUncreatableType<cm::controllers::ICommandController>("CM", 1, 0, "ICommandController", "Interface");
-
     qmlRegisterType<cm::data::DateTimeDecorator>("CM", 1, 0, "DateTimeDecorator");
     qmlRegisterType<cm::data::EnumeratorDecorator>("CM", 1, 0, "EnumeratorDecorator");
     qmlRegisterType<cm::data::IntDecorator>("CM", 1, 0, "IntDecorator");
     qmlRegisterType<cm::data::StringDecorator>("CM", 1, 0, "StringDecorator");
     qmlRegisterType<cm::data::MapDecorator>("CM", 1, 0, "MapDecorator");
-//    qmlRegisterType<cm::data::DropDown>("CM", 1, 0, "DropDown");
-//    qmlRegisterType<cm::data::DropDownValue>("CM", 1, 0, "DropDownValue");
-
     qmlRegisterType<cm::models::Address>("CM", 1, 0, "Address");
     qmlRegisterType<cm::models::Appointment>("CM", 1, 0, "Appointment");
     qmlRegisterType<cm::models::Client>("CM", 1, 0, "Client");
     qmlRegisterType<cm::models::Storage>("CM", 1, 0, "Storage");
-//    qmlRegisterType<cm::models::ClientSearch>("CM", 1, 0, "ClientSearch");
     qmlRegisterType<cm::models::Contact>("CM", 1, 0, "Contact");
 
     qmlRegisterType<cm::framework::Command>("CM", 1, 0, "Command");
-
-//   qmlRegisterType<cm::rss::RssChannel>("CM", 1, 0, "RssChannel");
-//    qmlRegisterType<cm::rss::RssImage>("CM", 1, 0, "RssImage");
-//   qmlRegisterType<cm::rss::RssItem>("CM", 1, 0, "RssItem");
-
-//    cm::framework::ObjectFactory objectFactory;
     cm::controllers::MasterController masterController(nullptr);
 
     QQmlApplicationEngine engine;
