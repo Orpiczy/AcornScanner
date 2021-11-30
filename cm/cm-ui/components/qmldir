@@ -13,3 +13,9 @@ RadialBarShape         1.0 RadialBarShape.qml
 CMWaterCircularChart   1.0 CMWaterCircularChart.qml
 CMCoffeeMakerIcon      1.0 CMCoffeeMakerIcon.qml
 CMControlPanel         1.0 CMControlPanel.qml
+ACDummyComponent       1.0 ACDummyComponent.qml
+ACRefreshButton        1.0 ACRefreshButton.qml
+ACTextAndDescription   1.0 ACTextAndDescription.qml
+ACDevice               1.0 ACDevice.qml
+ACStatisticDataChart   1.0 ACStatisticDataChart.qml
+ACProfileChart         1.0 ACProfileChart.qml

@@ -2,7 +2,7 @@ import QtQuick 2.15
 import assets 1.0
 
 Item{
-    property  alias iconCharacter: textIcon.text
+    property alias iconCharacter: textIcon.text
     property alias description: textDescription.text
     property color hoverColour: Style.colourNavigationBarBackground
 

@@ -35,6 +35,7 @@ public:
     const QString& welcomeMessage() const;
     Client *newClient();
     Storage *basicStorage();
+
 private:
     class Implementation;
     QScopedPointer<Implementation> implementation;

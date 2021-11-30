@@ -28,7 +28,6 @@ Item {
                 id: mySeries
                 axisX: BarCategoryAxis { categories: [mapDecorator.ui_key0, mapDecorator.ui_key1, mapDecorator.ui_key3, mapDecorator.ui_key4, mapDecorator.ui_key5, mapDecorator.ui_key6 ] }
                 BarSet { label: "Coffee Left"; values: [mapDecorator.ui_value0, mapDecorator.ui_value1, mapDecorator.ui_value2, mapDecorator.ui_value3, mapDecorator.ui_value4, mapDecorator.ui_value5,mapDecorator.ui_value6] }
-
             }
         }
     }}
