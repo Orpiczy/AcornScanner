@@ -17,3 +17,5 @@ ACDummyComponent       1.0 ACDummyComponent.qml
 ACRefreshButton        1.0 ACRefreshButton.qml
 ACTextAndDescription   1.0 ACTextAndDescription.qml
 ACDevice               1.0 ACDevice.qml
+ACStatisticDataChart   1.0 ACStatisticDataChart.qml
+ACProfileChart         1.0 ACProfileChart.qml

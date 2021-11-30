@@ -36,7 +36,11 @@ Item {
             rowSpacing: 10
             columnSpacing: 20
 
-            ACDummyComponent{
+            ACStatisticDataChart{
+                healthyValues: [2, 2, 3, 4, 5, 6]
+                unhealthyValues: [5, 1, 2, 4, 1, 7]
+                unknownValues: [3, 5, 8, 13, 5, 8]
+                dates: ["29-11-2021", "28-11-2021", "27-11-2021", "26-11-2021", "25-11-2021", "24-11-2021" ]
                 Layout.preferredWidth: 900
                 Layout.preferredHeight: 500
             }
@@ -44,6 +48,10 @@ Item {
             ACDummyComponent{
                 Layout.preferredWidth: 700
                 Layout.preferredHeight: 500
+                ACProfileChart{
+                    anchors.centerIn: parent
+                }
+
 
             }
             Item{
@@ -52,41 +60,32 @@ Item {
 
 
                 ScrollView {
-                    anchors.fill: parent
-                    anchors.centerIn: parent
-//                    contentWidth: row.width; contentHeight: row.height
 
-                   ScrollBar.horizontal.interactive: true
-                   ScrollBar.vertical.interactive: true
-//                   ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-//                   ScrollBar.vertical.policy: ScrollBar.Alwaysoff
-                   clip: true
+                    anchors{
+                        leftMargin: 20
+                        rightMargin: 20
+                        centerIn: parent
+                    }
+                    //                    contentWidth: row.width; contentHeight: row.height
 
-//                    Keys.onUpPressed: scrollBar.decrease()
-//                    Keys.onDownPressed: scrollBar.increase()
+                    ScrollBar.horizontal.interactive: true
+                    ScrollBar.vertical.interactive: true
+                    ScrollBar.horizontal.policy: parent.width <= row.width ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+                    clip: true
 
-//                    ScrollBar.vertical: ScrollBar { id: scrollBar }
+                    //                    Keys.onUpPressed: scrollBar.decrease()
+                    //                    Keys.onDownPressed: scrollBar.increase()
+
+                    //                    ScrollBar.vertical: ScrollBar { id: scrollBar }
 
                     RowLayout{
                         id:row
                         anchors.fill: parent
+                        anchors.centerIn: parent
                         spacing: 80
-                        Item{
-                            Layout.preferredWidth: 380
-                            Layout.preferredHeight: 250
-                            ACDevice{
-                            }
-                        }
-
 
                         Item{
-                            Layout.preferredWidth: 380
-                            Layout.preferredHeight: 250
-                            ACDevice{
-                            }
-                        }
-
-                        Item{
+                            id:device1
                             Layout.preferredWidth: 380
                             Layout.preferredHeight: 250
                             ACDevice{
@@ -94,16 +93,33 @@ Item {
                         }
 
                         Item{
+                            id:device2
                             Layout.preferredWidth: 380
                             Layout.preferredHeight: 250
                             ACDevice{
                             }
                         }
+
+//                        Item{
+//                            id:device3
+//                            Layout.preferredWidth: 380
+//                            Layout.preferredHeight: 250
+//                            ACDevice{
+//                            }
+//                        }
+
+//                        Item{
+//                            id:device4
+//                            Layout.preferredWidth: 380
+//                            Layout.preferredHeight: 250
+//                            ACDevice{
+//                            }
+//                        }
                     }
                 }
-
-
             }
+
+
 
             ACDummyComponent{
                 Layout.preferredWidth: 700

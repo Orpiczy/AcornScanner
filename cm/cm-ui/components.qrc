@@ -18,5 +18,7 @@
         <file alias="ACDevice.qml">components/ACDevice.qml</file>
         <file alias="ACRefreshButton.qml">components/ACRefreshButton.qml</file>
         <file alias="ACTextAndDescription.qml">components/ACTextAndDescription.qml</file>
+        <file alias="ACStatisticDataChart.qml">components/ACStatisticDataChart.qml</file>
+        <file alias="ACProfileChart.qml">components/ACProfileChart.qml</file>
     </qresource>
 </RCC>
