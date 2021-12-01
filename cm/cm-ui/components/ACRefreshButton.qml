@@ -25,12 +25,11 @@ Item {
             }
             color: Style.colorAcNavigationButtonBackground
             radius: Style.acButtonEdgesRadius
-
             Text {
                 id: textIcon
                 font {
                     family: Style.fontAwesome
-                    pixelSize: (parent.height - 10)
+                    pixelSize: parent.height * 0.6
                 }
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter

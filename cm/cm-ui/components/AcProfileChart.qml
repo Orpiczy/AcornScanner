@@ -7,6 +7,15 @@ import QtCharts 2.3
 import Qt5Compat.GraphicalEffects
 
 Item {
+    property alias xAxisMin: xAxis.min
+    property alias xAxisMax: xAxis.max
+    property alias xTickCount: xAxis.tickCount
+
+    property alias yAxisMin: yAxis.min
+    property alias yAxisMax: yAxis.max
+    property alias yTickCount: yAxis.tickCount
+
+    property alias profileValue: profile.upperSeries
     width: 300
     height: 300
     Rectangle {
@@ -43,27 +52,11 @@ Item {
                 AreaSeries {
 
                     id:profile
-                    axisX: ValuesAxis { min: 2000; max: 2011;tickCount: 3;labelFormat: "%.0f"; color: Style.colorAcProfileChartBackground; labelsVisible: false; gridVisible:false}
-                    axisY: ValuesAxis {min: 0; max:5;tickCount: 6;labelFormat: "%d"; color: Style.colorAcProfileChartBackground;labelsVisible: false; gridVisible:false}
+                    axisX: ValuesAxis { id: xAxis; labelFormat: "%d"; color: Style.colorAcProfileChartBackground; labelsVisible: false; gridVisible:false}
+                    axisY: ValuesAxis { id: yAxis; labelFormat: "%d"; color: Style.colorAcProfileChartBackground; labelsVisible: false; gridVisible:false}
                     borderColor: Style.colorAcEdges
                     color:Style.colorAcAccent1
-                    borderWidth: 1
-
-                    upperSeries: LineSeries {
-                        XYPoint { x: 2000; y: 0 }
-                        XYPoint { x: 2001; y: 1 }
-                        XYPoint { x: 2002; y: 2 }
-                        XYPoint { x: 2003; y: 3 }
-                        XYPoint { x: 2004; y: 4 }
-                        XYPoint { x: 2005; y: 4 }
-                        XYPoint { x: 2006; y: 3 }
-                        XYPoint { x: 2007; y: 4 }
-                        XYPoint { x: 2008; y: 4 }
-                        XYPoint { x: 2009; y: 3 }
-                        XYPoint { x: 2010; y: 2 }
-                        XYPoint { x: 2011; y: 1 }
-                    }
-
+                    borderWidth: 2
 
                 }
                 Component.onCompleted: {

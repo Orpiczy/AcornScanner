@@ -37,6 +37,7 @@ Item {
                         text: "Measurement Statistics"
                         font.family: Style.fontTypeAcMain
                         font.pointSize: Style.fontSizeAcMainText
+                        color: Style.colorAcLetter
                         horizontalAlignment: Text.AlignHCenter
                         anchors{
                             horizontalCenter: parent.horizontalCenter

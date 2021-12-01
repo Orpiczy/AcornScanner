@@ -4,6 +4,7 @@ import components 1.0
 import CM 1.0
 import QtQuick.Layouts 1.12
 import QtQuick.Controls
+import QtCharts 2.3
 
 Item {
     property Storage basicStorage: masterController.ui_basicStorage
@@ -45,14 +46,39 @@ Item {
                 Layout.preferredHeight: 500
             }
 
-            ACDummyComponent{
+            ACMeasurementVisualization{
                 Layout.preferredWidth: 700
                 Layout.preferredHeight: 500
-                ACProfileChart{
-                    anchors.centerIn: parent
+
+                xAxisMin: 2000
+                xAxisMax: 2011
+                xTickCount: 3
+                yAxisMin: 0
+                yAxisMax: 5
+                yTickCount: 6
+
+                result: "Healthy"
+                fileName: "28_11_2021_id3.txt"
+
+                profileValue: LineSeries {
+                    XYPoint { x: 2000; y: 0 }
+                    XYPoint { x: 2001; y: 1 }
+                    XYPoint { x: 2002; y: 2 }
+                    XYPoint { x: 2003; y: 3 }
+                    XYPoint { x: 2004; y: 4 }
+                    XYPoint { x: 2005; y: 4 }
+                    XYPoint { x: 2006; y: 3 }
+                    XYPoint { x: 2007; y: 4 }
+                    XYPoint { x: 2008; y: 4 }
+                    XYPoint { x: 2009; y: 3 }
+                    XYPoint { x: 2010; y: 2 }
+                    XYPoint { x: 2011; y: 1 }
                 }
 
-
+                out1: "4563"
+                out2: "-2734"
+                out3: "139"
+                outA: "3675"
             }
             Item{
                 width: 900
@@ -100,28 +126,28 @@ Item {
                             }
                         }
 
-//                        Item{
-//                            id:device3
-//                            Layout.preferredWidth: 380
-//                            Layout.preferredHeight: 250
-//                            ACDevice{
-//                            }
-//                        }
+                        //                        Item{
+                        //                            id:device3
+                        //                            Layout.preferredWidth: 380
+                        //                            Layout.preferredHeight: 250
+                        //                            ACDevice{
+                        //                            }
+                        //                        }
 
-//                        Item{
-//                            id:device4
-//                            Layout.preferredWidth: 380
-//                            Layout.preferredHeight: 250
-//                            ACDevice{
-//                            }
-//                        }
+                        //                        Item{
+                        //                            id:device4
+                        //                            Layout.preferredWidth: 380
+                        //                            Layout.preferredHeight: 250
+                        //                            ACDevice{
+                        //                            }
+                        //                        }
                     }
                 }
             }
 
 
 
-            ACDummyComponent{
+            ACMeasureButton{
                 Layout.preferredWidth: 700
                 Layout.preferredHeight: 250
             }

@@ -81,11 +81,13 @@ Item {
     readonly property color colorAcTextUnderline: "#E4E4E4"
     readonly property color colorAcNavigationButtonBackgroundHovered: "#D6D6D6"
     readonly property color colorAcProfileChartBackground: "#E4E4E4"
+    readonly property color colorAcMeasureButton: "#8FFAA5"
+    readonly property color colorAcMeasureButtonClicked:"#F2ED60"
 
     //dim
     readonly property int   acEdgesRadius: 60
     readonly property int   acButtonEdgesRadius: 15
-    readonly property int   acButtonDimension: 50
+    readonly property int   acButtonDimension: 45
     readonly property int   textAndDescriptionTextHeight: 65
     readonly property int   textAndDescriptionTextWidth: 100
     readonly property int   textAndDescriptionTextWidthBig: 180
@@ -93,7 +95,11 @@ Item {
 
     //font size
     readonly property int   fontSizeAcDescription: 10
+    readonly property int   fontSizeAcMainTextDataVis: 18
     readonly property int   fontSizeAcMainText: 20
+    readonly property int   fontSizeAcSubText: 18
+    readonly property int   fontSizeAcSubTitle: 30
+    readonly property int   fontSizeAcTitle: 30
 
     //font stype
     readonly property string fontTypeAcMain: "Siemens AD Sans"

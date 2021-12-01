@@ -57,7 +57,7 @@ Item {
                     ACTextAndDescription{
                         id:device
                         mainText: "Device X"
-                        mainFontSize: 25
+                        mainFontSize: Style.fontSizeAcMainText
                         descriptionText: "device name"
                         underlineWidth: Style.textAndDescriptionTextWidthBig
                         anchors{
@@ -72,9 +72,10 @@ Item {
                     Text {
                         text: "Connected"
                         font.family: Style.fontTypeAcMain
-                        font.pointSize: Style.fontSizeAcMainText
+                        font.pointSize: Style.fontSizeAcSubText
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
+                        color: Style.colorAcLetter
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                     }
@@ -87,6 +88,7 @@ Item {
                     ACTextAndDescription{
                         id:connected
                         mainText: "Yes"
+                        mainFontSize: Style.fontSizeAcSubText
                         descriptionText: "status"
                         anchors.centerIn: parent
                     }
@@ -99,7 +101,8 @@ Item {
                     Text {
                         text: "Functional"
                         font.family: Style.fontTypeAcMain
-                        font.pointSize: Style.fontSizeAcMainText
+                        font.pointSize: Style.fontSizeAcSubText
+                        color: Style.colorAcLetter
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         anchors.verticalCenter: parent.verticalCenter
@@ -114,6 +117,7 @@ Item {
                     ACTextAndDescription{
                         id:functional
                         mainText: "Alright"
+                        mainFontSize: Style.fontSizeAcSubText
                         descriptionText: "status"
                         anchors.centerIn: parent
                     }

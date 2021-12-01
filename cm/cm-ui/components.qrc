@@ -20,5 +20,7 @@
         <file alias="ACTextAndDescription.qml">components/ACTextAndDescription.qml</file>
         <file alias="ACStatisticDataChart.qml">components/ACStatisticDataChart.qml</file>
         <file alias="ACProfileChart.qml">components/ACProfileChart.qml</file>
+        <file alias="ACMeasurementVisualization.qml">components/ACMeasurementVisualization.qml</file>
+        <file alias="ACMeasureButton.qml">components/ACMeasureButton.qml</file>
     </qresource>
 </RCC>
