@@ -71,8 +71,8 @@ Item {
     readonly property color colorAcForeground: "#E4E4E4"
     readonly property color colorAcEdges: "#707070"
     readonly property color colorAcLetter: "#707070"
-    readonly property color colorAcAccent1: "#6200EE"
-    readonly property color colorAcAccent2: "#CB5959"
+    readonly property color colorAcAccent1: "#309975"
+    readonly property color colorAcAccent2: "#454D66"
     readonly property color colorAcAccent3: "#E4E4E4"
     readonly property color colorAcMeasureButton1: "#F2ED60"
     readonly property color colorAcMeasureButton2: "#60F273"
@@ -81,8 +81,10 @@ Item {
     readonly property color colorAcTextUnderline: "#E4E4E4"
     readonly property color colorAcNavigationButtonBackgroundHovered: "#D6D6D6"
     readonly property color colorAcProfileChartBackground: "#E4E4E4"
-    readonly property color colorAcMeasureButton: "#8FFAA5"
-    readonly property color colorAcMeasureButtonClicked:"#F2ED60"
+    readonly property color colorAcProfileChartMain: "#309975"
+    readonly property color colorAcMeasureButton: "#DAD873"
+    readonly property color colorAcMeasureButtonClicked:"#F2F060"
+
 
     //dim
     readonly property int   acEdgesRadius: 60

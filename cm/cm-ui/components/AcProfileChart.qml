@@ -55,7 +55,7 @@ Item {
                     axisX: ValuesAxis { id: xAxis; labelFormat: "%d"; color: Style.colorAcProfileChartBackground; labelsVisible: false; gridVisible:false}
                     axisY: ValuesAxis { id: yAxis; labelFormat: "%d"; color: Style.colorAcProfileChartBackground; labelsVisible: false; gridVisible:false}
                     borderColor: Style.colorAcEdges
-                    color:Style.colorAcAccent1
+                    color:Style.colorAcProfileChartMain
                     borderWidth: 2
 
                 }
