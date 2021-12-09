@@ -156,7 +156,7 @@ MsgManager::calculateCheckSum(const std::vector<uint8_t>& message, const uint8_t
     auto msgSize = message.size();
     auto absoluteEndBit = msgSize - endBit - 1;
 
-    for (int i = 0; i < message.size(); i++) {
+    for (std::vector<uint8_t>::size_type i = 0; i < message.size(); i++) {
         if (absoluteEndBit < i or i < startBit) {
             continue;
         }
@@ -184,7 +184,7 @@ std::pair<uint16_t, float> MsgManager::translateRawSizeAndTimeInfo(std::pair<uin
 std::vector<uint8_t>
 MsgManager::getMessageFromStartSignToEndSign(std::vector<uint8_t> message, uint8_t startSign, uint8_t endSign,
                                              bool areStartAndStopSignsLeftInResultStream) {
-    bool wasMsgUpdated = false;
+   // bool wasMsgUpdated = false;
     while (*message.cbegin() != startSign) {
         message.erase(message.begin());
     }

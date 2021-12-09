@@ -36,15 +36,16 @@ public:
     virtual ~SerialPortManager();
 
     ////MAIN FUNCTIONALITY
-    int sendMessage(const std::vector<char>& cmd);
+    int sendMessage(const std::vector<uint8_t>& cmd);
 
-    std::vector<uint8_t> readMessage(const ssize_t& requiredSize = 0);
+    std::vector<uint8_t> readMessage();
 
-    std::vector<uint8_t> readMessagesUntilEndSign(const ssize_t& requiredSize = 0);
+    std::vector<uint8_t> readMessagesUntilEndSign();
 
     void closePort();
 
     void clearBuffer(uint8_t timeBeforeFlush = 0);
+
 
 protected:
     int readBufferSize_;
@@ -58,6 +59,7 @@ protected:
 
     ////HELPERS
     int setUpPort();
+    std::vector<char> getCharVector(const std::vector<uint8_t> &cmd);
 
 };
 

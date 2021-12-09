@@ -20,10 +20,10 @@ public:
 
     ////INTEGRAL PARTS OF CLASS
     static ProfilometerManager*
-    GetInstance(bool isLogInfoEnable = false, bool isLogErrorEnable = true, int comPortNumber = 9);
+    GetInstance(bool isLogInfoEnable = false, bool isLogErrorEnable = true, const QString comPortName = "com9");
 
     explicit ProfilometerManager(bool isLogInfoEnable, bool isLogErrorEnable, const QString comPortName)
-            : SimpleLogger(isLogInfoEnable, isLogErrorEnable), SerialPortManager(comPortName) {}
+            : SerialPortManager(comPortName),SimpleLogger(isLogInfoEnable, isLogErrorEnable)  {}
 
 
     ProfilometerManager(ProfilometerManager& other) = delete; //can not be cloneable

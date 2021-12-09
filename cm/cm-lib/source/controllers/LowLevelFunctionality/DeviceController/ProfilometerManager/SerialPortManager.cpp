@@ -7,7 +7,7 @@
 
 ////INTEGRAL PARTS OF CLASS
 SerialPortManager::SerialPortManager(QString comPortName, QSerialPort::BaudRate defaultBaudRate):
-    comPortName_(comPortName), defaultBaudRate_(defaultBaudRate),serialPort_(std::nullopt)
+     defaultBaudRate_(defaultBaudRate),comPortName_(comPortName),serialPort_(std::nullopt)
 {
     if (IS_PROFILOMETER_AVAILABLE) {
         //Settings
@@ -57,7 +57,7 @@ void SerialPortManager::closePort(){
 }
 
 //// MAIN FUNCTIONALITY
-int SerialPortManager::sendMessage(const std::vector<char>& cmd) {
+int SerialPortManager::sendMessage(const std::vector<uint8_t>& cmd) {
     //preparation
     if (not serialPort_.has_value()) {
         setUpPort();
@@ -65,11 +65,11 @@ int SerialPortManager::sendMessage(const std::vector<char>& cmd) {
     if (not serialPort_.has_value()) {
         return -1;
     }
-    return serialPort_.value()->write(&cmd[0], cmd.size());
+    return serialPort_.value()->write(&getCharVector(cmd)[0], cmd.size());
 
 }
 
-std::vector<uint8_t> SerialPortManager::readMessage(const ssize_t& requiredSize) {
+std::vector<uint8_t> SerialPortManager::readMessage() {
     //preparation
     if (not serialPort_.has_value()) {
         setUpPort();
@@ -85,7 +85,7 @@ std::vector<uint8_t> SerialPortManager::readMessage(const ssize_t& requiredSize)
     return {readBuffer_.begin(), readBuffer_.begin() + n};
 }
 
-std::vector<uint8_t> SerialPortManager::readMessagesUntilEndSign(const ssize_t& requiredSize) {
+std::vector<uint8_t> SerialPortManager::readMessagesUntilEndSign() {
     //preparation
     if (not serialPort_.has_value()) {
         setUpPort();
@@ -137,6 +137,14 @@ void SerialPortManager::clearBuffer(uint8_t timeBeforeFlush) {
         sleep(timeBeforeFlush);
     }
     serialPort_.value()->clear();
+}
+
+std::vector<char> SerialPortManager::getCharVector(const std::vector<uint8_t>& cmd){
+    std::vector<char> result = {};
+    for(auto el : cmd){
+        result.push_back(el);
+    }
+    return result;
 }
 
 
