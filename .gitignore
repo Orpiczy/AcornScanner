@@ -1,5 +1,5 @@
 # binaries
-binaries/
-cm-lib/build/
-cm-tests/build/
-cm-ui/build/
+cm/binaries/
+cm/cm-lib/build/
+cm/cm-tests/build/
+cm/cm-ui/build/
