@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 5.0.2, 2021-12-10T08:29:29. -->
+<!-- Written by QtCreator 5.0.2, 2021-12-10T14:11:17. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -105,8 +105,8 @@
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">1</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
     <value type="int" key="EnableQmlDebugging">0</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">E:/Dokumenty/AiR_rok_4/S7/EngineeringThesis/Qt/leantQt5/shadow-builds</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">E:/Dokumenty/AiR_rok_4/S7/EngineeringThesis/Qt/leantQt5/shadow-builds</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">E:/Dokumenty/AiR_rok_4/S7/EngineeringThesis/AcornScanner/shadow-builds</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">E:/Dokumenty/AiR_rok_4/S7/EngineeringThesis/AcornScanner/shadow-builds</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
