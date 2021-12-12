@@ -6,7 +6,7 @@
 #define CONTROLLERS_DEVICEMANAGER_HPP
 
 #include "../Common/CustomEnumTypes.hpp"
-#include "ScannedData.hpp"
+#include "../../../models/scannedData.hpp"
 
 class DeviceManager{
 public:

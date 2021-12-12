@@ -11,6 +11,7 @@
 #include <controllers/command-controller.h>
 #include <models/client.h>
 #include <models/storage.h>
+#include <models/scannedData.hpp>
 
 namespace cm {
 namespace controllers {
@@ -27,6 +28,7 @@ class CMLIB_EXPORT MasterController : public QObject
     Q_PROPERTY( cm::controllers::CommandController*    ui_commandController    READ commandController    CONSTANT )
     Q_PROPERTY( cm::models::Client*                    ui_newClient            READ newClient            CONSTANT )
     Q_PROPERTY( cm::models::Storage*                   ui_basicStorage         READ basicStorage         CONSTANT )
+//    Q_PROPERTY( )
 public:
     explicit MasterController(QObject* parent = nullptr);
     ~MasterController();
@@ -35,7 +37,7 @@ public:
     const QString& welcomeMessage() const;
     Client *newClient();
     Storage *basicStorage();
-
+    ScannedData *ScannedData();
 private:
     class Implementation;
     QScopedPointer<Implementation> implementation;

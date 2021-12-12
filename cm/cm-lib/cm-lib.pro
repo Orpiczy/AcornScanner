@@ -53,7 +53,6 @@ SOURCES += source/models/client.cpp \
 HEADERS += \
     source/cm-lib_global.h \
     source/controllers/LowLevelFunctionality/BaseClasses/DeviceManager.hpp \
-    source/controllers/LowLevelFunctionality/BaseClasses/ScannedData.hpp \
     source/controllers/LowLevelFunctionality/BaseClasses/SimpleLogger.hpp \
     source/controllers/LowLevelFunctionality/Common/ControllersFlags.hpp \
     source/controllers/LowLevelFunctionality/Common/CustomEnumTypes.hpp \
@@ -83,6 +82,7 @@ HEADERS += \
     source/models/client-search.h \
     source/models/client.h \
     source/models/contact.h \
+    source/models/scannedData.hpp \
     source/models/storage.h
 
 # Default rules for deployment.

@@ -10,7 +10,7 @@
 #include <utility>
 #include <vector>
 #include <QImage>
-#include "../Common/CustomEnumTypes.hpp"
+#include "../controllers/LowLevelFunctionality/Common/CustomEnumTypes.hpp"
 
 struct ScannedData {
     //profilometer

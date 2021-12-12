@@ -10,6 +10,7 @@
 #include "../Common/CustomEnumTypes.hpp"
 #include "CameraManager/CameraManager.hpp"
 #include "ProfilometerManager/ProfilometerManager.hpp"
+#include "../../../models/scannedData.hpp"
 
 class CMLIB_EXPORT DeviceController  : private SimpleLogger {
 ////METHODS

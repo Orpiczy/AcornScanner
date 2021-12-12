@@ -14,6 +14,7 @@
 #include "../../Common/ControllersFlags.hpp"
 #include "../../BaseClasses/DeviceManager.hpp"
 #include "../../FileSystemController/FileSystem/FileSystemController.hpp"
+#include "../../../../models/scannedData.hpp"
 
 class CMLIB_EXPORT ProfilometerManager : public SerialPortManager, private SimpleLogger, public DeviceManager {
 
