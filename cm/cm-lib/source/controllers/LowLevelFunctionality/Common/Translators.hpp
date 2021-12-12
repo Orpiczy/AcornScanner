@@ -8,5 +8,10 @@
 
 #include <string>
 #include "CustomEnumTypes.hpp"
+namespace ac{
+namespace translators {
 std::string getResultName(ScanResult result);
+}
+}
+
 #endif //CONTROLLERS_TRANSLATORS_HPP

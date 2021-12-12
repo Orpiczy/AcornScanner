@@ -7,13 +7,13 @@ import QtCharts 2.3
 import Qt5Compat.GraphicalEffects
 
 Item {
-    property alias xAxisMin: xAxis.min
-    property alias xAxisMax: xAxis.max
-    property alias xTickCount: xAxis.tickCount
+//    property alias xAxisMin: xAxis.min
+//    property alias xAxisMax: xAxis.max
+//    property alias xTickCount: xAxis.tickCount
 
-    property alias yAxisMin: yAxis.min
-    property alias yAxisMax: yAxis.max
-    property alias yTickCount: yAxis.tickCount
+//    property alias yAxisMin: yAxis.min
+//    property alias yAxisMax: yAxis.max
+//    property alias yTickCount: yAxis.tickCount
 
     property alias profileValue: profile.upperSeries
     width: 300
@@ -37,7 +37,7 @@ Item {
                 anchors.fill: parent
                 antialiasing: true
                 backgroundColor: Style.colorAcProfileChartBackground
-                // Define x-axis to be used with the series instead of default one
+                legend.visible: false
                 backgroundRoundness: Style.acEdgesRadius
 //                LinearGradient {
 //                    id: gradient
@@ -61,8 +61,7 @@ Item {
                 }
 
                 Component.onCompleted: {
-                    profileChart.legend.visible = false
-//                  masterController.ui_scannedData.ui_profile = profile.upperSeries
+                    masterController.ui_scannedData.ui_profile = profile.upperSeries
                 }
             }
 

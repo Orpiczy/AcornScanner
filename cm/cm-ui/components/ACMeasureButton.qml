@@ -82,8 +82,9 @@ Item {
                                 cursorShape: Qt.PointingHandCursor
                                 hoverEnabled: true
                                 onEntered: measureButtonBox.state = "hover";
-                                onExited:  measureButtonBox.state = ""
-                                onClicked: measureButtonClicked();
+                                onExited:  measureButtonBox.state = "";
+                                onClicked:{ measureButtonClicked();
+                                            masterController.onMeasureButtonClicked();}
                             }
                             states: [
                                 State {

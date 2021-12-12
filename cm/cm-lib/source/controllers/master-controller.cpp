@@ -1,8 +1,8 @@
 #include "master-controller.h"
-
+#include "LowLevelFunctionality/DeviceController/DeviceController.hpp"
 namespace cm {
 namespace controllers {
-
+////INTEGRAL PARTS OF CLASS
 class MasterController::Implementation
 { public:
     Implementation(MasterController* _masterController)
@@ -13,6 +13,7 @@ class MasterController::Implementation
         newClient = new Client(masterController);
         basicStorage = new Storage(masterController);
         recentlyScannedData = new ScannedData(masterController);
+        obtainedDailyStatisticsData = new DailyStatisticsData(masterController);
     }
     MasterController* masterController{nullptr};
     NavigationController* navigationController{nullptr};
@@ -21,6 +22,7 @@ class MasterController::Implementation
     Client* newClient{nullptr};
     Storage* basicStorage{nullptr};
     ScannedData* recentlyScannedData{nullptr};
+    DailyStatisticsData* obtainedDailyStatisticsData {nullptr};
 };
 MasterController::MasterController(QObject* parent)
     : QObject(parent)
@@ -29,6 +31,30 @@ MasterController::MasterController(QObject* parent)
 }
 MasterController::~MasterController()
 {}
+
+
+////CMD
+void MasterController::measureUpdateAndSaveData()
+{
+    measureAndSaveScannedData();
+    obtainedDailyStatisticsData()->updateDailyData();
+    //change signal is emitted in dailyStatistic implementation
+}
+
+void MasterController::measureAndSaveScannedData()
+{
+    DeviceController::GetInstance()->getAndSaveAllData(*recentlyScannedData());
+    recentlyScannedData()->update_ui_profile();
+}
+
+////SIGNALS
+void MasterController::onMeasureButtonClicked()
+{
+    qDebug()<<"onMeasureButtonClicked() was initiated";
+    measureUpdateAndSaveData();
+}
+
+//// VARIABLES -> setters and getters
 NavigationController* MasterController::navigationController()
 {
     return implementation->navigationController;
@@ -57,4 +83,12 @@ ScannedData *MasterController::recentlyScannedData()
 {
     return implementation->recentlyScannedData;
 }
+
+DailyStatisticsData *MasterController::obtainedDailyStatisticsData()
+{
+    return implementation->obtainedDailyStatisticsData;
+}
+
+
+
 }}

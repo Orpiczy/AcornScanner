@@ -38,10 +38,10 @@ Item {
             columnSpacing: 20
 
             ACStatisticDataChart{
-                healthyValues: [2, 2, 3, 4, 5, 6]
-                unhealthyValues: [5, 1, 2, 4, 1, 7]
-                unknownValues: [3, 5, 8, 13, 5, 8]
-                dates: ["29-11-2021", "28-11-2021", "27-11-2021", "26-11-2021", "25-11-2021", "24-11-2021" ]
+                healthyValues: masterController.ui_dailyData.ui_healthy_list
+                unhealthyValues: masterController.ui_dailyData.ui_unhealthy_list
+                unknownValues: masterController.ui_dailyData.ui_unrecognized_list
+                dates: masterController.ui_dailyData.ui_dates
                 Layout.preferredWidth: 900
                 Layout.preferredHeight: 500
             }
@@ -50,35 +50,27 @@ Item {
                 Layout.preferredWidth: 700
                 Layout.preferredHeight: 500
 
-                xAxisMin: 2000
-                xAxisMax: 2011
-                xTickCount: 3
-                yAxisMin: 0
-                yAxisMax: 5
-                yTickCount: 6
+//                xAxisMin: 2000
+//                xAxisMax: 2011
+//                xTickCount: 3
+//                yAxisMin: 0
+//                yAxisMax: 5
+//                yTickCount: 6
 
-                result: "Healthy"
-                fileName: "28_11_2021_id3.txt"
+                result: masterController.ui_scannedData.ui_result
+                fileName: masterController.ui_scannedData.ui_filename
 
                 profileValue: LineSeries {
                     XYPoint { x: 2000; y: 0 }
                     XYPoint { x: 2001; y: 1 }
-                    XYPoint { x: 2002; y: 2 }
-                    XYPoint { x: 2003; y: 3 }
-                    XYPoint { x: 2004; y: 4 }
-                    XYPoint { x: 2005; y: 4 }
-                    XYPoint { x: 2006; y: 3 }
-                    XYPoint { x: 2007; y: 4 }
-                    XYPoint { x: 2008; y: 4 }
-                    XYPoint { x: 2009; y: 3 }
-                    XYPoint { x: 2010; y: 2 }
+                    XYPoint { x: 2002; y: 1 }
                     XYPoint { x: 2011; y: 1 }
                 }
 
-                out1: "4563"
-                out2: "-2734"
-                out3: "139"
-                outA: "3675"
+                out1: masterController.ui_scannedData.ui_out1
+                out2: masterController.ui_scannedData.ui_out2
+                out3: masterController.ui_scannedData.ui_out3
+                outA: masterController.ui_scannedData.ui_outA
             }
             Item{
                 width: 900

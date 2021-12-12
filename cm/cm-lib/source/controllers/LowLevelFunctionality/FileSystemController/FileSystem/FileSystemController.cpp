@@ -44,24 +44,24 @@ int FileSystemController::addProfilometerScanDataToCategorizedDataBase(ScanResul
                                                                        uint16_t outA,
                                                                        const std::vector<std::pair<uint16_t, uint16_t>>& profileData) {
     auto scanId = getFullTimeStamp();
-    auto directoryPath = savePath + "/" + getResultName(result) + "/" + scanId + "/";
-    auto fullPath = directoryPath + scanId + "_profilometer" + ".txt";
+    auto directoryPath = savePath + ac::translators::getResultName(result) + "/" + scanId ;
+    auto fullPath = directoryPath + "/" + scanId + "_profilometer" + ".txt";
     QFile testfile(QString::fromStdString(fullPath));
     if (testfile.exists()) {
-        LG_INF("FAILURE - FILE EXISTS - cmd addScanToMainDataBase");
+        LG_INF("FAILURE - FILE EXISTS - cmd addProfilometerScanDataToCategorizedDataBase");
         return -1;
     }
 
-    QDir().mkdir(QString::fromStdString(fullPath));
+    QDir().mkdir(QString::fromStdString(directoryPath));
 
     std::ofstream file;
     file.open(fullPath);
     if (file.is_open()) {
-        LG_INF("SUCCESS - FILE WAS OPENED CORRECTLY - cmd addScanToMainDataBase");
+        LG_INF("SUCCESS - FILE WAS OPENED CORRECTLY - cmd addProfilometerScanDataToCategorizedDataBase");
     } else {
         LG_ERR("FAILURE - FILE WAS NOT OPENED CORRECTLY " + std::string(strerror(errno)) + " - " + fullPath +
                " - " +
-               "cmd addScanToMainDataBase");
+               "cmd addProfilometerScanDataToCategorizedDataBase");
         return -1;
     }
 
@@ -93,26 +93,28 @@ int FileSystemController::addCameraImageToCategorizedDataBase(ScanResult result,
     if(not image.isNull()){
         LG_INF("Received image is not null");
     }
+
     auto scanId = getFullTimeStamp();
-    auto directoryPath = savePath + "/" + getResultName(result) + "/" + scanId + "/";
-    auto fullPath = directoryPath + scanId + "_camera" + ".jpg";
+    auto directoryPath = savePath + ac::translators::getResultName(result) + "/" + scanId ;
+    auto fullPath = directoryPath + "/" + scanId + "_camera" + ".jpg";
+
 
     QFile testfile(QString::fromStdString(fullPath));
     if (testfile.exists()) {
-        LG_INF("FAILURE - FILE EXISTS - cmd addScanToMainDataBase");
+        LG_INF("FAILURE - FILE EXISTS - cmd addCameraImageToCategorizedDataBase");
         return -1;
     }
 
-    QDir().mkdir(QString::fromStdString(fullPath));
+    QDir().mkdir(QString::fromStdString(directoryPath));
 
     std::ofstream file;
     file.open(fullPath);
     if (file.is_open()) {
-        LG_INF("SUCCESS - FILE WAS OPENED CORRECTLY - cmd addScanToMainDataBase");
+        LG_INF("SUCCESS - FILE WAS OPENED CORRECTLY - cmd addCameraImageToCategorizedDataBase");
     } else {
-        LG_ERR("FAILURE - FILE WAS NOT OPENED CORRECTLY " + std::string(strerror(errno)) + " - " + fullPath +
+        LG_ERR("FAILURE - FILE WAS NOT OPENED CORRECTLY " + std::string(strerror(errno)) + " - " + directoryPath +
                " - " +
-               "cmd addScanToMainDataBase");
+               "cmd addCameraImageToCategorizedDataBase");
         return -1;
     }
     /*
@@ -136,14 +138,14 @@ int FileSystemController::addScanToDailyStatistic(ScanResult result) {
 
     QFile testfile(QString::fromStdString(fullPath));
     if (not testfile.exists()) {
-        LG_INF("CREATING DATA BASE - FILE DOES NOT EXIST - cmd addScanToMainDataBase");
+        LG_INF("CREATING DATA BASE - FILE DOES NOT EXIST - cmd addScanToDailyStatistic");
         wFile.open(fullPath);
         if (wFile.is_open()) {
-            LG_INF("SUCCESS - FILE wFile WAS OPENED CORRECTLY - cmd addScanToMainDataBase");
+            LG_INF("SUCCESS - FILE wFile WAS OPENED CORRECTLY - cmd addScanToDailyStatistic");
         } else {
             LG_ERR("FAILURE - FILE wFile WAS NOT OPENED CORRECTLY - " + std::string(strerror(errno)) + " - " +
                    fullPath + " - " +
-                   "cmd addScanToMainDataBase");
+                   "cmd addScanToDailyStatistic");
             return -1;
         }
         wFile << warningScanData;
@@ -156,11 +158,11 @@ int FileSystemController::addScanToDailyStatistic(ScanResult result) {
 
     rFile.open(fullPath);
     if (rFile.is_open()) {
-        LG_INF("SUCCESS - FILE rFile WAS OPENED CORRECTLY - cmd addScanToMainDataBase");
+        LG_INF("SUCCESS - FILE rFile WAS OPENED CORRECTLY - cmd addScanToDailyStatistic");
     } else {
         LG_ERR("FAILURE - FILE rFile WAS NOT OPENED CORRECTLY - " + std::string(strerror(errno)) + " - " +
                fullPath + " - " +
-               "cmd addScanToMainDataBase");
+               "cmd addScanToDailyStatistic");
         return -1;
     }
 
@@ -200,12 +202,12 @@ int FileSystemController::addScanToDailyStatistic(ScanResult result) {
 
     wFile.open(fullPath, std::ios::out | std::ios::trunc); //clears all previous content
     if (wFile.is_open()) {
-        LG_INF("SUCCESS - FILE wFile WAS OPENED CORRECTLY - overwriting -cmd addScanToMainDataBase");
+        LG_INF("SUCCESS - FILE wFile WAS OPENED CORRECTLY - overwriting -cmd addScanToDailyStatistic");
     } else {
         LG_ERR("FAILURE - FILE wFile WAS NOT OPENED CORRECTLY - overwriting - " + std::string(strerror(errno)) +
                " - " +
                fullPath + " - " +
-               "cmd addScanToMainDataBase");
+               "cmd addScanToDailyStatistic");
         return -1;
     }
     wFile << reWrittenDailyStatistic.str();
@@ -250,7 +252,7 @@ std::vector<std::tuple<std::string, int, int, int>> FileSystemController::getDai
 
     if (nrLine < nrFinalLineToRead) {
         LG_INF("FAILURE - " + std::to_string(nrFinalLineToRead - nrLine) +
-               " LINE/LINES WHERE NOT READ - ENTRIES DOES NOT EXISTS - cmd getDailyStatisticFromLastNDays");
+               " LINE/LINES WHERE NOT READ - ENTRIES DO NOT EXIST - cmd getDailyStatisticFromLastNDays");
     }
 
     return dailyData;

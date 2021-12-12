@@ -51,6 +51,7 @@ SOURCES += source/models/client.cpp \
     source/models/appointment.cpp \
     source/models/client-search.cpp \
     source/models/contact.cpp \
+    source/models/dailyStatisticsData.cpp \
     source/models/scannedData.cpp \
     source/models/storage.cpp
 
@@ -86,6 +87,7 @@ HEADERS += \
     source/models/client-search.h \
     source/models/client.h \
     source/models/contact.h \
+    source/models/dailyStatisticsData.h \
     source/models/scannedData.hpp \
     source/models/storage.h
 

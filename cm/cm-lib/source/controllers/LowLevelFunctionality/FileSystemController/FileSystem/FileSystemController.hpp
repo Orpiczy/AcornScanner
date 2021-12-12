@@ -38,7 +38,7 @@ public:
 
     int addScanToDailyStatistic(ScanResult result);
 
-    std::vector<std::tuple<std::string, int, int, int>> getDailyStatisticsFromLastNDays(int n = 3);
+    std::vector<std::tuple<std::string, int, int, int>> getDailyStatisticsFromLastNDays(int n = 6);
 
 
 protected:
@@ -80,7 +80,8 @@ private:
     const char delimiter = '|';
     std::string statisticHeadline;
     std::string scanDataHeadline;
-    const std::string savePath = "/mnt/e/Dokumenty/AiR_rok_4/S7/EngineeringThesis/Controllers/FileSystemController/Database/";
+
+    const std::string savePath = "E:/Dokumenty/AiR_rok_4/S7/EngineeringThesis/AcornScanner/cm/cm-lib/source/controllers/LowLevelFunctionality/FileSystemController/Database/";
     const std::string warningScanData = "\n\n///// WARNING THIS IS READONLY MEASURE DATA /////\n\n\n";
     const std::string warningStatisticData = "\n\n///// WARNING THIS IS READONLY STATISTIC DATA /////\n\n\n";
     const std::string dailyStatisticFileName = "DailyStatistic.txt";

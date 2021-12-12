@@ -76,6 +76,10 @@ Item {
                             BarSet { id:unhealthy; label: "Unhealthy";  labelFont.pixelSize: 15 ; color: Style.colorAcAccent2; borderColor: Style.colorAcEdges; borderWidth: 1 }
                             BarSet { id:unknown; label: "Unknown"; labelFont.pixelSize: 15; color: Style.colorAcAccent3; borderColor: Style.colorAcEdges; borderWidth: 1 }
                         }
+
+                        Component.onCompleted: {
+                            masterController.ui_dailyData.onUpdateDailyStatistics();
+                        }
                     }
                 }
             }
