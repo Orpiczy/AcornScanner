@@ -60,8 +60,8 @@ Item {
 
                 }
                 Component.onCompleted: {
-                   profileChart.legend.visible = false
-            //       helper.update_chart(profileChart)
+             //      profileChart.legend.visible = false
+                  masterController.ui_scannedData.ui_profile = profile.upperSeries
                 }
             }
 

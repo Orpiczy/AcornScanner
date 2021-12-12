@@ -28,7 +28,7 @@ class CMLIB_EXPORT MasterController : public QObject
     Q_PROPERTY( cm::controllers::CommandController*    ui_commandController    READ commandController    CONSTANT )
     Q_PROPERTY( cm::models::Client*                    ui_newClient            READ newClient            CONSTANT )
     Q_PROPERTY( cm::models::Storage*                   ui_basicStorage         READ basicStorage         CONSTANT )
-//    Q_PROPERTY( )
+    Q_PROPERTY( ScannedData*                           ui_scannedData          READ recentlyScannedData  CONSTANT )
 public:
     explicit MasterController(QObject* parent = nullptr);
     ~MasterController();
@@ -37,7 +37,7 @@ public:
     const QString& welcomeMessage() const;
     Client *newClient();
     Storage *basicStorage();
-    ScannedData *ScannedData();
+    ScannedData *recentlyScannedData();
 private:
     class Implementation;
     QScopedPointer<Implementation> implementation;

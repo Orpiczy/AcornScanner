@@ -24,21 +24,19 @@ public:
     void operator=(const DeviceController&) = delete;
 
     ////CMD
-    ScannedData getAllData(){
-        ScannedData data;
+    int getAllData(ScannedData& data){
         for(auto device: deviceList){
             device->addInfoToScannedData(data);
         }
-        return data;
+        return 0;
     }
 
-    ScannedData getAndSaveAllData(){
-        ScannedData data;
+    int getAndSaveAllData(ScannedData& data){
         for(auto device: deviceList){
             device->addInfoToScannedDataAndSaveItToDataBase(data);
         }
         FileSystemController::GetInstance() -> addScanToDailyStatistic(data.finalResult);
-        return data;
+        return 0;
     }
 protected:
     ////INTEGRAL PARTS OF CLASS

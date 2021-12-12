@@ -12,8 +12,11 @@ UI_DIR = $$PWD/build/$$DESTINATION_PATH/.ui
 #!build_pass:message(ORPICZY cm-lib output dir: $${DESTDIR})
 ######################
 
+
 QT += gui
+QT += charts
 QT += serialport
+
 TARGET = cm-lib
 TEMPLATE = lib
 DEFINES += CMLIB_LIBRARY
@@ -48,6 +51,7 @@ SOURCES += source/models/client.cpp \
     source/models/appointment.cpp \
     source/models/client-search.cpp \
     source/models/contact.cpp \
+    source/models/scannedData.cpp \
     source/models/storage.cpp
 
 HEADERS += \
@@ -96,9 +100,5 @@ HEADERS += \
 ##TO DO, jak bedziesz pracowal przy raspberrypi to zamien windowsa w tej sciezce na raspbiana albo cokolwiek innego lub inni release
 ##!build_pass:message(cm-lib output dir: $${DESTDIR})
 
-DISTFILES += \
-    source/controllers/LowLevelFunctionality/FileSystemController/Database/DailyStatistic.txt \
-    source/controllers/LowLevelFunctionality/FileSystemController/Database/Healthy/233350_06122021/233350_06122021_camera.jpg \
-    source/controllers/LowLevelFunctionality/FileSystemController/Database/Healthy/233350_06122021/233350_06122021_profilometer.txt
 
 

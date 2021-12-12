@@ -12,6 +12,7 @@ class MasterController::Implementation
         commandController = new CommandController(masterController);
         newClient = new Client(masterController);
         basicStorage = new Storage(masterController);
+        recentlyScannedData = new ScannedData(masterController);
     }
     MasterController* masterController{nullptr};
     NavigationController* navigationController{nullptr};
@@ -19,6 +20,7 @@ class MasterController::Implementation
     QString welcomeMessage = "This is MasterController to Major Tom";
     Client* newClient{nullptr};
     Storage* basicStorage{nullptr};
+    ScannedData* recentlyScannedData{nullptr};
 };
 MasterController::MasterController(QObject* parent)
     : QObject(parent)
@@ -49,5 +51,10 @@ Client* MasterController::newClient()
 Storage *MasterController::basicStorage()
 {
     return implementation->basicStorage;
+}
+
+ScannedData *MasterController::recentlyScannedData()
+{
+    return implementation->recentlyScannedData;
 }
 }}
