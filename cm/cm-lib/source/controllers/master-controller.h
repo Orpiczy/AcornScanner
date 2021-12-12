@@ -18,6 +18,7 @@ namespace controllers {
 
 using Client = cm::models::Client;
 using Storage = cm::models::Storage;
+using ScannedData = ac::models::ScannedData;
 
 class CMLIB_EXPORT MasterController : public QObject
 {
@@ -28,7 +29,7 @@ class CMLIB_EXPORT MasterController : public QObject
     Q_PROPERTY( cm::controllers::CommandController*    ui_commandController    READ commandController    CONSTANT )
     Q_PROPERTY( cm::models::Client*                    ui_newClient            READ newClient            CONSTANT )
     Q_PROPERTY( cm::models::Storage*                   ui_basicStorage         READ basicStorage         CONSTANT )
-    Q_PROPERTY( ScannedData*                           ui_scannedData          READ recentlyScannedData  CONSTANT )
+    Q_PROPERTY( ac::models::ScannedData*               ui_scannedData          READ recentlyScannedData  CONSTANT )
 public:
     explicit MasterController(QObject* parent = nullptr);
     ~MasterController();

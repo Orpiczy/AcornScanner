@@ -32,7 +32,7 @@ public:
     void operator=(const ProfilometerManager&) = delete; // can not be assignable
 
     ////BASIC CMD
-    int addInfoToScannedData(ScannedData& data) override {
+    int addInfoToScannedData(ac::models::ScannedData& data) override {
         if (not IS_PROFILOMETER_AVAILABLE) {
             data.out1 = getOut1();
             data.out2 = getOut2();
@@ -54,7 +54,7 @@ public:
         return -1;
     }
 
-    int addInfoToScannedDataAndSaveItToDataBase(ScannedData& data) override {
+    int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data) override {
         if (not IS_PROFILOMETER_AVAILABLE) {
             data.out1 = getOut1();
             data.out2 = getOut2();

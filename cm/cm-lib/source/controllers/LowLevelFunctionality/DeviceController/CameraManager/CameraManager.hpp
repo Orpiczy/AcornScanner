@@ -27,7 +27,7 @@ public:
     void operator=(const CameraManager&) = delete;
 
 ////BASIC CMD
-    int addInfoToScannedData(ScannedData& data) override {
+    int addInfoToScannedData(ac::models::ScannedData& data) override {
         if (not IS_CAMERA_AVAILABLE) {
             data.cameraImage = testImage;
             data.resultCamera = CAMERA_RESULT;
@@ -44,7 +44,7 @@ public:
         return -1;
     }
 
-    int addInfoToScannedDataAndSaveItToDataBase(ScannedData& data) override {
+    int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data) override {
         if (not IS_CAMERA_AVAILABLE) {
             data.cameraImage = testImage;
             data.resultCamera = CAMERA_RESULT;

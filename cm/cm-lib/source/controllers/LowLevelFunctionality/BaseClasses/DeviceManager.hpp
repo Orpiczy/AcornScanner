@@ -11,7 +11,7 @@
 class DeviceManager{
 public:
 
-    virtual int addInfoToScannedData(ScannedData& data) = 0;
-    virtual int addInfoToScannedDataAndSaveItToDataBase(ScannedData& data) = 0;
+    virtual int addInfoToScannedData(ac::models::ScannedData& data) = 0;
+    virtual int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data) = 0;
 };
 #endif //CONTROLLERS_DEVICEMANAGER_HPP

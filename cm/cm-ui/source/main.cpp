@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<cm::models::Client>("CM", 1, 0, "Client");
     qmlRegisterType<cm::models::Storage>("CM", 1, 0, "Storage");
     qmlRegisterType<cm::models::Contact>("CM", 1, 0, "Contact");
-    qmlRegisterType<ScannedData>("AC", 1, 0, "ScannedData");
+    qmlRegisterType<ac::models::ScannedData>("AC", 1, 0, "ScannedData");
 
 
     qmlRegisterType<cm::framework::Command>("CM", 1, 0, "Command");

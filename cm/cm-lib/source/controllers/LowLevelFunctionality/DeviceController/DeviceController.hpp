@@ -24,14 +24,14 @@ public:
     void operator=(const DeviceController&) = delete;
 
     ////CMD
-    int getAllData(ScannedData& data){
+    int getAllData(ac::models::ScannedData& data){
         for(auto device: deviceList){
             device->addInfoToScannedData(data);
         }
         return 0;
     }
 
-    int getAndSaveAllData(ScannedData& data){
+    int getAndSaveAllData(ac::models::ScannedData& data){
         for(auto device: deviceList){
             device->addInfoToScannedDataAndSaveItToDataBase(data);
         }

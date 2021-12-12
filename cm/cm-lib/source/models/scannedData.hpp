@@ -18,8 +18,8 @@
 #include <QImage>
 #include "../controllers/LowLevelFunctionality/Common/CustomEnumTypes.hpp"
 
-//namespace ac {
-//namespace models {
+namespace ac {
+namespace models {
 
 //using namespace QtCharts;
 
@@ -59,7 +59,7 @@ signals:
 private:
    QLineSeries* convertedProfile; //It's created in qml
 };
-//}
-//}
+}
+}
 
 #endif //CONTROLLERS_SCANNEDDATA_HPP

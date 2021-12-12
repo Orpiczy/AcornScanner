@@ -59,9 +59,10 @@ Item {
                     borderWidth: 2
 
                 }
+
                 Component.onCompleted: {
-             //      profileChart.legend.visible = false
-                  masterController.ui_scannedData.ui_profile = profile.upperSeries
+                    profileChart.legend.visible = false
+//                  masterController.ui_scannedData.ui_profile = profile.upperSeries
                 }
             }
 

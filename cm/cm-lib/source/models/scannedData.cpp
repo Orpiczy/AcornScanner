@@ -1,5 +1,6 @@
 #include "scannedData.hpp"
-
+namespace ac {
+namespace models {
 ScannedData::ScannedData(QObject *parent) : Entity(parent, "ScannedData")
 {
     /*
@@ -43,3 +44,5 @@ void ScannedData::set_ui_profile(QLineSeries *ui_profile)
     emit profile_changed();
 }
 
+}
+}
