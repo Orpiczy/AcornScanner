@@ -52,8 +52,21 @@ Item {
                 AreaSeries {
 
                     id:profile
-                    axisX: ValuesAxis { id: xAxis; labelFormat: "%d"; color: Style.colorAcProfileChartBackground; labelsVisible: false; gridVisible:false}
-                    axisY: ValuesAxis { id: yAxis; labelFormat: "%d"; color: Style.colorAcProfileChartBackground; labelsVisible: false; gridVisible:false}
+                    axisX: ValuesAxis { id: xAxis;
+                        min: masterController.ui_scannedData.ui_xAxisMin ;
+                        max: masterController.ui_scannedData.ui_xAxisMax;
+                   //   tickCount: masterController.ui_scannedData.xAxisTickCount;
+                        labelFormat: "%d"; color: Style.colorAcProfileChartBackground;
+                        labelsVisible: false; gridVisible:false
+                    }
+                    axisY: ValuesAxis { id: yAxis;
+                        min: masterController.ui_scannedData.ui_yAxisMin ;
+                        max: masterController.ui_scannedData.ui_yAxisMax;
+                    //   tickCount: masterController.ui_scannedData.yAxisTickCount;
+                        labelFormat: "%d"; color: Style.colorAcProfileChartBackground;
+                        labelsVisible: false; gridVisible:false
+                    }
+
                     borderColor: Style.colorAcEdges
                     color:Style.colorAcProfileChartMain
                     borderWidth: 2

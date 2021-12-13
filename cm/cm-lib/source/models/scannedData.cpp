@@ -1,5 +1,6 @@
 #include "scannedData.hpp"
 #include "../controllers/LowLevelFunctionality/DeviceController/DeviceController.hpp"
+#include <limits.h>
 namespace ac {
 namespace models {
 ////INTEGRAL PARTS OF CLASS
@@ -41,17 +42,36 @@ void ScannedData::set_ui_profile(QLineSeries *ui_profile)
 
     }
     convertedProfile = ui_profile;
-//    update_ui_profile();
-
-//    emit profile_changed();
 }
 
 void ScannedData::update_ui_profile(){
     convertedProfile->clear();
+    xAxisMin = std::numeric_limits<int>::max();
+    xAxisMax = std::numeric_limits<int>::min();
+    yAxisMin = std::numeric_limits<int>::max();
+    yAxisMax = std::numeric_limits<int>::min();
     for(auto pair: profileData){
-        convertedProfile->append(pair.first,pair.second);
+        auto x = pair.first;
+        auto y = pair.second;
+        convertedProfile->append(x,y);
+        //axis limits
+        xAxisMin = x < xAxisMin ? x : xAxisMin;
+        yAxisMin = y < yAxisMin ? y : yAxisMin;
+        xAxisMax = x > xAxisMax ? x : xAxisMax;
+        yAxisMax = y > yAxisMax ? y : yAxisMax;
     }
+
     printProfile();
+    //padding
+    float padding = 0.1;
+    auto xDiff = xAxisMax - xAxisMin;
+    auto yDiff = yAxisMax - yAxisMin;
+    xAxisMin -= padding*xDiff;
+    xAxisMax += padding*xDiff;
+    yAxisMin -= padding*yDiff;
+    yAxisMax += padding*yDiff;
+    printAxisLimits();
+
     emit profile_changed();
 }
 
@@ -66,6 +86,7 @@ QString ScannedData::get_ui_filename()
     return QString::fromStdString(fileName);
 }
 
+
 ////debugging
 void ScannedData::printProfile(){
     qDebug()<<"Printing Profile, profile size:"<<profileData.size();
@@ -74,6 +95,12 @@ void ScannedData::printProfile(){
     }
 }
 
+void ScannedData::printAxisLimits(){
+    qDebug()<<"xmin : "<<xAxisMin;
+    qDebug()<<"xmax : "<<xAxisMax;
+    qDebug()<<"ymin : "<<yAxisMin;
+    qDebug()<<"ymax : "<<yAxisMax;
+}
 
 
 }

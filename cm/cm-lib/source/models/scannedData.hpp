@@ -28,23 +28,23 @@ namespace models {
 class CMLIB_EXPORT ScannedData : public cm::data::Entity {
     //values
     Q_OBJECT
-    Q_PROPERTY( QString                    ui_filename READ get_ui_filename                     NOTIFY profile_changed)
+    Q_PROPERTY( QString                    ui_filename READ get_ui_filename                       NOTIFY profile_changed)
     Q_PROPERTY( int                        ui_out1     MEMBER out1                                NOTIFY profile_changed)
     Q_PROPERTY( int                        ui_out2     MEMBER out2                                NOTIFY profile_changed)
     Q_PROPERTY( int                        ui_out3     MEMBER out3                                NOTIFY profile_changed)
     Q_PROPERTY( int                        ui_outA     MEMBER outA                                NOTIFY profile_changed)
-    Q_PROPERTY( QString                    ui_result   READ get_ui_result                       NOTIFY profile_changed)
+    Q_PROPERTY( QString                    ui_result   READ   get_ui_result                       NOTIFY profile_changed)
     Q_PROPERTY( QLineSeries*               ui_profile  READ   get_ui_profile WRITE set_ui_profile NOTIFY profile_changed)
 
 
     //profile chart's look
-    Q_PROPERTY( int ui_xAxisMin        READ   get_ui_xAxisMin        NOTIFY axis_limit_changed)
-    Q_PROPERTY( int ui_xAxisMax        READ   get_ui_xAxisMax        NOTIFY axis_limit_changed)
-    Q_PROPERTY( int ui_xAxisTickCount  READ   get_ui_xAxisTickCount  NOTIFY axis_tick_count_changed)
+    Q_PROPERTY( int ui_xAxisMin        MEMBER   xAxisMin        NOTIFY profile_changed)
+    Q_PROPERTY( int ui_xAxisMax        MEMBER   xAxisMax        NOTIFY profile_changed)
+    Q_PROPERTY( int ui_xAxisTickCount  MEMBER   xAxisTickCount  NOTIFY profile_changed)
 
-    Q_PROPERTY( int ui_yAxisMin        READ   get_ui_yAxisMin        NOTIFY axis_limit_changed)
-    Q_PROPERTY( int ui_yAxisMax        READ   get_ui_yAxisMax        NOTIFY axis_limit_changed)
-    Q_PROPERTY( int ui_yAxisTickCount  READ   get_ui_yAxisTickCount  NOTIFY axis_tick_count_changed)
+    Q_PROPERTY( int ui_yAxisMin        MEMBER   yAxisMin        NOTIFY profile_changed)
+    Q_PROPERTY( int ui_yAxisMax        MEMBER   yAxisMax        NOTIFY profile_changed)
+    Q_PROPERTY( int ui_yAxisTickCount  MEMBER   yAxisTickCount  NOTIFY profile_changed)
 public:
 
     ////CONNECTIONS
@@ -81,16 +81,17 @@ public:
     QString get_ui_filename();
 
     ////CHART look
-    int get_ui_xAxisMin() {return 0;}
-    int get_ui_xAxisMax() {return 0;}
-    int get_ui_xAxisTickCount() {return 0;}
+    int xAxisMin {0};
+    int xAxisMax {1};
+    int xAxisTickCount {20};
 
-    int get_ui_yAxisMin() {return 0;}
-    int get_ui_yAxisMax() {return 0;}
-    int get_ui_yAxisTickCount() {return 0;}
+    int yAxisMin {0};
+    int yAxisMax {1};
+    int yAxisTickCount {20};
 
     ////debugging
     void printProfile();
+    void printAxisLimits();
 signals:
     void profile_changed();
     void axis_limit_changed();
