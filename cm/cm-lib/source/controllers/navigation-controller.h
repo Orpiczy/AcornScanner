@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <cm-lib_global.h>
-#include <models/client.h>
 
 namespace cm {
 namespace controllers {
@@ -16,10 +15,8 @@ public:
         : QObject(_parent)
     {}
 signals:
-    void goCreateClientView();
-    void goDashboardView();
-    void goEditClientView(cm::models::Client* client);
-    void goFindClientView();
+    void goACMasterView();
+    void goACSettingsView();
 };
 }}
 

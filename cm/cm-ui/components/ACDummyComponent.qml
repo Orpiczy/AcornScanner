@@ -1,8 +1,6 @@
 import QtQuick 2.15
-import CM 1.0
 import assets 1.0
 import components 1.0
-import QtQuick.Layouts 1.12
 
 Item {
     Rectangle {
@@ -19,9 +17,6 @@ Item {
             color: Style.colorAcBackground
             radius: Style.acEdgesRadius
 
-            ACTextAndDescription {
-                anchors.centerIn: parent
-            }
         }
     }
 }

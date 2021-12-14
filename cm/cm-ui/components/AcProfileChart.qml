@@ -7,6 +7,7 @@ import QtCharts 2.3
 import Qt5Compat.GraphicalEffects
 
 Item {
+    property alias profileValue: profile.upperSeries
     width: 300
     height: 300
     Rectangle {
@@ -28,7 +29,7 @@ Item {
                 anchors.fill: parent
                 antialiasing: true
                 backgroundColor: Style.colorAcProfileChartBackground
-                // Define x-axis to be used with the series instead of default one
+                legend.visible: false
                 backgroundRoundness: Style.acEdgesRadius
 //                LinearGradient {
 //                    id: gradient
@@ -43,32 +44,29 @@ Item {
                 AreaSeries {
 
                     id:profile
-                    axisX: ValuesAxis { min: 2000; max: 2011;tickCount: 3;labelFormat: "%.0f"; color: Style.colorAcProfileChartBackground; labelsVisible: false; gridVisible:false}
-                    axisY: ValuesAxis {min: 0; max:5;tickCount: 6;labelFormat: "%d"; color: Style.colorAcProfileChartBackground;labelsVisible: false; gridVisible:false}
-                    borderColor: Style.colorAcEdges
-                    color:Style.colorAcAccent1
-                    borderWidth: 1
-
-                    upperSeries: LineSeries {
-                        XYPoint { x: 2000; y: 0 }
-                        XYPoint { x: 2001; y: 1 }
-                        XYPoint { x: 2002; y: 2 }
-                        XYPoint { x: 2003; y: 3 }
-                        XYPoint { x: 2004; y: 4 }
-                        XYPoint { x: 2005; y: 4 }
-                        XYPoint { x: 2006; y: 3 }
-                        XYPoint { x: 2007; y: 4 }
-                        XYPoint { x: 2008; y: 4 }
-                        XYPoint { x: 2009; y: 3 }
-                        XYPoint { x: 2010; y: 2 }
-                        XYPoint { x: 2011; y: 1 }
+                    axisX: ValuesAxis { id: xAxis;
+                        min: masterController.ui_scannedData.ui_xAxisMin ;
+                        max: masterController.ui_scannedData.ui_xAxisMax;
+                   //   tickCount: masterController.ui_scannedData.xAxisTickCount;
+                        labelFormat: "%d"; color: Style.colorAcProfileChartBackground;
+                        labelsVisible: false; gridVisible:false
+                    }
+                    axisY: ValuesAxis { id: yAxis;
+                        min: masterController.ui_scannedData.ui_yAxisMin ;
+                        max: masterController.ui_scannedData.ui_yAxisMax;
+                    //   tickCount: masterController.ui_scannedData.yAxisTickCount;
+                        labelFormat: "%d"; color: Style.colorAcProfileChartBackground;
+                        labelsVisible: false; gridVisible:false
                     }
 
+                    borderColor: Style.colorAcEdges
+                    color:Style.colorAcProfileChartMain
+                    borderWidth: 2
 
                 }
+
                 Component.onCompleted: {
-                   profileChart.legend.visible = false
-            //       helper.update_chart(profileChart)
+                    masterController.ui_scannedData.ui_profile = profile.upperSeries
                 }
             }
 

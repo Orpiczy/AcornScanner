@@ -37,6 +37,7 @@ Item {
                         text: "Measurement Statistics"
                         font.family: Style.fontTypeAcMain
                         font.pointSize: Style.fontSizeAcMainText
+                        color: Style.colorAcLetter
                         horizontalAlignment: Text.AlignHCenter
                         anchors{
                             horizontalCenter: parent.horizontalCenter
@@ -74,6 +75,10 @@ Item {
                             BarSet { id:healthy; label: "Healthy"; labelFont.pixelSize: 15; color: Style.colorAcAccent1; borderColor: Style.colorAcEdges; borderWidth: 1; }
                             BarSet { id:unhealthy; label: "Unhealthy";  labelFont.pixelSize: 15 ; color: Style.colorAcAccent2; borderColor: Style.colorAcEdges; borderWidth: 1 }
                             BarSet { id:unknown; label: "Unknown"; labelFont.pixelSize: 15; color: Style.colorAcAccent3; borderColor: Style.colorAcEdges; borderWidth: 1 }
+                        }
+
+                        Component.onCompleted: {
+                            masterController.ui_dailyData.onUpdateDailyStatistics();
                         }
                     }
                 }

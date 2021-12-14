@@ -15,11 +15,8 @@ Window {
 
     Connections {
         target: masterController.ui_navigationController
-        onGoCreateClientView: contentFrame.replace("qrc:/views/CreateClientView.qml")
-        onGoDashboardView: contentFrame.replace("qrc:/views/DashboardView.qml")
-        onGoEditClientView: contentFrame.replace("qrc:/views/EditClientView.qml",
-                                                 {selectedClient: client})
-        onGoFindClientView: contentFrame.replace("qrc:/views/FindClientView.qml")
+        onGoACSettingsView: contentFrame.replace("qrc:/views/ACMasterView.qml")
+        onGoACMasterView: contentFrame.replace("qrc:/views/ACMasterView.qml")
     }
 
 
@@ -37,7 +34,7 @@ Window {
             right: parent.right
         }
         clip: true
-        initialItem: "qrc:/views/SplashView.qml"
+        initialItem: "qrc:/views/ACMasterView.qml"
     }
 
 }

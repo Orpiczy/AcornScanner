@@ -17,13 +17,9 @@
 #include <data/int-decorator.h>
 #include <data/string-decorator.h>
 #include <framework/command.h>
-#include <models/address.h>
-#include <models/appointment.h>
-#include <models/client.h>
-#include <models/client-search.h>
-#include <models/contact.h>
-#include <models/storage.h>
-
+#include <models/scannedData.hpp>
+#include <models/dailyStatisticsData.h>
+#include <data/map-decorator.h>
 //class Helper: public QObject
 //{
 //    Q_OBJECT
@@ -80,11 +76,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<cm::data::IntDecorator>("CM", 1, 0, "IntDecorator");
     qmlRegisterType<cm::data::StringDecorator>("CM", 1, 0, "StringDecorator");
     qmlRegisterType<cm::data::MapDecorator>("CM", 1, 0, "MapDecorator");
-    qmlRegisterType<cm::models::Address>("CM", 1, 0, "Address");
-    qmlRegisterType<cm::models::Appointment>("CM", 1, 0, "Appointment");
-    qmlRegisterType<cm::models::Client>("CM", 1, 0, "Client");
-    qmlRegisterType<cm::models::Storage>("CM", 1, 0, "Storage");
-    qmlRegisterType<cm::models::Contact>("CM", 1, 0, "Contact");
+    qmlRegisterType<ac::models::ScannedData>("AC", 1, 0, "ScannedData");
+    qmlRegisterType<ac::models::DailyStatisticsData>("AC", 1, 0, "DailyStatisticsData");
+
 
     qmlRegisterType<cm::framework::Command>("CM", 1, 0, "Command");
     cm::controllers::MasterController masterController(nullptr);

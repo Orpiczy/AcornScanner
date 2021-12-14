@@ -5,10 +5,10 @@ import components 1.0
 import QtQuick.Layouts 1.12
 
 Item {
+    property alias clickArea: refreshButton.clickArea
     property alias deviceName: device.mainText
     property alias connected: connected.mainText
     property alias functional: functional.mainText
-    property alias deviceId: refreshButton.deviceId
 
     width: 380
     height: 250
@@ -48,6 +48,7 @@ Item {
                             verticalCenter: parent.verticalCenter
                             left: parent.left
                         }
+
                     }
                 }
 
@@ -57,7 +58,7 @@ Item {
                     ACTextAndDescription{
                         id:device
                         mainText: "Device X"
-                        mainFontSize: 25
+                        mainFontSize: Style.fontSizeAcMainText
                         descriptionText: "device name"
                         underlineWidth: Style.textAndDescriptionTextWidthBig
                         anchors{
@@ -72,9 +73,10 @@ Item {
                     Text {
                         text: "Connected"
                         font.family: Style.fontTypeAcMain
-                        font.pointSize: Style.fontSizeAcMainText
+                        font.pointSize: Style.fontSizeAcSubText
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
+                        color: Style.colorAcLetter
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                     }
@@ -87,6 +89,7 @@ Item {
                     ACTextAndDescription{
                         id:connected
                         mainText: "Yes"
+                        mainFontSize: Style.fontSizeAcSubText
                         descriptionText: "status"
                         anchors.centerIn: parent
                     }
@@ -99,7 +102,8 @@ Item {
                     Text {
                         text: "Functional"
                         font.family: Style.fontTypeAcMain
-                        font.pointSize: Style.fontSizeAcMainText
+                        font.pointSize: Style.fontSizeAcSubText
+                        color: Style.colorAcLetter
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         anchors.verticalCenter: parent.verticalCenter
@@ -114,6 +118,7 @@ Item {
                     ACTextAndDescription{
                         id:functional
                         mainText: "Alright"
+                        mainFontSize: Style.fontSizeAcSubText
                         descriptionText: "status"
                         anchors.centerIn: parent
                     }

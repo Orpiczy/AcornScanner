@@ -25,6 +25,7 @@ Item {
             text: "DEVICE NAME"
             font.family: Style.fontTypeAcMain
             font.pointSize: Style.fontSizeAcMainText
+            color: Style.colorAcLetter
             anchors.horizontalCenter: parent.horizontalCenter
         }
         Rectangle{
@@ -40,6 +41,7 @@ Item {
             font.family: Style.fontTypeAcMain
             font.pointSize: Style.fontSizeAcDescription
             horizontalAlignment: Text.AlignHCenter
+            color: Style.colorAcLetter
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
