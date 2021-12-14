@@ -30,17 +30,6 @@ QLineSeries* ScannedData::get_ui_profile() const
 
 void ScannedData::set_ui_profile(QLineSeries *ui_profile)
 {
-    if(convertedProfile == ui_profile) {
-        return;
-    }
-    if(convertedProfile)
-    {
-        if(convertedProfile->parent() == this) // is owner
-        {
-            delete convertedProfile;
-        }
-
-    }
     convertedProfile = ui_profile;
 }
 

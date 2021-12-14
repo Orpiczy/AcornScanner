@@ -7,14 +7,6 @@ import QtCharts 2.3
 import Qt5Compat.GraphicalEffects
 
 Item {
-//    property alias xAxisMin: xAxis.min
-//    property alias xAxisMax: xAxis.max
-//    property alias xTickCount: xAxis.tickCount
-
-//    property alias yAxisMin: yAxis.min
-//    property alias yAxisMax: yAxis.max
-//    property alias yTickCount: yAxis.tickCount
-
     property alias profileValue: profile.upperSeries
     width: 300
     height: 300

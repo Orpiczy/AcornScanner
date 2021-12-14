@@ -11,6 +11,7 @@ RCC_DIR = $$PWD/build/$$DESTINATION_PATH/.qrc
 UI_DIR = $$PWD/build/$$DESTINATION_PATH/.ui
 
 LIBS += -L$$PWD/../binaries/$$DESTINATION_PATH -lcm-lib
+message(ORPICZY lib printh: $${PWD}/../binaries/$${DESTINATION_PATH})
 #!build_pass:message(ORPICZY ui output dir: $${DESTDIR})
 ######################
 

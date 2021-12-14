@@ -28,7 +28,7 @@ CONFIG += c++14
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += source/models/client.cpp \
+SOURCES += \
     source/controllers/LowLevelFunctionality/BaseClasses/SimpleLogger.cpp \
     source/controllers/LowLevelFunctionality/Common/Translators.cpp \
     source/controllers/LowLevelFunctionality/DeviceController/CameraManager/CameraManager.cpp \
@@ -47,15 +47,10 @@ SOURCES += source/models/client.cpp \
     source/data/map-decorator.cpp \
     source/data/string-decorator.cpp \
     source/framework/command.cpp \
-    source/models/address.cpp \
-    source/models/appointment.cpp \
     source/models/cameraDeviceUi.cpp \
-    source/models/client-search.cpp \
-    source/models/contact.cpp \
     source/models/dailyStatisticsData.cpp \
     source/models/profilometerDeviceUi.cpp \
-    source/models/scannedData.cpp \
-    source/models/storage.cpp
+    source/models/scannedData.cpp
 
 HEADERS += \
     source/cm-lib_global.h \
@@ -84,16 +79,10 @@ HEADERS += \
     source/data/map-decorator.h \
     source/data/string-decorator.h \
     source/framework/command.h \
-    source/models/address.h \
-    source/models/appointment.h \
     source/models/camerDeviceUi.h \
-    source/models/client-search.h \
-    source/models/client.h \
-    source/models/contact.h \
     source/models/dailyStatisticsData.h \
     source/models/profilometerDeviceUi.h \
-    source/models/scannedData.hpp \
-    source/models/storage.h
+    source/models/scannedData.hpp
 
 # Default rules for deployment.
 #unix {

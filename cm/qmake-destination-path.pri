@@ -28,7 +28,7 @@ PROCESSOR_x64 {
             processor_path = x64
 } 
 PROCESSOR_x86 {
-	    message(ORPICZY IN x86 Dest path: $${DESTINATION_PATH})
+#	    message(ORPICZY IN x86 Dest path: $${DESTINATION_PATH})
             processor_path = x86
 }
 BUILD_DEBUG {

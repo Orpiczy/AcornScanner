@@ -52,20 +52,6 @@ Item {
     readonly property real widthDataControls: 400
     readonly property real heightDataControls: 40
 
-    //CM parameters
-    readonly property real  cmChartHeight: 100
-    readonly property real  cmChartWidth:  200
-    readonly property real  cmRightColumnWidth: 100
-    readonly property real  cmCoffeMakeButtonHeight: 50
-    readonly property real  cmCoffeMakeButtonWidth: 180
-    readonly property real  cmWarningOnOffBarHeight: 50
-    readonly property real  cmWarningOnOffBarWidth: 120
-    readonly property color colorCmChartEdges: "#4B2827"
-    readonly property color colorCmChartBox: "#F5EBE4"
-    readonly property color colorCmMilkCircleForeground: "#F8F8F8"
-    readonly property color colorCmWaterCircleForeground: "#147AD6"
-    readonly property color colorCmMilkCircleBackground: "#C7C8D0"
-
     //AC colors
     readonly property color colorAcBackground: "#FFFFFF"
     readonly property color colorAcForeground: "#E4E4E4"

@@ -9,12 +9,12 @@ import QtCharts 2.3
 
 
 Item {
-//    property alias xAxisMin: mainChart.xAxisMin
-//    property alias xAxisMax: mainChart.xAxisMax
-//    property alias xTickCount: mainChart.xTickCount
-//    property alias yAxisMin: mainChart.yAxisMin
-//    property alias yAxisMax: mainChart.yAxisMax
-//    property alias yTickCount: mainChart.yTickCount
+    //    property alias xAxisMin: mainChart.xAxisMin
+    //    property alias xAxisMax: mainChart.xAxisMax
+    //    property alias xTickCount: mainChart.xTickCount
+    //    property alias yAxisMin: mainChart.yAxisMin
+    //    property alias yAxisMax: mainChart.yAxisMax
+    //    property alias yTickCount: mainChart.yTickCount
 
     property alias result: result.mainText
     property alias fileName: fileName.mainText

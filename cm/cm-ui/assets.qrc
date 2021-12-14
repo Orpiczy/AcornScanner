@@ -3,7 +3,5 @@
         <file alias="Style.qml">assets/Style.qml</file>
         <file alias="qmldir">assets/qmldir</file>
         <file alias="fontawesome.ttf">assets/fa-solid-900.ttf</file>
-        <file alias="coffeeMaker.svg">assets/coffeeMaker.svg</file>
-        <file alias="ControlViewBackground.png">assets/ControlViewBackground.png</file>
     </qresource>
 </RCC>

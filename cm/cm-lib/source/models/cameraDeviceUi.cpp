@@ -18,7 +18,7 @@ void CameraDeviceUi::updateStatus()
 //    connectionStatus = QString::fromStdString(ac::translators::getDeviceConnectionStatusName(DeviceConnectionStatus::Yes));
 //    functionalStatus = QString::fromStdString(ac::translators::getDeviceFuntionalStatusName(DeviceFunctionalStatus::Alright));
     qDebug() << "CameraUpdateClicked";
-    connectionStatus = "Yes";
-    functionalStatus = "Alright";
+    connectionStatus = "updateok";
+    functionalStatus = "updatedAlright";
     emit device_status_change();
 }

@@ -7,7 +7,7 @@ import QtQuick.Controls
 import QtCharts 2.3
 
 Item {
-    property Storage basicStorage: masterController.ui_basicStorage
+
     width: 1840
     height: 1080
 
@@ -72,7 +72,7 @@ Item {
                 out3: masterController.ui_scannedData.ui_out3
                 outA: masterController.ui_scannedData.ui_outA
             }
-            Item{
+             Item{
                 width: 900
                 height: 300
 
@@ -108,8 +108,8 @@ Item {
                             Layout.preferredHeight: 250
                             ACDevice{
                                 deviceName: masterController.ui_profilometerDevice.ui_device_id
-                                connected:  masterController.ui_profilometerDevice.connection_status
-                                functional: masterController.ui_profilometerDevice.functional_status                              
+                                connected:  masterController.ui_profilometerDevice.ui_connection_status
+                                functional: masterController.ui_profilometerDevice.ui_functional_status
                                 ////connection add
                                 clickArea.onClicked: {
                                     masterController.ui_profilometerDevice.updateStatus()
@@ -123,8 +123,8 @@ Item {
                             Layout.preferredHeight: 250
                             ACDevice{
                                 deviceName: masterController.ui_cameraDevice.ui_device_id
-                                connected:  masterController.ui_cameraDevice.connection_status
-                                functional: masterController.ui_cameraDevice.functional_status
+                                connected:  masterController.ui_cameraDevice.ui_connection_status
+                                functional: masterController.ui_cameraDevice.ui_functional_status
                                 ////connection add
                                 clickArea.onClicked: {
                                     masterController.ui_cameraDevice.updateStatus()

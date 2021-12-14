@@ -10,8 +10,6 @@ class MasterController::Implementation
     {
         navigationController = new NavigationController(masterController);
         commandController = new CommandController(masterController);
-        newClient = new Client(masterController);
-        basicStorage = new Storage(masterController);
         recentlyScannedData = new ScannedData(masterController);
         obtainedDailyStatisticsData = new DailyStatisticsData(masterController);
         cameraDeviceModel = new CameraDeviceUi(masterController);
@@ -22,8 +20,6 @@ class MasterController::Implementation
     NavigationController* navigationController{nullptr};
     CommandController* commandController{nullptr};
     QString welcomeMessage = "This is MasterController to Major Tom";
-    Client* newClient{nullptr};
-    Storage* basicStorage{nullptr};
     ScannedData* recentlyScannedData{nullptr};
     DailyStatisticsData* obtainedDailyStatisticsData {nullptr};
     CameraDeviceUi* cameraDeviceModel {nullptr};
@@ -72,16 +68,6 @@ CommandController *MasterController::commandController()
 const QString& MasterController::welcomeMessage() const
 {
     return implementation->welcomeMessage;
-}
-
-Client* MasterController::newClient()
-{
-    return implementation->newClient;
-}
-
-Storage *MasterController::basicStorage()
-{
-    return implementation->basicStorage;
 }
 
 ScannedData *MasterController::recentlyScannedData()

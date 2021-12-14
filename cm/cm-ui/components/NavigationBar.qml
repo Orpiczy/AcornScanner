@@ -29,19 +29,14 @@ Item{
             NavigationButton {
                 iconCharacter: "\uf015"
                 description: "Dashboard"
-                onNavigationButtonClicked: masterController.ui_navigationController.goDashboardView();
+                onNavigationButtonClicked: masterController.ui_navigationController.goACSettingsView();
             }
             NavigationButton {
                 iconCharacter: "\uf234"
                 description: "New Client"
-                onNavigationButtonClicked: masterController.ui_navigationController.goCreateClientView();
+                onNavigationButtonClicked: masterController.ui_navigationController.goACMasterView();
             }
 
-            NavigationButton {
-                iconCharacter: "\uf002"
-                description: "Find Client"
-                onNavigationButtonClicked: masterController.ui_navigationController.goFindClientView();
-            }
         }
     }
 }
