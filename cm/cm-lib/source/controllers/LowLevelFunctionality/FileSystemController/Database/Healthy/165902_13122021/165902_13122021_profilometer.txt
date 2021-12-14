@@ -1,0 +1,13 @@
+
+
+///// WARNING THIS IS READONLY MEASURE DATA /////
+
+
+                |      Result|    Out1setw|    Out2setw|    Out3setw|    OutAsetw|  XCoordsetw|  YCoordsetw|
+|165902_13122021|           1|        4123|         235|       63222|       65523|        1001|        2001|
+                                                                               124        1002|        2002|
+                                                                               124        1003|        2003|
+                                                                               124        1004|        2004|
+                                                                               124        1005|        2005|
+                                                                               124        1006|        2006|
+                                                                               124        1007|        2007|
