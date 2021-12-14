@@ -5,10 +5,10 @@ import components 1.0
 import QtQuick.Layouts 1.12
 
 Item {
+    property alias clickArea: refreshButton.clickArea
     property alias deviceName: device.mainText
     property alias connected: connected.mainText
     property alias functional: functional.mainText
-    property alias deviceId: refreshButton.deviceId
 
     width: 380
     height: 250
@@ -48,6 +48,7 @@ Item {
                             verticalCenter: parent.verticalCenter
                             left: parent.left
                         }
+
                     }
                 }
 

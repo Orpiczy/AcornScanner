@@ -2,6 +2,7 @@
 #define PROFILOMETERDEVICEUI_H
 
 #include <QObject>
+#include <QDebug>
 #include "../controllers/LowLevelFunctionality/Common/CustomEnumTypes.hpp"
 #include "../controllers/LowLevelFunctionality/Common/Translators.hpp"
 class ProfilometerDeviceUi : public QObject

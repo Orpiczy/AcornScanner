@@ -109,8 +109,11 @@ Item {
                             ACDevice{
                                 deviceName: masterController.ui_profilometerDevice.ui_device_id
                                 connected:  masterController.ui_profilometerDevice.connection_status
-                                functional: masterController.ui_profilometerDevice.functional_status
+                                functional: masterController.ui_profilometerDevice.functional_status                              
                                 ////connection add
+                                clickArea.onClicked: {
+                                    masterController.ui_profilometerDevice.updateStatus()
+                                }
                             }
                         }
 
@@ -123,6 +126,10 @@ Item {
                                 connected:  masterController.ui_cameraDevice.connection_status
                                 functional: masterController.ui_cameraDevice.functional_status
                                 ////connection add
+                                clickArea.onClicked: {
+                                    masterController.ui_cameraDevice.updateStatus()
+                                }
+
                             }
                         }
 

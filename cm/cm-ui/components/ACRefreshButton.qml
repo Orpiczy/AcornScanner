@@ -3,9 +3,8 @@ import assets 1.0
 
 
 Item {
-
-    property int deviceId
-    signal refreshButtonClicked(int deviceId)
+    property alias clickArea: clickArea
+    signal refreshButtonClicked()
 
     height: Style.acButtonDimension
     width: Style.acButtonDimension
@@ -42,12 +41,16 @@ Item {
             }
 
             MouseArea {
+                id:clickArea
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
                 onEntered: box.state = "hover"
                 onExited: box.state = ""
-                onClicked: refreshButtonClicked(deviceId)
+                onClicked: {
+                   // masterController.ui_profilometerDevice.updateStatus();
+                    refreshButtonClicked();
+                }
             }
 
             states: [
