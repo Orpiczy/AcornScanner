@@ -13,7 +13,8 @@
 #include <models/storage.h>
 #include <models/scannedData.hpp>
 #include <models/dailyStatisticsData.h>
-
+#include <models/camerDeviceUi.h>
+#include <models/profilometerDeviceUi.h>
 namespace cm {
 namespace controllers {
 
@@ -33,7 +34,8 @@ class CMLIB_EXPORT MasterController : public QObject
     Q_PROPERTY( cm::models::Storage*                   ui_basicStorage         READ basicStorage         CONSTANT )
     Q_PROPERTY( ac::models::ScannedData*               ui_scannedData          READ recentlyScannedData  CONSTANT )
     Q_PROPERTY( ac::models::DailyStatisticsData*       ui_dailyData            READ obtainedDailyStatisticsData  CONSTANT )
-
+    Q_PROPERTY( CameraDeviceUi*                        ui_cameraDevice         READ cameraDeviceModel    CONSTANT)
+    Q_PROPERTY( ProfilometerDeviceUi*                  ui_profilometerDevice   READ profilometerDeviceModel CONSTANT)
 
 
 
@@ -54,6 +56,9 @@ public:
     Storage *basicStorage();
     ScannedData *recentlyScannedData();
     DailyStatisticsData *obtainedDailyStatisticsData();
+    CameraDeviceUi      *cameraDeviceModel();
+    ProfilometerDeviceUi *profilometerDeviceModel();
+
 public slots:
     void onMeasureButtonClicked();
 private:

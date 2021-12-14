@@ -107,6 +107,10 @@ Item {
                             Layout.preferredWidth: 380
                             Layout.preferredHeight: 250
                             ACDevice{
+                                deviceName: masterController.ui_profilometerDevice.ui_device_id
+                                connected:  masterController.ui_profilometerDevice.connection_status
+                                functional: masterController.ui_profilometerDevice.functional_status
+                                ////connection add
                             }
                         }
 
@@ -115,6 +119,10 @@ Item {
                             Layout.preferredWidth: 380
                             Layout.preferredHeight: 250
                             ACDevice{
+                                deviceName: masterController.ui_cameraDevice.ui_device_id
+                                connected:  masterController.ui_cameraDevice.connection_status
+                                functional: masterController.ui_cameraDevice.functional_status
+                                ////connection add
                             }
                         }
 

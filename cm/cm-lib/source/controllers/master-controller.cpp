@@ -14,6 +14,9 @@ class MasterController::Implementation
         basicStorage = new Storage(masterController);
         recentlyScannedData = new ScannedData(masterController);
         obtainedDailyStatisticsData = new DailyStatisticsData(masterController);
+        cameraDeviceModel = new CameraDeviceUi(masterController);
+        profilometerDeviceModel = new ProfilometerDeviceUi(masterController);
+
     }
     MasterController* masterController{nullptr};
     NavigationController* navigationController{nullptr};
@@ -23,6 +26,8 @@ class MasterController::Implementation
     Storage* basicStorage{nullptr};
     ScannedData* recentlyScannedData{nullptr};
     DailyStatisticsData* obtainedDailyStatisticsData {nullptr};
+    CameraDeviceUi* cameraDeviceModel {nullptr};
+    ProfilometerDeviceUi* profilometerDeviceModel {nullptr};
 };
 MasterController::MasterController(QObject* parent)
     : QObject(parent)
@@ -87,6 +92,16 @@ ScannedData *MasterController::recentlyScannedData()
 DailyStatisticsData *MasterController::obtainedDailyStatisticsData()
 {
     return implementation->obtainedDailyStatisticsData;
+}
+
+CameraDeviceUi *MasterController::cameraDeviceModel()
+{
+    return implementation->cameraDeviceModel;
+}
+
+ProfilometerDeviceUi *MasterController::profilometerDeviceModel()
+{
+    return implementation->profilometerDeviceModel;
 }
 
 

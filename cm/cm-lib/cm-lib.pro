@@ -49,9 +49,11 @@ SOURCES += source/models/client.cpp \
     source/framework/command.cpp \
     source/models/address.cpp \
     source/models/appointment.cpp \
+    source/models/cameraDeviceUi.cpp \
     source/models/client-search.cpp \
     source/models/contact.cpp \
     source/models/dailyStatisticsData.cpp \
+    source/models/profilometerDeviceUi.cpp \
     source/models/scannedData.cpp \
     source/models/storage.cpp
 
@@ -84,10 +86,12 @@ HEADERS += \
     source/framework/command.h \
     source/models/address.h \
     source/models/appointment.h \
+    source/models/camerDeviceUi.h \
     source/models/client-search.h \
     source/models/client.h \
     source/models/contact.h \
     source/models/dailyStatisticsData.h \
+    source/models/profilometerDeviceUi.h \
     source/models/scannedData.hpp \
     source/models/storage.h
 

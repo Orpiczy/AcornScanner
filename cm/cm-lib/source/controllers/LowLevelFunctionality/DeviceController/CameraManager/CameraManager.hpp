@@ -61,6 +61,8 @@ public:
          */
         return -1;
     }
+////CONTROLLER CONNECTION
+    int checkFunctionalityAndUpdateStatus() override {return 0;}
 
 protected:
 

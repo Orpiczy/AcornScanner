@@ -108,6 +108,8 @@ public:
     ////HELPERS
     bool isConnectedAndWorking();
 
+    ////CONTROLLER CONNECTION
+    int checkFunctionalityAndUpdateStatus() override {return 0;}
 protected:
     static ProfilometerManager* pfm_;
 private:

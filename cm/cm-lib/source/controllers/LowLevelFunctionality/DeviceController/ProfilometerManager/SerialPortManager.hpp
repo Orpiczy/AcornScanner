@@ -20,7 +20,7 @@
 
 
 class SerialPortManager: public QObject {
-Q_OBJECT
+    Q_OBJECT
 public:
     ////INTEGRAL PARTS OF CLASS
     SerialPortManager(QString comPortName = "COM9", QSerialPort::BaudRate defaultBaudRate = QSerialPort::BaudRate::Baud19200);
@@ -44,14 +44,15 @@ public:
 
     void closePort();
 
-    void clearBuffer(uint8_t timeBeforeFlush = 0);
+    void clearBuffer(uint8_t timeBeforeFlush = 0)
+    ;
 
 
 protected:
     int readBufferSize_;
     int defaultReadBufferSize_ = 2048;
     int defaultBaudRate_;
-//    static constexpr auto defaultBaudRate_ = B57600;
+    //    static constexpr auto defaultBaudRate_ = B57600;
     const int maxConsecutiveReadCmd = 30;
     QString comPortName_;
     std::optional<QSerialPort*> serialPort_;

@@ -11,6 +11,8 @@
 namespace ac{
 namespace translators {
 std::string getResultName(ScanResult result);
+std::string getDeviceConnectionStatusName(DeviceConnectionStatus status);
+std::string getDeviceFuntionalStatusName(DeviceFunctionalStatus status);
 }
 }
 

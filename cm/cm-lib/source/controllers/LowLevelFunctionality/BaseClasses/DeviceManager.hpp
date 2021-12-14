@@ -13,5 +13,6 @@ public:
 
     virtual int addInfoToScannedData(ac::models::ScannedData& data) = 0;
     virtual int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data) = 0;
+    virtual int checkFunctionalityAndUpdateStatus() = 0;
 };
 #endif //CONTROLLERS_DEVICEMANAGER_HPP

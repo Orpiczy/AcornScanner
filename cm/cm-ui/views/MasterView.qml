@@ -36,7 +36,7 @@ Window {
             left: navigationBar.right
             right: parent.right
         }
-        clip: tr
+        clip: true
         initialItem: "qrc:/views/SplashView.qml"
     }
 
