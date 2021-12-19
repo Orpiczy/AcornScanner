@@ -24,10 +24,6 @@ public:
     static ProfilometerManager*
     GetInstance(bool isLogInfoEnable = false, bool isLogErrorEnable = true, const QString comPortName = "com9");
 
-    explicit ProfilometerManager(bool isLogInfoEnable, bool isLogErrorEnable, const QString comPortName)
-            : SerialPortManager(comPortName),SimpleLogger(isLogInfoEnable, isLogErrorEnable)  {}
-
-
     ProfilometerManager(ProfilometerManager& other) = delete; //can not be cloneable
     void operator=(const ProfilometerManager&) = delete; // can not be assignable
 
@@ -80,6 +76,18 @@ public:
         return -1;
     }
 
+
+
+
+    ////HELPERS
+    bool isConnectedAndWorking();
+
+    ////CONTROLLER CONNECTION
+    int checkFunctionalityAndUpdateStatus() override {return 0;}
+protected:
+    explicit ProfilometerManager(bool isLogInfoEnable, bool isLogErrorEnable, const QString comPortName)
+            : SerialPortManager(comPortName),SimpleLogger(isLogInfoEnable, isLogErrorEnable)  {}
+
     ////CMD
     int getOut1();
 
@@ -104,13 +112,6 @@ public:
     std::optional<std::vector<uint8_t>>
     getRequestedSizeValueFromMemoryAddress(uint32_t memoryAddress, size_t requestedDataLength, int attemptNumber = 0);
 
-
-    ////HELPERS
-    bool isConnectedAndWorking();
-
-    ////CONTROLLER CONNECTION
-    int checkFunctionalityAndUpdateStatus() override {return 0;}
-protected:
     static ProfilometerManager* pfm_;
 private:
     int getOut(const std::vector<uint8_t>& cmd, const std::string& sourceName, int attemptNumber = 0);
