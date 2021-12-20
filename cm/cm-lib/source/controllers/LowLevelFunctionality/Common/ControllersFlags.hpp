@@ -12,7 +12,7 @@
 #define IS_CAMERA_RESULT_CHECK_ENABLED false
 
 ////R&D FLAGS
-#define PROFILOMETER_RESULT ScanResult::Healthy
+#define PROFILOMETER_RESULT ScanResult::Unhealthy
 #define CAMERA_RESULT ScanResult::Healthy
 
 #endif //CONTROLLERS_CONTROLLERSFLAGS_HPP

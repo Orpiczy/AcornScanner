@@ -29,52 +29,88 @@ public:
 
     ////BASIC CMD
     int addInfoToScannedData(ac::models::ScannedData& data) override {
-        if (not IS_PROFILOMETER_AVAILABLE) {
+
+        //TO DO - REFACTOR - ZALEZNOSC OD MAKRA IS_PROFILOMETER_AVAILABLE NIE POWINNA ISC TAK NISKO -> WCHODZI DO FUNKCJI
+
+        if(IS_PROFILOMETER_AVAILABLE){
+
             data.out1 = getOut1();
             data.out2 = getOut2();
             data.out3 = getOut3();
             data.outA = getOutA();
             data.profileData = getProfile();
-            data.resultProfilometer = PROFILOMETER_RESULT;
-            data.finalResult =
-                    data.resultProfilometer == data.finalResult ? data.finalResult : ScanResult::Unrecognized;
-            return 0;
+
+        }else{
+
+            data.out1 = testOut1;
+            data.out2 = testOut2;
+            data.out3 = testOut3;
+            data.outA = testOutA;
+            data.profileData = testProfileData;
+
         }
-        /*
-         *
-         *
-         *  IMPLEMENTATION
-         *
-         *
-         */
-        return -1;
+
+
+        if(IS_PROFILOMETER_RESULT_CHECK_ENABLED){
+
+            /*
+             *
+             *
+             *  IMPLEMENTATION
+             *
+             *
+             */
+
+        }else{
+            data.resultProfilometer = PROFILOMETER_RESULT;
+        }
+
+        return 0;
     }
 
     int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data, std::string commonTimeStamp = {}) override {
-        if (not IS_PROFILOMETER_AVAILABLE) {
+
+        //TO DO - REFACTOR - ZALEZNOSC OD MAKRA IS_PROFILOMETER_AVAILABLE NIE POWINNA ISC TAK NISKO -> WCHODZI DO FUNKCJI
+
+        if(IS_PROFILOMETER_AVAILABLE){
+
             data.out1 = getOut1();
             data.out2 = getOut2();
             data.out3 = getOut3();
             data.outA = getOutA();
             data.profileData = getProfile();
-            data.resultProfilometer = PROFILOMETER_RESULT;
-            data.finalResult =
-                    data.resultProfilometer == data.finalResult ? data.finalResult : ScanResult::Unrecognized;
-            FileSystemController::GetInstance()->addProfilometerScanDataToCategorizedDataBase(data.resultProfilometer,
-                                                                                              data.out1, data.out2,
-                                                                                              data.out3, data.outA,
-                                                                                              data.profileData,
-                                                                                              commonTimeStamp);
-            return 0;
+
+        }else{
+
+            data.out1 = testOut1;
+            data.out2 = testOut2;
+            data.out3 = testOut3;
+            data.outA = testOutA;
+            data.profileData = testProfileData;
+
         }
-        /*
-         *
-         *
-         *  IMPLEMENTATION
-         *
-         *
-         */
-        return -1;
+
+
+        if(IS_PROFILOMETER_RESULT_CHECK_ENABLED){
+
+            /*
+             *
+             *
+             *  IMPLEMENTATION
+             *
+             *
+             */
+
+        }else{
+            data.resultProfilometer = PROFILOMETER_RESULT;
+        }
+        FileSystemController::GetInstance()->addProfilometerScanDataToCategorizedDataBase(data.resultProfilometer,
+                                                                                          data.out1, data.out2,
+                                                                                          data.out3, data.outA,
+                                                                                          data.profileData,
+                                                                                          commonTimeStamp);
+        return 0;
+
     }
 
 
@@ -87,7 +123,7 @@ public:
     int checkFunctionalityAndUpdateStatus() override {return 0;}
 protected:
     explicit ProfilometerManager(bool isLogInfoEnable, bool isLogErrorEnable, const QString comPortName)
-            : SerialPortManager(comPortName),SimpleLogger(isLogInfoEnable, isLogErrorEnable)  {}
+        : SerialPortManager(comPortName),SimpleLogger(isLogInfoEnable, isLogErrorEnable)  {}
 
     ////CMD
     int getOut1();

@@ -1,6 +1,6 @@
 #include "dailyStatisticsData.h"
 #include "../controllers/LowLevelFunctionality/FileSystemController/FileSystem/FileSystemController.hpp"
-
+#include <QtMath>
 
 
 namespace ac {
@@ -9,6 +9,7 @@ namespace models {
 DailyStatisticsData::DailyStatisticsData(QObject *parent) : Entity(parent, "ScannedData")
 {
     name = static_cast<cm::data::StringDecorator*>(addDataItem(new cm::data::StringDecorator(this, "dailyStatisticData", "dataInfo")));
+
     /*
      *
      *
@@ -27,11 +28,12 @@ DailyStatisticsData::DailyStatisticsData(QObject *parent, const QJsonObject &jso
 
 void DailyStatisticsData::onUpdateDailyStatistics()
 {
-    qDebug()<<"Updating DailyStatistics";
+    qDebug()<<"INFO - Updating DailyStatistics - DailyStatisticsData::onUpdateDailyStatistics()";
     updateDailyData();
 }
 void DailyStatisticsData::updateDailyData()
 {
+    //values
     healthyList.clear();
     unrecognizedList.clear();
     unhealthyList.clear();
@@ -53,6 +55,20 @@ void DailyStatisticsData::updateDailyData()
         unrecognizedList.append(unrecognized);
 
     }
+
+    //axis - looking for maximum
+    int healthyMax = *std::max_element(healthyList.begin(),healthyList.end());
+    int unhealthyMax = *std::max_element(unhealthyList.begin(),unhealthyList.end());
+    int unrecognizedMax = *std::max_element(unrecognizedList.begin(),unrecognizedList.end());
+
+    //updating
+    int maxInAllCategories = std::max({healthyMax,unrecognizedMax,unhealthyMax});
+    yAxisTickCount = (int) maxInAllCategories / yAxisResolution + 1;
+    qDebug()<<"TickCount = "<<yAxisTickCount;
+    yAxisMax = yAxisTickCount*yAxisResolution;
+    qDebug()<<"yAxisMax"<< yAxisMax;
+    yAxisTickCount += 1; //because 0 bar counts as a tick as well
+
     emit dailyStatisticsDataChanged();
 }
 

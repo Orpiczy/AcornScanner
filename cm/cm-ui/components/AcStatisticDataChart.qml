@@ -10,6 +10,8 @@ Item {
     property alias unhealthyValues: unhealthy.values
     property alias unknownValues: unknown.values
     property alias dates: category.categories
+    property alias yAxisTickCount: yCategoryAxis.tickCount
+    property alias yAxisMax: yCategoryAxis.max
 
     Rectangle {
         id:edges
@@ -68,7 +70,7 @@ Item {
 
                         BarSeries {
                             id: mySeries
-                            axisY: ValuesAxis {max: 15; min: 0; tickCount: 6; labelFormat: "%d"; }
+                            axisY: ValuesAxis {id: yCategoryAxis; max: 15; min: 0; tickCount: 6; labelFormat: "%d"; }
                             axisX: BarCategoryAxis { id:category }
                             //pen: healthy.pen.setCapStyle(Qt.RoundCap)
 

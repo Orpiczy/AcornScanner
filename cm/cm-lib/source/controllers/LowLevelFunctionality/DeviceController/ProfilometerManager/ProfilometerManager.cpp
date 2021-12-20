@@ -41,37 +41,22 @@ int ProfilometerManager::getOut(const std::vector<uint8_t>& cmd, const std::stri
 ProfilometerManager* ProfilometerManager::pfm_ = nullptr;
 
 int ProfilometerManager::getOut1() {
-    if (not IS_PROFILOMETER_AVAILABLE) {
-        return testOut1;
-    }
     return getOut(MsgManager::cmdOut1(), "getOut1");
 }
 
 int ProfilometerManager::getOut2() {
-    if (not IS_PROFILOMETER_AVAILABLE) {
-        return testOut2;
-    }
     return getOut(MsgManager::cmdOut2(), "getOut2");
 }
 
 int ProfilometerManager::getOut3() {
-    if (not IS_PROFILOMETER_AVAILABLE) {
-        return testOut3;
-    }
     return getOut(MsgManager::cmdOut3(), "getOut3");
 }
 
 int ProfilometerManager::getOutA() {
-    if (not IS_PROFILOMETER_AVAILABLE) {
-        return testOutA;
-    }
     return getOut(MsgManager::cmdOutA(), "getOutA");
 }
 
 std::vector<std::pair<uint16_t, uint16_t>> ProfilometerManager::getProfile(int attemptNumber) {
-    if (not IS_PROFILOMETER_AVAILABLE) {
-        return testProfileData;
-    }
     clearBuffer(2);
     auto sizeTimeAddressData = getProfileSizeTimeInfoAndAddress();
     std::optional<std::vector<uint8_t>> rawPoints{};

@@ -5,6 +5,11 @@
 #include "CameraManager.hpp"
 
 ////INTEGRAL PARTS OF CLASS
+CameraManager::CameraManager(bool isLogInfoEnable, bool isLogErrorEnable)
+    : SimpleLogger(isLogInfoEnable, isLogErrorEnable) {
+    //acorn image, if commented program saves nothing thanks to check in fileSystemController
+    testImage = cv::imread(testImagePath, cv::IMREAD_COLOR );
+}
 
 CameraManager* CameraManager::GetInstance() {
     if (cam_ == nullptr) {
@@ -12,6 +17,8 @@ CameraManager* CameraManager::GetInstance() {
     }
     return cam_;
 }
+
+
 
 cv::Mat CameraManager::getImage()
 {
@@ -33,6 +40,7 @@ cv::Mat CameraManager::getImage()
 
 ////VARIABLES
 CameraManager* CameraManager::cam_ = nullptr;
-const cv::Mat CameraManager::testImage = {};
 const int     CameraManager::CAMERA_ID_  = 0;
+const std::string CameraManager::testImagePath = "E:/Dokumenty/AiR_rok_4/S7/EngineeringThesis/AcornScanner/"
+                                                 "cm/cm-lib/source/controllers/LowLevelFunctionality/DeviceController/CameraManager/TestData/Acorn.jpg";
 

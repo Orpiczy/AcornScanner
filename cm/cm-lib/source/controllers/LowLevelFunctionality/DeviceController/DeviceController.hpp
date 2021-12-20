@@ -28,6 +28,7 @@ public:
         for(auto device: deviceList){
             device->addInfoToScannedData(data);
         }
+        data.updateFinalResult();
         return 0;
     }
 
@@ -36,6 +37,7 @@ public:
         for(auto device: deviceList){
             device->addInfoToScannedDataAndSaveItToDataBase(data,commonTimeStamp);
         }
+        data.updateFinalResult();
         FileSystemController::GetInstance() -> addScanToDailyStatistic(data.finalResult);
         return 0;
     }

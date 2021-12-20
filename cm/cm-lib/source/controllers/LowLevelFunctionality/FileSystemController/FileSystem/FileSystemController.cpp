@@ -94,7 +94,7 @@ int FileSystemController::addProfilometerScanDataToCategorizedDataBase(ScanResul
         if (it + 1 != profileData.end()) {
             file << std::endl;
             // delimiter.size() to te 1
-            file << setw(initialPadding + padding * 5 + 6 * 1,std::to_string(delimiter));
+            file << setw(initialPadding + padding * 5 + 6 * 1,std::string{delimiter});
         }
     }
     file.close();

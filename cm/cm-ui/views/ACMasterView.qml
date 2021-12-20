@@ -42,6 +42,10 @@ Item {
                 unhealthyValues: masterController.ui_dailyData.ui_unhealthy_list
                 unknownValues: masterController.ui_dailyData.ui_unrecognized_list
                 dates: masterController.ui_dailyData.ui_dates
+
+                yAxisMax: masterController.ui_dailyData.ui_yAxisMax
+                yAxisTickCount: masterController.ui_dailyData.ui_yAxisTickCount
+
                 Layout.preferredWidth: 900
                 Layout.preferredHeight: 500
             }
