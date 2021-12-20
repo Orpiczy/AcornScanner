@@ -87,7 +87,7 @@ public:
 protected:
 
     ////INTEGRAL PARTS OF CLASS
-    explicit CameraManager(bool isLogInfoEnable = true, bool isLogErrorEnable = true);;
+    explicit CameraManager(bool isLogInfoEnable = true, bool isLogErrorEnable = true);
 
     ////BASIC CMD
     cv::Mat getImage();

@@ -26,7 +26,7 @@ class CMLIB_EXPORT FileSystemController : private SimpleLogger {
 public:
 
     ////INTEGRAL PARTS OF CLASS
-    static FileSystemController* GetInstance(bool isLogInfoEnable = true, bool isLogErrorEnable = true);
+    static FileSystemController* GetInstance();
 
     FileSystemController(FileSystemController& other) = delete;
 
@@ -47,7 +47,7 @@ public:
 
 protected:
     ////INTEGRAL PARTS OF CLASS
-    explicit FileSystemController(bool isLogInfoEnable = false, bool isLogErrorEnable = true);
+    explicit FileSystemController(bool isLogInfoEnable = false, bool isLogErrorEnable = false);
 
 private:
     ////BASIC CMD INTERNAL HELPERS

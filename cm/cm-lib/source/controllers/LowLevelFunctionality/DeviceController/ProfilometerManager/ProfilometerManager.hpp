@@ -16,13 +16,13 @@
 #include "../../FileSystemController/FileSystem/FileSystemController.hpp"
 #include "../../../../models/scannedData.hpp"
 
-class CMLIB_EXPORT ProfilometerManager : public SerialPortManager, private SimpleLogger, public DeviceManager {
+class CMLIB_EXPORT ProfilometerManager : public SerialPortManager, public DeviceManager {
 
 public:
 
     ////INTEGRAL PARTS OF CLASS
     static ProfilometerManager*
-    GetInstance(bool isLogInfoEnable = false, bool isLogErrorEnable = true, const QString comPortName = "com9");
+    GetInstance();
 
     ProfilometerManager(ProfilometerManager& other) = delete; //can not be cloneable
     void operator=(const ProfilometerManager&) = delete; // can not be assignable
@@ -122,8 +122,8 @@ public:
     ////CONTROLLER CONNECTION
     int checkFunctionalityAndUpdateStatus() override {return 0;}
 protected:
-    explicit ProfilometerManager(bool isLogInfoEnable, bool isLogErrorEnable, const QString comPortName)
-        : SerialPortManager(comPortName),SimpleLogger(isLogInfoEnable, isLogErrorEnable)  {}
+    explicit ProfilometerManager(bool isLogInfoEnable = true, bool isLogErrorEnable = true, const QString comPortName = "COM9")
+        : SerialPortManager(comPortName, isLogInfoEnable, isLogErrorEnable)  {}
 
     ////CMD
     int getOut1();

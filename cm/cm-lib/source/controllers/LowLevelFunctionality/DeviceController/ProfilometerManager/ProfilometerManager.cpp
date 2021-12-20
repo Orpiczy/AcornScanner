@@ -7,9 +7,9 @@
 ////INTEGRAL PARTS OF CLASS
 
 ProfilometerManager*
-ProfilometerManager::GetInstance(bool isLogInfoEnable, bool isLogErrorEnable, const QString comPortName) {
+ProfilometerManager::GetInstance() {
     if (pfm_ == nullptr) {
-        pfm_ = new ProfilometerManager(isLogInfoEnable, isLogErrorEnable, comPortName);
+        pfm_ = new ProfilometerManager();
     }
     return pfm_;
 }

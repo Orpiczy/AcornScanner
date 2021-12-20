@@ -64,9 +64,7 @@ void DailyStatisticsData::updateDailyData()
     //updating
     int maxInAllCategories = std::max({healthyMax,unrecognizedMax,unhealthyMax});
     yAxisTickCount = (int) maxInAllCategories / yAxisResolution + 1;
-    qDebug()<<"TickCount = "<<yAxisTickCount;
     yAxisMax = yAxisTickCount*yAxisResolution;
-    qDebug()<<"yAxisMax"<< yAxisMax;
     yAxisTickCount += 1; //because 0 bar counts as a tick as well
 
     emit dailyStatisticsDataChanged();

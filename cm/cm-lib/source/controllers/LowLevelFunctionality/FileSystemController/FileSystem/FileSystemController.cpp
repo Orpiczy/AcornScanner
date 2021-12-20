@@ -6,9 +6,9 @@
 
 ////INTEGRAL PARTS OF CLASS
 
-FileSystemController* FileSystemController::GetInstance(bool isLogInfoEnable, bool isLogErrorEnable) {
+FileSystemController* FileSystemController::GetInstance() {
     if (fsc_ == nullptr) {
-        fsc_ = new FileSystemController(isLogInfoEnable, isLogErrorEnable);
+        fsc_ = new FileSystemController();
     }
     return fsc_;
 }
@@ -194,17 +194,17 @@ int FileSystemController::addScanToDailyStatistic(ScanResult result) {
         if (nrLine == nrDataLine) {
             std::pair<int, std::string> modifiedLine = getNewOrUpdatedDailyStatisticLine(line, stamp, result);
             switch (modifiedLine.first) {
-                case (1): //ADD
-                    reWrittenDailyStatistic << modifiedLine.second;
-                    reWrittenDailyStatistic << std::endl;
-                    break;
-                case (0): //UPDATE
-                    reWrittenDailyStatistic << modifiedLine.second;
-                    reWrittenDailyStatistic << std::endl;
-                    continue;
-                case (-1): //ERROR OBVIOUSLY
-                    LG_ERR("FAILURE - DURING " + fullPath + " READING - addScanToHistoryDataBase");
-                    return -1;
+            case (1): //ADD
+                reWrittenDailyStatistic << modifiedLine.second;
+                reWrittenDailyStatistic << std::endl;
+                break;
+            case (0): //UPDATE
+                reWrittenDailyStatistic << modifiedLine.second;
+                reWrittenDailyStatistic << std::endl;
+                continue;
+            case (-1): //ERROR OBVIOUSLY
+                LG_ERR("FAILURE - DURING " + fullPath + " READING - addScanToHistoryDataBase");
+                return -1;
             }
         }
 
@@ -281,9 +281,9 @@ FileSystemController::getNewOrUpdatedDailyStatisticLine(const std::string& line,
     //Inverse yyyy-mm-dd is easier to compare in context of stamp age
 
     std::string lineStampInverted = std::string{lineStamp}.substr(4) + std::string{lineStamp}.substr(2, 2) +
-                                    std::string{lineStamp}.substr(0, 2);
+            std::string{lineStamp}.substr(0, 2);
     std::string measureStampInverted = std::string{stamp}.substr(4) + std::string{stamp}.substr(2, 2) +
-                                       std::string{stamp}.substr(0, 2);
+            std::string{stamp}.substr(0, 2);
     if (stoi(measureStampInverted) > stoi(lineStampInverted)) {
         std::string newLine = getNewDailyStatisticLine(stamp, result);
         if (newLine.empty())
@@ -311,37 +311,37 @@ std::string FileSystemController::getNewDailyStatisticLine(const std::string& st
     std::string unrecognizedStr;
     std::string unhealthyStr;
 
-//        int lineStampDay = stoi(std::string{lineStamp}.substr(0, 2));
-//        int lineStampMonth = stoi(std::string{lineStamp}.substr(2, 4));
-//        int lineStampYear = stoi(std::string{lineStamp}.substr(4));
-//
-//        int measureStampDay = stoi(std::string{stamp}.substr(0, 2));
-//        int measureStampMonth = stoi(std::string{stamp}.substr(2, 4));
-//        int measureStampYear = stoi(std::string{stamp}.substr(4));
+    //        int lineStampDay = stoi(std::string{lineStamp}.substr(0, 2));
+    //        int lineStampMonth = stoi(std::string{lineStamp}.substr(2, 4));
+    //        int lineStampYear = stoi(std::string{lineStamp}.substr(4));
+    //
+    //        int measureStampDay = stoi(std::string{stamp}.substr(0, 2));
+    //        int measureStampMonth = stoi(std::string{stamp}.substr(2, 4));
+    //        int measureStampYear = stoi(std::string{stamp}.substr(4));
 
 
     switch (result) {
-        case (ScanResult::Healthy):
-            healthyStr = "1";
-            unrecognizedStr = "0";
-            unhealthyStr = "0";
-            break;
+    case (ScanResult::Healthy):
+        healthyStr = "1";
+        unrecognizedStr = "0";
+        unhealthyStr = "0";
+        break;
 
-        case (ScanResult::Unrecognized):
-            healthyStr = "0";
-            unrecognizedStr = "1";
-            unhealthyStr = "0";
-            break;
+    case (ScanResult::Unrecognized):
+        healthyStr = "0";
+        unrecognizedStr = "1";
+        unhealthyStr = "0";
+        break;
 
-        case (ScanResult::Unhealthy):
-            healthyStr = "0";
-            unrecognizedStr = "0";
-            unhealthyStr = "1";
-            break;
+    case (ScanResult::Unhealthy):
+        healthyStr = "0";
+        unrecognizedStr = "0";
+        unhealthyStr = "1";
+        break;
 
-        default:
-            LG_ERR("FAILURE - UNRECOGNIZED RESULT - cmd getNewDailyStatisticLine");
-            return "";
+    default:
+        LG_ERR("FAILURE - UNRECOGNIZED RESULT - cmd getNewDailyStatisticLine");
+        return "";
     }
     newStatisticLine << delimiter;
     newStatisticLine << setw(initialPadding,stamp) << delimiter;
@@ -365,20 +365,20 @@ std::string FileSystemController::updateDailyStatisticLine(const std::string& li
     unhealthyStr = getNStringBetween(3, delimiter, delimiter, line);
 
     switch (result) {
-        case (ScanResult::Healthy):
-            healthyStr = std::to_string(stoi(healthyStr) + 1);
-            break;
+    case (ScanResult::Healthy):
+        healthyStr = std::to_string(stoi(healthyStr) + 1);
+        break;
 
-        case (ScanResult::Unrecognized):
-            unrecognizedStr = std::to_string(stoi(unrecognizedStr) + 1);
-            break;
+    case (ScanResult::Unrecognized):
+        unrecognizedStr = std::to_string(stoi(unrecognizedStr) + 1);
+        break;
 
-        case (ScanResult::Unhealthy):
-            unhealthyStr = std::to_string(stoi(unhealthyStr) + 1);
-            break;
-        default:
-            LG_ERR("FAILURE - UNRECOGNIZED RESULT - updateDailyStatisticLine");
-            return "";
+    case (ScanResult::Unhealthy):
+        unhealthyStr = std::to_string(stoi(unhealthyStr) + 1);
+        break;
+    default:
+        LG_ERR("FAILURE - UNRECOGNIZED RESULT - updateDailyStatisticLine");
+        return "";
     }
     updatedStatisticLine << delimiter;
     updatedStatisticLine << setw(initialPadding,stamp) << delimiter;
@@ -433,7 +433,7 @@ void FileSystemController::addToTimeStamp(std::string& timeStamp, int value) {
 }
 
 std::string FileSystemController::getNStringBetween(int n, char a, char b, std::string text) {
-//        auto it_begin = std::find_if(text.cbegin(), text.cend(), [](char c) { return not std::isdigit(c); }
+    //        auto it_begin = std::find_if(text.cbegin(), text.cend(), [](char c) { return not std::isdigit(c); }
     auto it_begin = std::find_if(text.cbegin(), text.cend(), [&a](char c) { return c == a; });
     auto it_end = std::find_if(it_begin + 1, text.cend(), [&b](char c) { return c == b; });
 
