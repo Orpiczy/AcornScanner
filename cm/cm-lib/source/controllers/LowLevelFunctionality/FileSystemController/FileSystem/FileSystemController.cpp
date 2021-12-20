@@ -89,9 +89,9 @@ int FileSystemController::addProfilometerScanDataToCategorizedDataBase(ScanResul
     return 0;
 }
 
-int FileSystemController::addCameraImageToCategorizedDataBase(ScanResult result, QImage image) {
-    if(not image.isNull()){
-        LG_INF("Received image is not null");
+int FileSystemController::addCameraImageToCategorizedDataBase(ScanResult result, cv::Mat image) {
+    if(not image.empty()){
+        LG_INF("Saving image is not null");
     }
 
     auto scanId = getFullTimeStamp();
@@ -101,18 +101,16 @@ int FileSystemController::addCameraImageToCategorizedDataBase(ScanResult result,
 
     QFile testfile(QString::fromStdString(fullPath));
     if (testfile.exists()) {
-        LG_INF("FAILURE - FILE EXISTS - cmd addCameraImageToCategorizedDataBase");
+        LG_ERR("FAILURE - FILE EXISTS - cmd addCameraImageToCategorizedDataBase");
         return -1;
     }
 
     QDir().mkdir(QString::fromStdString(directoryPath));
 
-    std::ofstream file;
-    file.open(fullPath);
-    if (file.is_open()) {
-        LG_INF("SUCCESS - FILE WAS OPENED CORRECTLY - cmd addCameraImageToCategorizedDataBase");
+    if (cv::imwrite(fullPath,image)) {
+        LG_INF("SUCCESS - IMAGE WAS SAVED - cmd addCameraImageToCategorizedDataBase");
     } else {
-        LG_ERR("FAILURE - FILE WAS NOT OPENED CORRECTLY " + std::string(strerror(errno)) + " - " + directoryPath +
+        LG_ERR("FAILURE - IMAGE WAS NOT SAVED - " + std::string(strerror(errno)) + " - " + directoryPath +
                " - " +
                "cmd addCameraImageToCategorizedDataBase");
         return -1;
@@ -124,7 +122,6 @@ int FileSystemController::addCameraImageToCategorizedDataBase(ScanResult result,
      *
      *
      */
-    file.close();
     return 0;
 }
 

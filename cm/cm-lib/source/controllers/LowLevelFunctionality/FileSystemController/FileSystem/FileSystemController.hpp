@@ -4,6 +4,9 @@
 
 #ifndef FILESYSTEM_FILESYSTEM_CONTROLLER_HPP
 #define FILESYSTEM_FILESYSTEM_CONTROLLER_HPP
+////OPENCV related
+#include <opencv2/opencv.hpp>
+////
 #include <cm-lib_global.h>
 
 #include <iostream>
@@ -34,7 +37,7 @@ public:
                                                      uint16_t out3, uint16_t outA,
                                                      const std::vector<std::pair<uint16_t, uint16_t>>& profileData);
 
-    int addCameraImageToCategorizedDataBase(ScanResult result, QImage image);
+    int addCameraImageToCategorizedDataBase(ScanResult result, cv::Mat image);
 
     int addScanToDailyStatistic(ScanResult result);
 

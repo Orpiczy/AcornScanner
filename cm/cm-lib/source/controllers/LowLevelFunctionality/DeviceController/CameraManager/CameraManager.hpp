@@ -6,6 +6,12 @@
 #define CONTROLLERS_CAMERAMANAGER_HPP
 #include <cm-lib_global.h>
 
+//// OPENCV RELATED
+#include <opencv2/opencv.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui.hpp>
+////
+
 #include "../../BaseClasses/SimpleLogger.hpp"
 #include "../../Common/CustomEnumTypes.hpp"
 #include "../../Common/ControllersFlags.hpp"
@@ -29,7 +35,7 @@ public:
 ////BASIC CMD
     int addInfoToScannedData(ac::models::ScannedData& data) override {
         if (not IS_CAMERA_AVAILABLE) {
-            data.cameraImage = testImage;
+            data.cameraImage = getImage();
             data.resultCamera = CAMERA_RESULT;
             data.finalResult = data.resultCamera == data.finalResult ? data.finalResult : ScanResult::Unrecognized;
             return 0;
@@ -46,10 +52,10 @@ public:
 
     int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data) override {
         if (not IS_CAMERA_AVAILABLE) {
-            data.cameraImage = testImage;
+            data.cameraImage = getImage();
             data.resultCamera = CAMERA_RESULT;
             data.finalResult = data.resultCamera == data.finalResult ? data.finalResult : ScanResult::Unrecognized;
-            FileSystemController::GetInstance()->addCameraImageToCategorizedDataBase(data.resultCamera, data.cameraImage );
+            FileSystemController::GetInstance()->addCameraImageToCategorizedDataBase(data.resultCamera, data.cameraImage);
             return 0;
         }
         /*
@@ -67,9 +73,11 @@ public:
 protected:
 
 ////INTEGRAL PARTS OF CLASS
-    explicit CameraManager(bool isLogInfoEnable = false, bool isLogErrorEnable = true)
+    explicit CameraManager(bool isLogInfoEnable = true, bool isLogErrorEnable = true)
             : SimpleLogger(isLogInfoEnable, isLogErrorEnable) {};
 
+////BASIC CMD
+    cv::Mat getImage();
 private:
 
 
@@ -80,7 +88,8 @@ public:
 protected:
     static CameraManager* cam_;
 private:
-    const static QImage testImage;
+    const static int     CAMERA_ID_;
+    const static cv::Mat testImage;
 };
 
 

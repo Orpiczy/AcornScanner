@@ -20,6 +20,10 @@
 #include <models/scannedData.hpp>
 #include <models/dailyStatisticsData.h>
 #include <data/map-decorator.h>
+
+////OPENCV related
+#include <opencv2/opencv.hpp>
+///
 //class Helper: public QObject
 //{
 //    Q_OBJECT

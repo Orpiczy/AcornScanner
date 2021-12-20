@@ -14,7 +14,7 @@ private:
     bool isLogErrorEnable_;
     const std::string errorString = " >> ERROR - ";
 
-public:
+protected:
     explicit SimpleLogger(bool isLogInfoEnable, bool isLogErrorEnable)
             : isLogInfoEnable_(isLogInfoEnable), isLogErrorEnable_(isLogErrorEnable){}
 

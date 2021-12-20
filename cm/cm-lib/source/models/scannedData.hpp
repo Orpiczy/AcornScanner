@@ -4,6 +4,12 @@
 
 #ifndef CONTROLLERS_SCANNEDDATA_HPP
 #define CONTROLLERS_SCANNEDDATA_HPP
+////OPENCV related
+#include <opencv2/opencv.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui.hpp>
+////
+
 #include <cm-lib_global.h>
 #include <data/string-decorator.h>
 #include <QObject>
@@ -65,7 +71,7 @@ public:
     ScanResult resultProfilometer {ScanResult::Unrecognized};
 
     ////camera
-    QImage cameraImage {};
+    cv::Mat cameraImage {};
     ScanResult resultCamera {ScanResult::Unrecognized};
 
 

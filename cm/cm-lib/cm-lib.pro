@@ -24,6 +24,16 @@ DEFINES += CMLIB_LIBRARY
 INCLUDEPATH += source
 CONFIG += c++14
 
+###################### OPENCV RELATED
+INCLUDEPATH += E:/Programs/Libraries/opencv/release/install/include
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_core454.dll
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_highgui454.dll
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_imgcodecs454.dll
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_imgproc454.dll
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_features2d454.dll
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_calib3d454.dll
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_videoio454.dll
+######################
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
