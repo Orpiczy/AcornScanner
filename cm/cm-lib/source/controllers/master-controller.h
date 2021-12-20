@@ -1,7 +1,7 @@
 #ifndef MASTERCONTROLLER_H
 #define MASTERCONTROLLER_H
 
-
+#include <opencv2/opencv.hpp>
 
 #include <QObject>
 #include <QScopedPointer>

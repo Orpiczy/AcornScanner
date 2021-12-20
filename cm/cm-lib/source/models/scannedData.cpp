@@ -22,6 +22,16 @@ ScannedData::ScannedData(QObject *parent, const QJsonObject &json): ScannedData(
     update(json);
 }
 
+////DATA RELATED CMD
+void ScannedData::updateFinalResult()
+{
+    if(resultProfilometer == resultCamera){
+        finalResult = resultProfilometer;
+    }else{
+        finalResult = ScanResult::Unrecognized;
+    }
+}
+
 ////CHART value
 QLineSeries* ScannedData::get_ui_profile() const
 {
@@ -50,7 +60,8 @@ void ScannedData::update_ui_profile(){
         yAxisMax = y > yAxisMax ? y : yAxisMax;
     }
 
-    printProfile();
+    //printProfile();
+
     //padding
     float padding = 0.1;
     auto xDiff = xAxisMax - xAxisMin;
@@ -59,7 +70,7 @@ void ScannedData::update_ui_profile(){
     xAxisMax += padding*xDiff;
     yAxisMin -= padding*yDiff;
     yAxisMax += padding*yDiff;
-    printAxisLimits();
+    //printAxisLimits();
 
     emit profile_changed();
 }

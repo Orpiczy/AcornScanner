@@ -16,69 +16,114 @@
 #include "../../FileSystemController/FileSystem/FileSystemController.hpp"
 #include "../../../../models/scannedData.hpp"
 
-class CMLIB_EXPORT ProfilometerManager : public SerialPortManager, private SimpleLogger, public DeviceManager {
+class CMLIB_EXPORT ProfilometerManager : public SerialPortManager, public DeviceManager {
 
 public:
 
     ////INTEGRAL PARTS OF CLASS
     static ProfilometerManager*
-    GetInstance(bool isLogInfoEnable = false, bool isLogErrorEnable = true, const QString comPortName = "com9");
-
-    explicit ProfilometerManager(bool isLogInfoEnable, bool isLogErrorEnable, const QString comPortName)
-            : SerialPortManager(comPortName),SimpleLogger(isLogInfoEnable, isLogErrorEnable)  {}
-
+    GetInstance();
 
     ProfilometerManager(ProfilometerManager& other) = delete; //can not be cloneable
     void operator=(const ProfilometerManager&) = delete; // can not be assignable
 
     ////BASIC CMD
     int addInfoToScannedData(ac::models::ScannedData& data) override {
-        if (not IS_PROFILOMETER_AVAILABLE) {
+
+        //TO DO - REFACTOR - ZALEZNOSC OD MAKRA IS_PROFILOMETER_AVAILABLE NIE POWINNA ISC TAK NISKO -> WCHODZI DO FUNKCJI
+
+        if(IS_PROFILOMETER_AVAILABLE){
+
             data.out1 = getOut1();
             data.out2 = getOut2();
             data.out3 = getOut3();
             data.outA = getOutA();
             data.profileData = getProfile();
-            data.resultProfilometer = PROFILOMETER_RESULT;
-            data.finalResult =
-                    data.resultProfilometer == data.finalResult ? data.finalResult : ScanResult::Unrecognized;
-            return 0;
+
+        }else{
+
+            data.out1 = testOut1;
+            data.out2 = testOut2;
+            data.out3 = testOut3;
+            data.outA = testOutA;
+            data.profileData = testProfileData;
+
         }
-        /*
-         *
-         *
-         *  IMPLEMENTATION
-         *
-         *
-         */
-        return -1;
+
+
+        if(IS_PROFILOMETER_RESULT_CHECK_ENABLED){
+
+            /*
+             *
+             *
+             *  IMPLEMENTATION
+             *
+             *
+             */
+
+        }else{
+            data.resultProfilometer = PROFILOMETER_RESULT;
+        }
+
+        return 0;
     }
 
-    int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data) override {
-        if (not IS_PROFILOMETER_AVAILABLE) {
+    int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data, std::string commonTimeStamp = {}) override {
+
+        //TO DO - REFACTOR - ZALEZNOSC OD MAKRA IS_PROFILOMETER_AVAILABLE NIE POWINNA ISC TAK NISKO -> WCHODZI DO FUNKCJI
+
+        if(IS_PROFILOMETER_AVAILABLE){
+
             data.out1 = getOut1();
             data.out2 = getOut2();
             data.out3 = getOut3();
             data.outA = getOutA();
             data.profileData = getProfile();
-            data.resultProfilometer = PROFILOMETER_RESULT;
-            data.finalResult =
-                    data.resultProfilometer == data.finalResult ? data.finalResult : ScanResult::Unrecognized;
-            FileSystemController::GetInstance()->addProfilometerScanDataToCategorizedDataBase(data.resultProfilometer,
-                                                                                              data.out1, data.out2,
-                                                                                              data.out3, data.outA,
-                                                                                              data.profileData);
-            return 0;
+
+        }else{
+
+            data.out1 = testOut1;
+            data.out2 = testOut2;
+            data.out3 = testOut3;
+            data.outA = testOutA;
+            data.profileData = testProfileData;
+
         }
-        /*
-         *
-         *
-         *  IMPLEMENTATION
-         *
-         *
-         */
-        return -1;
+
+
+        if(IS_PROFILOMETER_RESULT_CHECK_ENABLED){
+
+            /*
+             *
+             *
+             *  IMPLEMENTATION
+             *
+             *
+             */
+
+        }else{
+            data.resultProfilometer = PROFILOMETER_RESULT;
+        }
+        FileSystemController::GetInstance()->addProfilometerScanDataToCategorizedDataBase(data.resultProfilometer,
+                                                                                          data.out1, data.out2,
+                                                                                          data.out3, data.outA,
+                                                                                          data.profileData,
+                                                                                          commonTimeStamp);
+        return 0;
+
     }
+
+
+
+
+    ////HELPERS
+    bool isConnectedAndWorking();
+
+    ////CONTROLLER CONNECTION
+    int checkFunctionalityAndUpdateStatus() override {return 0;}
+protected:
+    explicit ProfilometerManager(bool isLogInfoEnable = true, bool isLogErrorEnable = true, const QString comPortName = "COM9")
+        : SerialPortManager(comPortName, isLogInfoEnable, isLogErrorEnable)  {}
 
     ////CMD
     int getOut1();
@@ -104,13 +149,6 @@ public:
     std::optional<std::vector<uint8_t>>
     getRequestedSizeValueFromMemoryAddress(uint32_t memoryAddress, size_t requestedDataLength, int attemptNumber = 0);
 
-
-    ////HELPERS
-    bool isConnectedAndWorking();
-
-    ////CONTROLLER CONNECTION
-    int checkFunctionalityAndUpdateStatus() override {return 0;}
-protected:
     static ProfilometerManager* pfm_;
 private:
     int getOut(const std::vector<uint8_t>& cmd, const std::string& sourceName, int attemptNumber = 0);

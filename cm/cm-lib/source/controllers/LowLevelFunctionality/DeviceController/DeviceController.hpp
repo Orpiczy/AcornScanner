@@ -24,17 +24,20 @@ public:
     void operator=(const DeviceController&) = delete;
 
     ////CMD
-    int getAllData(ac::models::ScannedData& data){
+    int getAllData(ac::models::ScannedData& data){        
         for(auto device: deviceList){
             device->addInfoToScannedData(data);
         }
+        data.updateFinalResult();
         return 0;
     }
 
     int getAndSaveAllData(ac::models::ScannedData& data){
+        std::string commonTimeStamp = FileSystemController::GetInstance()->getFullTimeStamp();
         for(auto device: deviceList){
-            device->addInfoToScannedDataAndSaveItToDataBase(data);
+            device->addInfoToScannedDataAndSaveItToDataBase(data,commonTimeStamp);
         }
+        data.updateFinalResult();
         FileSystemController::GetInstance() -> addScanToDailyStatistic(data.finalResult);
         return 0;
     }

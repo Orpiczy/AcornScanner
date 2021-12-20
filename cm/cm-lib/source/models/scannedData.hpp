@@ -4,6 +4,12 @@
 
 #ifndef CONTROLLERS_SCANNEDDATA_HPP
 #define CONTROLLERS_SCANNEDDATA_HPP
+////OPENCV related
+#include <opencv2/opencv.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui.hpp>
+////
+
 #include <cm-lib_global.h>
 #include <data/string-decorator.h>
 #include <QObject>
@@ -55,7 +61,10 @@ public:
     ScannedData(QObject* parent, const QJsonObject& json);
     cm::data::StringDecorator* name{nullptr};
 
-    ////profilometer
+    ////DATA RELATED CMD
+    void updateFinalResult();
+
+    ////Profilometer
     std::string fileName {};
     uint16_t out1 {0};
     uint16_t out2 {0};
@@ -64,8 +73,8 @@ public:
     std::vector<std::pair<uint16_t,uint16_t>> profileData {};
     ScanResult resultProfilometer {ScanResult::Unrecognized};
 
-    ////camera
-    QImage cameraImage {};
+    ////Camera
+    cv::Mat cameraImage {};
     ScanResult resultCamera {ScanResult::Unrecognized};
 
 

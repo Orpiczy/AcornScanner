@@ -31,6 +31,17 @@ RESOURCES += views.qrc \
     assets.qrc \
     components.qrc
 
+
+###################### OPENCV RELATED
+INCLUDEPATH += E:/Programs/Libraries/opencv/release/install/include
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_core454.dll
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_highgui454.dll
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_imgcodecs454.dll
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_imgproc454.dll
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_features2d454.dll
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_calib3d454.dll
+LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_videoio454.dll
+######################
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = $$PWD
 #QML_IMPORT_PATH += C:/Qt/5.15.2/mingw81_32/qml/QtGraphicalEffects
@@ -41,4 +52,3 @@ QML_IMPORT_PATH = $$PWD
 #qnx: target.path = /tmp/$${TARGET}/bin
 #else: unix:!android: target.path = /opt/$${TARGET}/bin
 #!isEmpty(target.path): INSTALLS += target
-

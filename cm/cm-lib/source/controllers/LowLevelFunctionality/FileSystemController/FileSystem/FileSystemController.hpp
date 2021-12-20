@@ -4,6 +4,9 @@
 
 #ifndef FILESYSTEM_FILESYSTEM_CONTROLLER_HPP
 #define FILESYSTEM_FILESYSTEM_CONTROLLER_HPP
+////OPENCV related
+#include <opencv2/opencv.hpp>
+////
 #include <cm-lib_global.h>
 
 #include <iostream>
@@ -18,11 +21,12 @@
 
 
 class CMLIB_EXPORT FileSystemController : private SimpleLogger {
+    friend class DeviceController;
 ////METHODS
 public:
 
     ////INTEGRAL PARTS OF CLASS
-    static FileSystemController* GetInstance(bool isLogInfoEnable = true, bool isLogErrorEnable = true);
+    static FileSystemController* GetInstance();
 
     FileSystemController(FileSystemController& other) = delete;
 
@@ -32,9 +36,9 @@ public:
 
     int addProfilometerScanDataToCategorizedDataBase(ScanResult result, uint16_t out1, uint16_t out2,
                                                      uint16_t out3, uint16_t outA,
-                                                     const std::vector<std::pair<uint16_t, uint16_t>>& profileData);
+                                                     const std::vector<std::pair<uint16_t, uint16_t>>& profileData, std::string commonTimeStamp = {});
 
-    int addCameraImageToCategorizedDataBase(ScanResult result, QImage image);
+    int addCameraImageToCategorizedDataBase(ScanResult result, cv::Mat image, std::string commonTimeStamp = {});
 
     int addScanToDailyStatistic(ScanResult result);
 
@@ -43,7 +47,7 @@ public:
 
 protected:
     ////INTEGRAL PARTS OF CLASS
-    explicit FileSystemController(bool isLogInfoEnable = false, bool isLogErrorEnable = true);
+    explicit FileSystemController(bool isLogInfoEnable = false, bool isLogErrorEnable = false);
 
 private:
     ////BASIC CMD INTERNAL HELPERS

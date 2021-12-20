@@ -17,17 +17,14 @@
 #include <string.h>
 #include <QObject>
 #include "../../Common/ControllersFlags.hpp"
+#include "../../BaseClasses/SimpleLogger.hpp"
 
 
-class SerialPortManager: public QObject {
+class SerialPortManager: public QObject, public SimpleLogger{
     Q_OBJECT
 public:
     ////INTEGRAL PARTS OF CLASS
-    SerialPortManager(QString comPortName = "COM9", QSerialPort::BaudRate defaultBaudRate = QSerialPort::BaudRate::Baud19200);
-
-    SerialPortManager(SerialPortManager&& spm) noexcept;
-
-    SerialPortManager& operator=(SerialPortManager&& spm) noexcept;
+    SerialPortManager(QString comPortName = "COM9", bool isLogInfoEnable = false, bool isLogErrorEnable = true, QSerialPort::BaudRate defaultBaudRate = QSerialPort::BaudRate::Baud19200);
 
     SerialPortManager(SerialPortManager const&) = delete;
 

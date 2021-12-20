@@ -6,44 +6,17 @@
 #include "SerialPortManager.hpp"
 
 ////INTEGRAL PARTS OF CLASS
-SerialPortManager::SerialPortManager(QString comPortName, QSerialPort::BaudRate defaultBaudRate):
-     defaultBaudRate_(defaultBaudRate),comPortName_(comPortName),serialPort_(std::nullopt)
+SerialPortManager::SerialPortManager(QString comPortName, bool isLogInfoEnable, bool isLogErrorEnable, QSerialPort::BaudRate defaultBaudRate)
+      : SimpleLogger(isLogInfoEnable, isLogErrorEnable), defaultBaudRate_(defaultBaudRate),comPortName_(comPortName), serialPort_(std::nullopt)
 {
     if (IS_PROFILOMETER_AVAILABLE) {
         //Settings
         setUpPort();
     }
-
     //BUFFER
     readBufferSize_ = defaultReadBufferSize_;
     readBuffer_.resize(readBufferSize_);
     std::fill(readBuffer_.begin(), readBuffer_.end(), 0);
-}
-
-
-SerialPortManager& SerialPortManager::operator=(SerialPortManager&& spm) noexcept {
-    if (this != &spm) {
-        comPortName_ = spm.comPortName_;
-        defaultBaudRate_ = spm.defaultBaudRate_;
-        closePort();
-        spm.serialPort_ = std::nullopt;
-        spm.comPortName_ = "";
-
-        setUpPort();
-    }
-    return *this;
-}
-
-
-
-SerialPortManager::SerialPortManager(SerialPortManager&& spm) noexcept {
-    comPortName_ = spm.comPortName_;
-    defaultBaudRate_ = spm.defaultBaudRate_;
-    closePort();
-    spm.serialPort_ = std::nullopt;
-    spm.comPortName_ = "";
-
-    setUpPort();
 }
 
 SerialPortManager::~SerialPortManager() {
@@ -110,6 +83,7 @@ std::vector<uint8_t> SerialPortManager::readMessagesUntilEndSign() {
 ////HELPER
 int SerialPortManager::setUpPort() {
 
+    LG_DBG("INFO - ENTERING FUNCTION - SerialPortManager::setUpPort()");
 
     //PORT
     serialPort_ = new QSerialPort(this);
@@ -117,15 +91,20 @@ int SerialPortManager::setUpPort() {
 
     //Open port, set values and check for errors
     if (serialPort_.value()->open(QSerialPort::ReadWrite)) {
+
+        LG_DBG("SUCCESS - SETTING SERIAL PORT - SerialPortManager::setUpPort()");
+
         serialPort_.value()->setBaudRate(defaultBaudRate_);
         serialPort_.value()->setDataBits(QSerialPort::Data8);
         serialPort_.value()->setParity(QSerialPort::NoParity);
         serialPort_.value()->setStopBits(QSerialPort::OneStop);
         serialPort_.value()->setFlowControl(QSerialPort::NoFlowControl);
-        printf("Error %i from open: %s\n", errno, strerror(errno));
+
     }else{
+
+        LG_ERR("FAILUE - SETTING SERIAL PORT FAILED- SerialPortManager::setUpPort()");
+
         serialPort_ = std::nullopt;
-//        this->addToLogs("Otwarcie porty szeregowego się nie powiodło!");
         return -1;
     }
 
@@ -133,6 +112,9 @@ int SerialPortManager::setUpPort() {
 }
 
 void SerialPortManager::clearBuffer(uint8_t timeBeforeFlush) {
+
+    LG_DBG("INFO - SETTING SERIAL PORT - SerialPortManager::setUpPort()");
+
     if (timeBeforeFlush > 0) {
         sleep(timeBeforeFlush);
     }

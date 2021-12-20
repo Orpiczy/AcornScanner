@@ -26,3 +26,15 @@ void SimpleLogger::LG_ERR(const std::string& info, const int& intInfo) const {
         std::cout<<errorString<<info<<intInfo<<std::endl;
     }
 }
+
+void SimpleLogger::LG_DBG(const std::string& info) const {
+    if(isLogDebugEnable_ and not info.empty()){
+        std::cout<<debugString<<info<<std::endl;
+    }
+}
+
+void SimpleLogger::LG_DBG(const std::string& info, const int& intInfo) const {
+    if(isLogDebugEnable_ and not info.empty()){
+        std::cout<<debugString<<info<<intInfo<<std::endl;
+    }
+}
