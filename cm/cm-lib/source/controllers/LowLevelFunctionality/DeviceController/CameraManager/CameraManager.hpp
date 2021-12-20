@@ -50,12 +50,12 @@ public:
         return -1;
     }
 
-    int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data) override {
+    int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data,std::string commonTimeStamp = {}) override {
         if (not IS_CAMERA_AVAILABLE) {
             data.cameraImage = getImage();
             data.resultCamera = CAMERA_RESULT;
             data.finalResult = data.resultCamera == data.finalResult ? data.finalResult : ScanResult::Unrecognized;
-            FileSystemController::GetInstance()->addCameraImageToCategorizedDataBase(data.resultCamera, data.cameraImage);
+            FileSystemController::GetInstance()->addCameraImageToCategorizedDataBase(data.resultCamera, data.cameraImage, commonTimeStamp);
             return 0;
         }
         /*

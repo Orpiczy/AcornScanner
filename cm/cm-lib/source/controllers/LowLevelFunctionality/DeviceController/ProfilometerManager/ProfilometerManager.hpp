@@ -50,7 +50,7 @@ public:
         return -1;
     }
 
-    int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data) override {
+    int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data, std::string commonTimeStamp = {}) override {
         if (not IS_PROFILOMETER_AVAILABLE) {
             data.out1 = getOut1();
             data.out2 = getOut2();
@@ -63,7 +63,8 @@ public:
             FileSystemController::GetInstance()->addProfilometerScanDataToCategorizedDataBase(data.resultProfilometer,
                                                                                               data.out1, data.out2,
                                                                                               data.out3, data.outA,
-                                                                                              data.profileData);
+                                                                                              data.profileData,
+                                                                                              commonTimeStamp);
             return 0;
         }
         /*

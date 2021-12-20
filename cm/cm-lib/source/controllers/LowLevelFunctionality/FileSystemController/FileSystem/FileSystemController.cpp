@@ -42,18 +42,30 @@ FileSystemController::FileSystemController(bool isLogInfoEnable, bool isLogError
 int FileSystemController::addProfilometerScanDataToCategorizedDataBase(ScanResult result, uint16_t out1, uint16_t out2,
                                                                        uint16_t out3,
                                                                        uint16_t outA,
-                                                                       const std::vector<std::pair<uint16_t, uint16_t>>& profileData) {
-    auto scanId = getFullTimeStamp();
-    auto directoryPath = savePath + ac::translators::getResultName(result) + "/" + scanId ;
+                                                                       const std::vector<std::pair<uint16_t, uint16_t>>& profileData, std::string commonTimeStamp) {
+    //if commonTimeStamp exists, it uses it
+    auto scanId = commonTimeStamp.empty() ? getFullTimeStamp() : commonTimeStamp;
+
+    auto resultCategoryDirectoryPath = savePath + ac::translators::getResultName(result);
+    auto directoryPath =  resultCategoryDirectoryPath + "/" + scanId ;
     auto fullPath = directoryPath + "/" + scanId + "_profilometer" + ".txt";
+
+    //check
     QFile testfile(QString::fromStdString(fullPath));
     if (testfile.exists()) {
         LG_INF("FAILURE - FILE EXISTS - cmd addProfilometerScanDataToCategorizedDataBase");
         return -1;
     }
 
-    QDir().mkdir(QString::fromStdString(directoryPath));
+    //creating directories if needed
+    if( not QDir().exists(QString::fromStdString(resultCategoryDirectoryPath))){
+        QDir().mkdir(QString::fromStdString(resultCategoryDirectoryPath));
+    }
+    if( not QDir().exists(QString::fromStdString(directoryPath))){
+        QDir().mkdir(QString::fromStdString(directoryPath));
+    }
 
+    //saving data to file
     std::ofstream file;
     file.open(fullPath);
     if (file.is_open()) {
@@ -89,24 +101,36 @@ int FileSystemController::addProfilometerScanDataToCategorizedDataBase(ScanResul
     return 0;
 }
 
-int FileSystemController::addCameraImageToCategorizedDataBase(ScanResult result, cv::Mat image) {
-    if(not image.empty()){
-        LG_INF("Saving image is not null");
-    }
+int FileSystemController::addCameraImageToCategorizedDataBase(ScanResult result, cv::Mat image, std::string commonTimeStamp) {
 
-    auto scanId = getFullTimeStamp();
-    auto directoryPath = savePath + ac::translators::getResultName(result) + "/" + scanId ;
-    auto fullPath = directoryPath + "/" + scanId + "_camera" + ".jpg";
-
-
-    QFile testfile(QString::fromStdString(fullPath));
-    if (testfile.exists()) {
-        LG_ERR("FAILURE - FILE EXISTS - cmd addCameraImageToCategorizedDataBase");
+    if(image.empty()){
+        LG_ERR("IMAGE RECEIVED IS EMPTY - FileSystemController::addCameraImageToCategorizedDataBase");
         return -1;
     }
 
-    QDir().mkdir(QString::fromStdString(directoryPath));
+    //if commonTimeStamp exists, it uses it
+    auto scanId = commonTimeStamp.empty() ? getFullTimeStamp() : commonTimeStamp;
 
+    auto resultCategoryDirectoryPath = savePath + ac::translators::getResultName(result);
+    auto directoryPath =  resultCategoryDirectoryPath + "/" + scanId ;
+    auto fullPath = directoryPath + "/" + scanId + "_camera" + ".jpg";
+
+    //check
+    QFile testfile(QString::fromStdString(fullPath));
+    if (testfile.exists()) {
+        LG_ERR("FAILURE - IMAGE EXISTS - cmd addCameraImageToCategorizedDataBase");
+        return -1;
+    }
+
+    //creating directories if needed
+    if( not QDir().exists(QString::fromStdString(resultCategoryDirectoryPath))){
+        QDir().mkdir(QString::fromStdString(resultCategoryDirectoryPath));
+    }
+    if( not QDir().exists(QString::fromStdString(directoryPath))){
+        QDir().mkdir(QString::fromStdString(directoryPath));
+    }
+
+    //saving image
     if (cv::imwrite(fullPath,image)) {
         LG_INF("SUCCESS - IMAGE WAS SAVED - cmd addCameraImageToCategorizedDataBase");
     } else {
@@ -115,13 +139,6 @@ int FileSystemController::addCameraImageToCategorizedDataBase(ScanResult result,
                "cmd addCameraImageToCategorizedDataBase");
         return -1;
     }
-    /*
-     *
-     *
-     *  IMPLEMENTATION
-     *
-     *
-     */
     return 0;
 }
 
@@ -369,7 +386,6 @@ std::string FileSystemController::updateDailyStatisticLine(const std::string& li
     updatedStatisticLine << setw(padding,unrecognizedStr) << delimiter;
     updatedStatisticLine << setw(padding,unhealthyStr) << delimiter;
     return updatedStatisticLine.str();
-
 
 }
 

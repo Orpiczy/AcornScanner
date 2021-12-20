@@ -21,6 +21,7 @@
 
 
 class CMLIB_EXPORT FileSystemController : private SimpleLogger {
+    friend class DeviceController;
 ////METHODS
 public:
 
@@ -35,9 +36,9 @@ public:
 
     int addProfilometerScanDataToCategorizedDataBase(ScanResult result, uint16_t out1, uint16_t out2,
                                                      uint16_t out3, uint16_t outA,
-                                                     const std::vector<std::pair<uint16_t, uint16_t>>& profileData);
+                                                     const std::vector<std::pair<uint16_t, uint16_t>>& profileData, std::string commonTimeStamp = {});
 
-    int addCameraImageToCategorizedDataBase(ScanResult result, cv::Mat image);
+    int addCameraImageToCategorizedDataBase(ScanResult result, cv::Mat image, std::string commonTimeStamp = {});
 
     int addScanToDailyStatistic(ScanResult result);
 
