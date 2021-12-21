@@ -241,6 +241,9 @@ std::string MsgManager::isItErrorMessage(const std::vector<uint8_t>& message) {
 
 std::optional<std::string>
 MsgManager::isMessageInvalid(const std::vector<uint8_t>& message, const size_t& requiredSize, int sizeComparisonType) {
+    if(message.empty()){
+        return "ERROR - MESSAGE IS EMPTY";
+    }
     std::string errorInfo = isItErrorMessage(message);
     bool crcAndSizeCorrectness = not message.empty() and isMessageCrcValueCorrect(message) and
                                  isMessageSizeCorrect(message.size(), requiredSize, sizeComparisonType);

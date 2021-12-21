@@ -9,7 +9,7 @@
 #include <optional>
 #include <fcntl.h> // Contains file controls like O_RDWR
 #include <errno.h> // Error integer and strerror() function
-#include <QSerialPortInfo> // Contains POSIX terminal control
+#include <QSerialPortInfo>
 #include <QSerialPort>
 #include <unistd.h> // write(), read(), close()
 #include <vector>
@@ -24,7 +24,7 @@ class SerialPortManager: public QObject, public SimpleLogger{
     Q_OBJECT
 public:
     ////INTEGRAL PARTS OF CLASS
-    SerialPortManager(QString comPortName = "COM9", bool isLogInfoEnable = false, bool isLogErrorEnable = true, QSerialPort::BaudRate defaultBaudRate = QSerialPort::BaudRate::Baud19200);
+    SerialPortManager(QString comPortName = "COM9", bool isLogInfoEnable = false, bool isLogErrorEnable = true, QSerialPort::BaudRate defaultBaudRate = QSerialPort::Baud19200);
 
     SerialPortManager(SerialPortManager const&) = delete;
 

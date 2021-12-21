@@ -7,7 +7,7 @@
 
 ////INTEGRAL PARTS OF CLASS
 SerialPortManager::SerialPortManager(QString comPortName, bool isLogInfoEnable, bool isLogErrorEnable, QSerialPort::BaudRate defaultBaudRate)
-      : SimpleLogger(isLogInfoEnable, isLogErrorEnable), defaultBaudRate_(defaultBaudRate),comPortName_(comPortName), serialPort_(std::nullopt)
+    : SimpleLogger(isLogInfoEnable, isLogErrorEnable), defaultBaudRate_(defaultBaudRate),comPortName_(comPortName), serialPort_(std::nullopt)
 {
     if (IS_PROFILOMETER_AVAILABLE) {
         //Settings
@@ -15,7 +15,7 @@ SerialPortManager::SerialPortManager(QString comPortName, bool isLogInfoEnable, 
     }
     //BUFFER
     readBufferSize_ = defaultReadBufferSize_;
-    readBuffer_.resize(readBufferSize_);
+    readBuffer_.reserve(readBufferSize_);
     std::fill(readBuffer_.begin(), readBuffer_.end(), 0);
 }
 
@@ -25,37 +25,65 @@ SerialPortManager::~SerialPortManager() {
 
 void SerialPortManager::closePort(){
     if(serialPort_.value()->isOpen()) {
-      serialPort_.value()->close();
+        serialPort_.value()->close();
     }
 }
 
 //// MAIN FUNCTIONALITY
 int SerialPortManager::sendMessage(const std::vector<uint8_t>& cmd) {
+    LG_DBG("INFO - SENDING MESSAGE - SerialPortManager::sendMessage");
     //preparation
     if (not serialPort_.has_value()) {
+        LG_INF("WARNING - PORT IS NOT SET UP - REATTEMPTING - SerialPortManager::sendMessage");
         setUpPort();
     }
     if (not serialPort_.has_value()) {
+        LG_ERR("FAILURE - REATTEMPTING TO SET UP PORT ENDED IN FAILURE - SerialPortManager::sendMessage");
         return -1;
     }
-    return serialPort_.value()->write(&getCharVector(cmd)[0], cmd.size());
 
+    if(serialPort_.value()->isOpen() && serialPort_.value()->isWritable()){
+
+        int bytesWritten = serialPort_.value()->write(&getCharVector(cmd)[0], cmd.size());
+        serialPort_.value()->waitForBytesWritten(-1);
+
+        LG_DBG("SUCCESS - MESSAGE WAS SENT - SerialPortManager::sendMessage");
+        return bytesWritten;
+    }
+
+    LG_ERR("FAILURE - MESSAGE COULDN'T BE SENT - PORT IS NOT OPEN OR WRITABLE - SerialPortManager::sendMessage");
+    return 0;
 }
 
 std::vector<uint8_t> SerialPortManager::readMessage() {
+    LG_DBG("INFO - READING MESSAGE - SerialPortManager::readMessage()");
     //preparation
     if (not serialPort_.has_value()) {
+        LG_INF("WARNING - PORT IS NOT SET UP - REATTEMPTING - SerialPortManager::readMessage()");
         setUpPort();
     }
     if (not serialPort_.has_value()) {
+        LG_ERR("FAILURE - REATTEMPTING TO SET UP PORT ENDED IN FAILURE - SerialPortManager::readMessage()");
         return {};
     }
+
     std::fill(readBuffer_.begin(), readBuffer_.end(), 0);
 
-
+    ssize_t n = -1;
     //reading
-    ssize_t n = serialPort_.value()->readData(&readBuffer_[0],readBufferSize_);
-    return {readBuffer_.begin(), readBuffer_.begin() + n};
+    if(serialPort_.value()->isReadable()){
+        n  = serialPort_.value()->read(&readBuffer_[0],readBufferSize_);
+        LG_DBG("INFO - DEVICE IS READABLE - SerialPortManager::readMessage() - n bytes read = ", n );
+    }else{
+        LG_ERR("FAILUE - DEVICE IS NOT READABLE - SerialPortManager::readMessage()");
+    }
+    if(n > 0){
+        LG_DBG("SUCCESS - MESSAGE WAS RECEIVED - SerialPortManager::readMessage()");
+        return {readBuffer_.begin(), readBuffer_.begin() + n};
+    }
+
+    LG_ERR("FAILURE - MESSAGE WAS NOT READ/RECEIVED OR ERROR OCCURED - SerialPortManager::readMessage()");
+    return {};
 }
 
 std::vector<uint8_t> SerialPortManager::readMessagesUntilEndSign() {
@@ -73,7 +101,7 @@ std::vector<uint8_t> SerialPortManager::readMessagesUntilEndSign() {
     int i = 0;
     uint8_t endSign{0};
     do {
-        n += serialPort_.value()->readData(&readBuffer_[n], readBufferSize_ - n);
+        n += serialPort_.value()->read(&readBuffer_[n], readBufferSize_ - n);
         i++;
         endSign = readBuffer_[abs(n - 2)];
     } while (endSign != 0x03 and i < maxConsecutiveReadCmd and n < readBufferSize_);

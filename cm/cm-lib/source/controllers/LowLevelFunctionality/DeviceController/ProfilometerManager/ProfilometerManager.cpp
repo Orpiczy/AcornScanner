@@ -19,11 +19,12 @@ ProfilometerManager::GetInstance() {
 int ProfilometerManager::getOut(const std::vector<uint8_t>& cmd, const std::string& sourceName, int attemptNumber) {
     clearBuffer(1);
     sendMessage(cmd);
-    auto msgBuffer = readMessage();
+    auto msgBuffer = readMessagesUntilEndSign();
 
     auto isMsgInvalidData = MsgManager::isMessageInvalid(msgBuffer, 10);
 
     if (not isMsgInvalidData.has_value()) {
+        LG_INF("MESSAGE WAS DEEMED VALID");
         return MsgManager::translateMsgToOutNValue(msgBuffer);
     } else {
 
@@ -109,7 +110,7 @@ ProfilometerManager::getProfileSizeTimeInfo(uint32_t memoryAddress, int attemptN
     uint8_t rlen = 0x02; //0x01 - only size
     auto cmd = MsgManager::cmdProfileSizeAndTimeInfo(memoryAddress, rlen);
     sendMessage(cmd);
-    auto msgBuffer = readMessage();
+    auto msgBuffer = readMessagesUntilEndSign();
     auto isMsgInvalidData = MsgManager::isMessageInvalid(msgBuffer, 10 + 2 * rlen);
 
     if (not isMsgInvalidData.has_value()) {
@@ -134,7 +135,7 @@ std::optional<uint32_t> ProfilometerManager::getProfileDataAddress(int attemptNu
 
     auto cmd = MsgManager::cmdProfileMemoryAddress();
     sendMessage(cmd);
-    auto msgBuffer = readMessage();
+    auto msgBuffer = readMessagesUntilEndSign();
 
     auto isMsgInvalidData = MsgManager::isMessageInvalid(msgBuffer, 10);
 

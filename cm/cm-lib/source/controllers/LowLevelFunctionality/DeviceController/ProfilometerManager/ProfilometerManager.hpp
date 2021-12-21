@@ -30,15 +30,17 @@ public:
     ////BASIC CMD
     int addInfoToScannedData(ac::models::ScannedData& data) override {
 
-        //TO DO - REFACTOR - ZALEZNOSC OD MAKRA IS_PROFILOMETER_AVAILABLE NIE POWINNA ISC TAK NISKO -> WCHODZI DO FUNKCJI
-
         if(IS_PROFILOMETER_AVAILABLE){
-
+            qDebug() << "PROGRAM IN GET SCANNED DATA LOOP";
             data.out1 = getOut1();
-            data.out2 = getOut2();
-            data.out3 = getOut3();
-            data.outA = getOutA();
-            data.profileData = getProfile();
+//            data.out2 = getOut2();
+//            data.out3 = getOut3();
+//            data.outA = getOutA();
+//            data.profileData = getProfile();
+            data.out2 = testOut2;
+            data.out3 = testOut3;
+            data.outA = testOutA;
+            data.profileData = testProfileData;
 
         }else{
 
@@ -70,15 +72,17 @@ public:
 
     int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data, std::string commonTimeStamp = {}) override {
 
-        //TO DO - REFACTOR - ZALEZNOSC OD MAKRA IS_PROFILOMETER_AVAILABLE NIE POWINNA ISC TAK NISKO -> WCHODZI DO FUNKCJI
-
         if(IS_PROFILOMETER_AVAILABLE){
 
             data.out1 = getOut1();
-            data.out2 = getOut2();
-            data.out3 = getOut3();
-            data.outA = getOutA();
-            data.profileData = getProfile();
+//            data.out2 = getOut2();
+//            data.out3 = getOut3();
+//            data.outA = getOutA();
+//            data.profileData = getProfile();
+            data.out2 = testOut2;
+            data.out3 = testOut3;
+            data.outA = testOutA;
+            data.profileData = testProfileData;
 
         }else{
 
