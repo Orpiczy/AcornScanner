@@ -56,19 +56,21 @@ int ProfilometerManager::getOutA() {
     return getOut(MsgManager::cmdOutA(), "getOutA");
 }
 
-std::vector<std::pair<uint16_t, uint16_t>> ProfilometerManager::getProfile(int attemptNumber) {
+std::vector<std::pair<int,int>> ProfilometerManager::getProfile(int attemptNumber) {
     clearBuffer(2);
-    auto sizeTimeAddressData = getProfileSizeTimeInfoAndAddress();
+    auto sizeTimeInfoAndAddress = getProfileSizeTimeInfoAndAddress();
     std::optional<std::vector<uint8_t>> rawPoints{};
 
-    if (sizeTimeAddressData.has_value()) {
-        auto[sizeInProfiles, timeInfo, address] = sizeTimeAddressData.value();
-        //one profile, two points, 4 bytes, profile header has 4 bytes -> adding 4 bytes to address
+    if (sizeTimeInfoAndAddress.has_value()) {
+        auto[sizeInProfiles, timeInfo, address] = sizeTimeInfoAndAddress.value();
+        //one profile -> two points -> 4 bytes, 2 bytes each; profile header has 4 bytes -> adding 4 bytes to address
         rawPoints = getRequestedSizeValueFromMemoryAddress(address + 0x0004, sizeInProfiles * 4);
     }
 
-    if (sizeTimeAddressData.has_value() and rawPoints.has_value()) {
-        return MsgManager::translateRawDataPointIntoPairXY(rawPoints.value());
+    if (sizeTimeInfoAndAddress.has_value() and rawPoints.has_value()) {
+        auto uint16PairsXY = MsgManager::translateRawDataPointIntoPairXY(rawPoints.value());
+        return MsgManager::translateUint16PairXYToIntPairXY(uint16PairsXY);
+
     } else {
         LG_INF("INCORRECT READ VALUE PROFILE, ATTEMPT NR ", attemptNumber);;
         if (attemptNumber < maxReAttempts) {
@@ -222,13 +224,13 @@ bool ProfilometerManager::isConnectedAndWorking() {
 }
 
 
-const std::vector<std::pair<uint16_t, uint16_t>> ProfilometerManager::testProfileData = {{1001, 2001},
-                                                                                         {1002, 2002},
-                                                                                         {1003, 2003},
-                                                                                         {1004, 2004},
-                                                                                         {1005, 2005},
-                                                                                         {1006, 2006},
-                                                                                         {1007, 2007}};
+const std::vector<std::pair<int, int>> ProfilometerManager::testProfileData = {{1001, 2001},
+                                                                               {1002, 2002},
+                                                                               {1003, 2003},
+                                                                               {1004, 2004},
+                                                                               {1005, 2005},
+                                                                               {1006, 2006},
+                                                                               {1007, 2007}};
 
 ////NOT TESTED
 

@@ -29,12 +29,14 @@ public:
     std::vector<uint8_t> cmdProfileAndMeasuredValueAddress();
 
     //Translators
+    static int translateUint16ToIntU2Coded(uint16_t rawValue);
     static int translateMsgToOutNValue(const std::vector<uint8_t>& message) ;
     static uint32_t translateMsgToProfileMemoryAddress(const std::vector<uint8_t>& message) ;
     static std::pair<uint16_t, uint16_t> translateUnknownSizedMsgToRawSizeAndTimeInfo(const std::vector<uint8_t>& message);
     static std::pair<uint16_t, uint16_t> translateMsgToRawSizeAndTimeInfo(const std::vector<uint8_t>& message,bool isTimeInfoInMessage) ;
     static std::pair<uint16_t, float> translateRawSizeAndTimeInfo(std::pair<uint16_t, uint16_t>& pair);
     static std::vector<std::pair<uint16_t,uint16_t>> translateRawDataPointIntoPairXY(std::vector<uint8_t> ungroupDataPoints);
+    static std::vector<std::pair<int,int>> translateUint16PairXYToIntPairXY(const std::vector<std::pair<uint16_t,uint16_t>>& uint16PairsXY);
 
 
     //Message Checkers

@@ -70,7 +70,7 @@ public:
     int     out2 {0};
     int     out3 {0};
     int     outA {0};
-    std::vector<std::pair<uint16_t,uint16_t>> profileData {};
+    std::vector<std::pair<int,int>> profileData {};
     ScanResult resultProfilometer {ScanResult::Unrecognized};
 
     ////Camera

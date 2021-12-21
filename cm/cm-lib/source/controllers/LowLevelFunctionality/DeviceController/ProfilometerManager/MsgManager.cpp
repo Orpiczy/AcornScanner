@@ -56,13 +56,24 @@ std::vector<uint8_t> MsgManager::cmdProfileAndMeasuredValueAddress() {
     return cmd;
 }
 
+
 ////////////////// Translators - U2 coding
+int MsgManager::translateUint16ToIntU2Coded(uint16_t rawValue)
+{
+    bool isNegative = rawValue & 0x8000;
+    //getting rid of sign and concatenating,  2 * 0x8000 -> single 0x8000 is getting rid off sign, second is using that sign accroding to u2 coding
+    return isNegative ? (rawValue - 2*0x8000) : rawValue;
+}
 
 int MsgManager::translateMsgToOutNValue(const std::vector<uint8_t>& message) {
-    bool isNegative = message[6] & 0x80;
-    //getting rid of sign and concatenating,  2 * 0x8000 -> single 0x8000 is getting rid off sign, second is using that sign accroding to u2 coding
+//// TO DO - if the translateUint16ToIntU2Coded function works, commented part can be safely deleted
+//    bool isNegative = message[6] & 0x80;
+//    //getting rid of sign and concatenating,  2 * 0x8000 -> single 0x8000 is getting rid off sign, second is using that sign accroding to u2 coding
+//    int receivedValue = (uint16_t) message[6] << 8 | message[7];
+//    return isNegative ? (receivedValue - 2*0x8000) : receivedValue;
+
     int receivedValue = (uint16_t) message[6] << 8 | message[7];
-    return isNegative ? (receivedValue - 2*0x8000) : receivedValue;
+    return translateUint16ToIntU2Coded(receivedValue);
 }
 
 uint32_t MsgManager::translateMsgToProfileMemoryAddress(const std::vector<uint8_t>& message) {
@@ -125,6 +136,18 @@ MsgManager::translateRawDataPointIntoPairXY(std::vector<uint8_t> ungroupDataPoin
     }
 
     return groupedDataPoints;
+}
+
+std::vector<std::pair<int, int> > MsgManager::translateUint16PairXYToIntPairXY(const std::vector<std::pair<uint16_t, uint16_t>>& uint16PairsXY)
+{
+    std::vector<std::pair<int,int>> intPairsXY = {};
+    for(auto uint16Pair : uint16PairsXY){
+        int x = translateUint16ToIntU2Coded(uint16Pair.first);
+        int y = translateUint16ToIntU2Coded(uint16Pair.second);
+        auto xy = std::make_pair(x,y);
+        intPairsXY.push_back(xy);
+    }
+    return intPairsXY;
 }
 
 ///////////////// Helpers

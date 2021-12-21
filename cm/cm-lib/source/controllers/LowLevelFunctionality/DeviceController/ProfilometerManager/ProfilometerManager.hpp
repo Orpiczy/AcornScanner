@@ -33,14 +33,10 @@ public:
         if(IS_PROFILOMETER_AVAILABLE){
             qDebug() << "PROGRAM IN GET SCANNED DATA LOOP";
             data.out1 = getOut1();
-//            data.out2 = getOut2();
-//            data.out3 = getOut3();
-//            data.outA = getOutA();
-//            data.profileData = getProfile();
-            data.out2 = testOut2;
-            data.out3 = testOut3;
-            data.outA = testOutA;
-            data.profileData = testProfileData;
+            data.out2 = getOut2();
+            data.out3 = getOut3();
+            data.outA = getOutA();
+            data.profileData = getProfile();
 
         }else{
 
@@ -78,11 +74,7 @@ public:
             data.out2 = getOut2();
             data.out3 = getOut3();
             data.outA = getOutA();
-            data.profileData = {};
             data.profileData = getProfile();
-            if(not data.profileData.empty()){
-                qDebug() << "\n\n Success - Profile was read \n\n";
-            }
 
         }else{
 
@@ -140,7 +132,7 @@ protected:
 
 
     ////PROFILE CMD
-    std::vector<std::pair<uint16_t, uint16_t>> getProfile(int attemptNumber = 0);
+    std::vector<std::pair<int, int>> getProfile(int attemptNumber = 0);
 
     std::optional<uint32_t> getProfileDataAddress(int attemptNumber = 0);
 
@@ -158,11 +150,11 @@ private:
     int getOut(const std::vector<uint8_t>& cmd, const std::string& sourceName, int attemptNumber = 0);
 
     ///// TEST DATA, CAN BE DELETED IN PRODUCTION CODE
-    const static std::vector<std::pair<uint16_t, uint16_t>> testProfileData;
-    const static uint16_t testOut1 = 4123;
-    const static uint16_t testOut2 = 235;
-    const static uint16_t testOut3 = -2314;
-    const static uint16_t testOutA = -13;
+    const static std::vector<std::pair<int, int>> testProfileData;
+    const static int testOut1 = 4123;
+    const static int testOut2 = 235;
+    const static int testOut3 = -2314;
+    const static int testOutA = -13;
     const static ScanResult testResult = ScanResult::Unrecognized;
     int maxReAttempts = 2;
     int maxReadMemoryReAttempts = 5;

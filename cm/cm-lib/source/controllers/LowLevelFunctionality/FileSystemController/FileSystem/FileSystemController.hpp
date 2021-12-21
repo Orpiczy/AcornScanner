@@ -34,9 +34,9 @@ public:
 
     ////BASIC CMD
 
-    int addProfilometerScanDataToCategorizedDataBase(ScanResult result, uint16_t out1, uint16_t out2,
-                                                     uint16_t out3, uint16_t outA,
-                                                     const std::vector<std::pair<uint16_t, uint16_t>>& profileData, std::string commonTimeStamp = {});
+    int addProfilometerScanDataToCategorizedDataBase(ScanResult result, int out1, int out2,
+                                                     int out3, int outA,
+                                                     const std::vector<std::pair<int, int>>& profileData, std::string commonTimeStamp = {});
 
     int addCameraImageToCategorizedDataBase(ScanResult result, cv::Mat image, std::string commonTimeStamp = {});
 
