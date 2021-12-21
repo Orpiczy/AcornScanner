@@ -66,10 +66,10 @@ public:
 
     ////Profilometer
     std::string fileName {};
-    uint16_t out1 {0};
-    uint16_t out2 {0};
-    uint16_t out3 {0};
-    uint16_t outA {0};
+    int     out1 {0};
+    int     out2 {0};
+    int     out3 {0};
+    int     outA {0};
     std::vector<std::pair<uint16_t,uint16_t>> profileData {};
     ScanResult resultProfilometer {ScanResult::Unrecognized};
 

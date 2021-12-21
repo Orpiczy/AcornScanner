@@ -51,7 +51,7 @@ void MasterController::measureAndSaveScannedData()
 ////SIGNALS
 void MasterController::onMeasureButtonClicked()
 {
-    qDebug()<<"onMeasureButtonClicked() was initiated";
+    qDebug()<<"onMeasureButtonClicked() was initiated ";
     measureUpdateAndSaveData();
 }
 

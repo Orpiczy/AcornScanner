@@ -75,14 +75,14 @@ public:
         if(IS_PROFILOMETER_AVAILABLE){
 
             data.out1 = getOut1();
-//            data.out2 = getOut2();
-//            data.out3 = getOut3();
-//            data.outA = getOutA();
-//            data.profileData = getProfile();
-            data.out2 = testOut2;
-            data.out3 = testOut3;
-            data.outA = testOutA;
-            data.profileData = testProfileData;
+            data.out2 = getOut2();
+            data.out3 = getOut3();
+            data.outA = getOutA();
+            data.profileData = {};
+            data.profileData = getProfile();
+            if(not data.profileData.empty()){
+                qDebug() << "\n\n Success - Profile was read \n\n";
+            }
 
         }else{
 

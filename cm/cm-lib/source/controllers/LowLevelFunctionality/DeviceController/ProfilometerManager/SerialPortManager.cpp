@@ -71,7 +71,7 @@ std::vector<uint8_t> SerialPortManager::readMessage() {
 
     ssize_t n = -1;
     //reading
-    if(serialPort_.value()->isReadable()){
+    if(serialPort_.value()->isReadable() && serialPort_.value()->waitForReadyRead()){
         n  = serialPort_.value()->read(&readBuffer_[0],readBufferSize_);
         LG_DBG("INFO - DEVICE IS READABLE - SerialPortManager::readMessage() - n bytes read = ", n );
     }else{
@@ -104,7 +104,7 @@ std::vector<uint8_t> SerialPortManager::readMessagesUntilEndSign() {
         n += serialPort_.value()->read(&readBuffer_[n], readBufferSize_ - n);
         i++;
         endSign = readBuffer_[abs(n - 2)];
-    } while (endSign != 0x03 and i < maxConsecutiveReadCmd and n < readBufferSize_);
+    } while (endSign != 0x03 and i < maxConsecutiveReadCmd and n < readBufferSize_ and serialPort_.value()->waitForReadyRead(waitTimeForReadBufferToFill));
     return {readBuffer_.begin(), readBuffer_.begin() + n};
 };
 

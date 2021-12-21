@@ -20,7 +20,7 @@ private:
     const std::string debugString = " >> DEBUG - ";
 
 protected:
-    explicit SimpleLogger(bool isLogInfoEnable, bool isLogErrorEnable, bool isLogDebugEnable = true)
+    explicit SimpleLogger(bool isLogInfoEnable, bool isLogErrorEnable, bool isLogDebugEnable = false)
             : isLogInfoEnable_(isLogInfoEnable), isLogErrorEnable_(isLogErrorEnable), isLogDebugEnable_(isLogDebugEnable){}
 
 

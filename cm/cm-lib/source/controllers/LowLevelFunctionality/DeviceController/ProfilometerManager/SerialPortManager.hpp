@@ -41,11 +41,11 @@ public:
 
     void closePort();
 
-    void clearBuffer(uint8_t timeBeforeFlush = 0)
-    ;
+    void clearBuffer(uint8_t timeBeforeFlush = 0);
 
 
 protected:
+    int waitTimeForReadBufferToFill = 5000; //ms
     int readBufferSize_;
     int defaultReadBufferSize_ = 2048;
     int defaultBaudRate_;

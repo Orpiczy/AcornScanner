@@ -56,28 +56,13 @@ std::vector<uint8_t> MsgManager::cmdProfileAndMeasuredValueAddress() {
     return cmd;
 }
 
-//std::vector<uint8_t> MsgManager::cmdNumberOfDataItems() {
-//    auto cmd = CommandProvider::cmdNumberOfDataItems();
-//    cmd.push_back(calculateCheckSumForCommand(cmd));
-//    return cmd;
-//}
-//
-//std::vector<uint8_t> MsgManager::cmdStorageData(const uint32_t& memoryAddress, const uint8_t rlen = 0xfd) {
-//    auto cmd = CommandProvider::cmdStorageData(memoryAddress, rlen);
-//    cmd.push_back(calculateCheckSumForCommand(cmd));
-//    return cmd;
-//}
-
-
-
-
-////////////////// Translators
+////////////////// Translators - U2 coding
 
 int MsgManager::translateMsgToOutNValue(const std::vector<uint8_t>& message) {
     bool isNegative = message[6] & 0x80;
-    //getting rid of sign and concatenating, TO DO -> CODE U1 PROBABLY BUT CHECK IT (-1)
-    int receivedValue = (uint16_t) (message[6] ^ 0x80) << 8 | message[7];
-    return isNegative ? (receivedValue - (0x8000 - 1)) : receivedValue;
+    //getting rid of sign and concatenating,  2 * 0x8000 -> single 0x8000 is getting rid off sign, second is using that sign accroding to u2 coding
+    int receivedValue = (uint16_t) message[6] << 8 | message[7];
+    return isNegative ? (receivedValue - 2*0x8000) : receivedValue;
 }
 
 uint32_t MsgManager::translateMsgToProfileMemoryAddress(const std::vector<uint8_t>& message) {

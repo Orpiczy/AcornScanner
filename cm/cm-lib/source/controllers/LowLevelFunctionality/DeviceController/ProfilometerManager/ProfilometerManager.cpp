@@ -24,7 +24,6 @@ int ProfilometerManager::getOut(const std::vector<uint8_t>& cmd, const std::stri
     auto isMsgInvalidData = MsgManager::isMessageInvalid(msgBuffer, 10);
 
     if (not isMsgInvalidData.has_value()) {
-        LG_INF("MESSAGE WAS DEEMED VALID");
         return MsgManager::translateMsgToOutNValue(msgBuffer);
     } else {
 
