@@ -69,7 +69,9 @@ std::vector<std::pair<int,int>> ProfilometerManager::getProfile(int attemptNumbe
 
     if (sizeTimeInfoAndAddress.has_value() and rawPoints.has_value()) {
         auto uint16PairsXY = MsgManager::translateRawDataPointIntoPairXY(rawPoints.value());
-        return MsgManager::translateUint16PairXYToIntPairXY(uint16PairsXY);
+        auto intPairsXY = MsgManager::translateUint16PairXYToIntPairXY(uint16PairsXY);
+        //std::sort(intPairsXY.begin(),intPairsXY.end());
+        return  MsgManager::getRisingPairsXY(intPairsXY);
 
     } else {
         LG_INF("INCORRECT READ VALUE PROFILE, ATTEMPT NR ", attemptNumber);;

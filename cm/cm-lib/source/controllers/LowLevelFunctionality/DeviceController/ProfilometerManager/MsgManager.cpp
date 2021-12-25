@@ -4,9 +4,11 @@
 
 #include <iostream>
 #include "MsgManager.hpp"
+#include <algorithm>
+#include <cmath>
+#include <qDebug>
 
-
-////////////////// Commands
+////////////////// CMD
 std::vector<uint8_t> MsgManager::cmdOut1() {
     auto cmd = CommandProvider::cmdOut1();
     cmd.push_back(calculateCheckSumForCommand(cmd));
@@ -66,12 +68,6 @@ int MsgManager::translateUint16ToIntU2Coded(uint16_t rawValue)
 }
 
 int MsgManager::translateMsgToOutNValue(const std::vector<uint8_t>& message) {
-//// TO DO - if the translateUint16ToIntU2Coded function works, commented part can be safely deleted
-//    bool isNegative = message[6] & 0x80;
-//    //getting rid of sign and concatenating,  2 * 0x8000 -> single 0x8000 is getting rid off sign, second is using that sign accroding to u2 coding
-//    int receivedValue = (uint16_t) message[6] << 8 | message[7];
-//    return isNegative ? (receivedValue - 2*0x8000) : receivedValue;
-
     int receivedValue = (uint16_t) message[6] << 8 | message[7];
     return translateUint16ToIntU2Coded(receivedValue);
 }
@@ -87,22 +83,22 @@ MsgManager::translateUnknownSizedMsgToRawSizeAndTimeInfo(const std::vector<uint8
     std::pair<uint16_t, uint16_t> rawData{0, 0};
     auto dataLength = message.size() - 10;
     switch (dataLength) {
-        case 2: //only sizeInfoWasSend
-            rawData = translateMsgToRawSizeAndTimeInfo(message, false);
-            break;
+    case 2: //only sizeInfoWasSend
+        rawData = translateMsgToRawSizeAndTimeInfo(message, false);
+        break;
 
-        case 4:
-            rawData = translateMsgToRawSizeAndTimeInfo(message, true);
-            break;
-        default:
-            std::cout
-                    << "TRANSLATION FAILURE - arg MESSAGE has WRONG SIZE - cmd translateMsgToProfileMemoryAddress FAILED"
-                    << std::endl;
-            return {};
+    case 4:
+        rawData = translateMsgToRawSizeAndTimeInfo(message, true);
+        break;
+    default:
+        std::cout
+                << "TRANSLATION FAILURE - arg MESSAGE has WRONG SIZE - cmd translateMsgToProfileMemoryAddress FAILED"
+                << std::endl;
+        return {};
     }
 
     auto[sizeInProfiles, timeInfo] = MsgManager::translateRawSizeAndTimeInfo(rawData);
-    return {sizeInProfiles, timeInfo};
+            return {sizeInProfiles, timeInfo};
 }
 
 std::pair<uint16_t, uint16_t>
@@ -150,7 +146,29 @@ std::vector<std::pair<int, int> > MsgManager::translateUint16PairXYToIntPairXY(c
     return intPairsXY;
 }
 
-///////////////// Helpers
+std::pair<uint16_t, float> MsgManager::translateRawSizeAndTimeInfo(std::pair<uint16_t, uint16_t>& pair) {
+    uint16_t size = pair.first / 32;
+    float timeInfo = pair.second * 0.1; //ms
+    return {size, timeInfo};
+}
+
+///////////////// Message Checkers
+
+std::optional<std::string>
+MsgManager::isMessageInvalid(const std::vector<uint8_t>& message, const size_t& requiredSize, int sizeComparisonType) {
+    if(message.empty()){
+        return "ERROR - MESSAGE IS EMPTY";
+    }
+    std::string errorInfo = isItErrorMessage(message);
+    bool crcAndSizeCorrectness = not message.empty() and isMessageCrcValueCorrect(message) and
+            isMessageSizeCorrect(message.size(), requiredSize, sizeComparisonType);
+    if(crcAndSizeCorrectness){
+        return std::nullopt;
+    }else{
+        return  isItErrorMessage(message);
+    }
+}
+
 bool MsgManager::isMessageCrcValueCorrect(const std::vector<uint8_t>& message) {
     if (message.size() < 3) {
         return false;
@@ -158,6 +176,80 @@ bool MsgManager::isMessageCrcValueCorrect(const std::vector<uint8_t>& message) {
     return calculateCheckSumForReceivedMessage(message) == *(message.cend() - 1);
 }
 
+bool MsgManager::isMessageSizeCorrect(const int& messageSize, const int& requiredMessageSize, int typeOfComparison) {
+    switch (typeOfComparison) {
+    case (2):
+        return messageSize > requiredMessageSize;
+    case (1):
+        return messageSize >= requiredMessageSize;
+    case (0):
+        return messageSize == requiredMessageSize;
+    case (-1):
+        return messageSize <= requiredMessageSize;
+    case (-2):
+        return messageSize < requiredMessageSize;
+    default:
+        return false;
+    }
+}
+
+std::string MsgManager::isItErrorMessage(const std::vector<uint8_t>& message) {
+    std::string result{};
+    if (message[2] != ErrorProvider::errorFirsByte or not isMessageSizeCorrect(message.size(),4,1)) {
+        return result;
+    } else {
+        uint8_t errorCode = message[3];
+        auto errorMap = ErrorProvider::getErrorMap();
+        auto it = errorMap.find(errorCode);
+        if (it != errorMap.end()) {
+            result += it->second;
+        } else {
+            result += "UNKNOWN ERROR - last byte = " + std::to_string(errorCode);
+        }
+    }
+    return result;
+}
+
+////Message Modifiers
+// do not use -> zwracaja vectory z blednym sizem dla duzych wektorow , cuda sie tu dzieja potencjalnie zmien na reference
+std::vector<uint8_t>
+MsgManager::getMessageFromStartSignToEndSign(std::vector<uint8_t> message, uint8_t startSign, uint8_t endSign,
+                                             bool areStartAndStopSignsLeftInResultStream) {
+    // bool wasMsgUpdated = false;
+    while (*message.cbegin() != startSign) {
+        message.erase(message.begin());
+    }
+    //-2 'cause after etx sign 0x03 is crcSum
+    while (*(message.cend() - 2) != endSign) {
+        message.erase(message.end() - 1);
+    }
+
+    if (!areStartAndStopSignsLeftInResultStream) {
+        message.erase(message.begin());
+        message.erase(message.end() - 1);
+    }
+
+    return message;
+}
+
+std::vector<uint8_t> MsgManager::getClearedMessageFromStream(std::vector<uint8_t> message) {
+    return getMessageFromStartSignToEndSign(message, 0x02, 0x03);
+}
+
+std::vector<std::pair<int, int>> MsgManager::getRisingPairsXY(const std::vector<std::pair<int, int> > &pairsXY)
+{
+    std::vector<std::pair<int, int>> checkedPairsXY = getClearedAndSortedPairsXY(pairsXY);
+    std::vector<std::pair<int, int>> filteredPairsXY = getFiltredPairsXY(checkedPairsXY);
+    std::vector<std::pair<int, int>> windowedPairsXY = getWindowedPairsXY(filteredPairsXY);
+    // standardizePairsXYToStartFromZero(checkedPairsXY);
+    // invertProfile(windowedPairsXY);
+    return windowedPairsXY;
+}
+
+
+
+
+////Helpers
 uint8_t
 MsgManager::calculateCheckSum(const std::vector<uint8_t>& message, const uint8_t startBit, const uint8_t endBit) {
     uint8_t checkSum{0};
@@ -181,88 +273,141 @@ uint8_t MsgManager::calculateCheckSumForReceivedMessage(const std::vector<uint8_
     return calculateCheckSum(message, 1, 2);
 }
 
-std::pair<uint16_t, float> MsgManager::translateRawSizeAndTimeInfo(std::pair<uint16_t, uint16_t>& pair) {
-    uint16_t size = pair.first / 32;
-    float timeInfo = pair.second * 0.1; //ms
-    return {size, timeInfo};
-}
+void MsgManager::standardizePairsXYToStartFromZero(std::vector<std::pair<int,int>>& pairsXY){
+    auto minY = *std::min_element(pairsXY.cbegin(), pairsXY.cend(), [](const auto& lhs, const auto& rhs) {
+        return lhs.second < rhs.second;
+    });
+    auto minX = *std::min_element(pairsXY.cbegin(), pairsXY.cend(), [](const auto& lhs, const auto& rhs) {
+        return lhs.first < rhs.first;
+    });
 
-
-// do not use -> zwracaja vectory z blednym sizem dla duzych wektorow , cuda sie tu dzieja potencjalnie zmien na reference
-std::vector<uint8_t>
-MsgManager::getMessageFromStartSignToEndSign(std::vector<uint8_t> message, uint8_t startSign, uint8_t endSign,
-                                             bool areStartAndStopSignsLeftInResultStream) {
-   // bool wasMsgUpdated = false;
-    while (*message.cbegin() != startSign) {
-        message.erase(message.begin());
-    }
-    //-2 'cause after etx sign 0x03 is crcSum
-    while (*(message.cend() - 2) != endSign) {
-        message.erase(message.end() - 1);
-    }
-
-    if (!areStartAndStopSignsLeftInResultStream) {
-        message.erase(message.begin());
-        message.erase(message.end() - 1);
-    }
-
-    return message;
-}
-
-std::vector<uint8_t> MsgManager::getClearedMessageFromStream(std::vector<uint8_t> message) {
-    return getMessageFromStartSignToEndSign(message, 0x02, 0x03);
-}
-
-bool MsgManager::isMessageSizeCorrect(const int& messageSize, const int& requiredMessageSize, int typeOfComparison) {
-    switch (typeOfComparison) {
-        case (2):
-            return messageSize > requiredMessageSize;
-        case (1):
-            return messageSize >= requiredMessageSize;
-        case (0):
-            return messageSize == requiredMessageSize;
-        case (-1):
-            return messageSize <= requiredMessageSize;
-        case (-2):
-            return messageSize < requiredMessageSize;
-        default:
-            return false;
+    for(auto& pair : pairsXY){
+        pair.first  -= minX.first;
+        pair.second -= minY.second;
     }
 }
 
-std::string MsgManager::isItErrorMessage(const std::vector<uint8_t>& message) {
-    std::string result{};
-    if (message[2] != ErrorProvider::errorFirsByte or not isMessageSizeCorrect(message.size(),4,1)) {
-        return result;
-    } else {
-        uint8_t errorCode = message[3];
-        auto errorMap = ErrorProvider::getErrorMap();
-        auto it = errorMap.find(errorCode);
-        if (it != errorMap.end()) {
-            result += it->second;
-        } else {
-            result += "UNKNOWN ERROR - last byte = " + std::to_string(errorCode);
+void MsgManager::invertProfile(std::vector<std::pair<int,int>>& pairsXY){
+
+    auto maxY = *std::max_element(pairsXY.cbegin(), pairsXY.cend(), [](const auto& lhs, const auto& rhs) {
+        return lhs.second < rhs.second;
+    });
+
+    for(auto& pair : pairsXY){
+        pair.second -= maxY.second;
+        pair.second = pair.second * -1;
+    }
+}
+
+std::vector<std::pair<int,int>> MsgManager::getClearedAndSortedPairsXY(const std::vector<std::pair<int,int>>& pairsXY){
+
+    std::vector<std::pair<int, int>> clearPairsXY = {};
+    std::vector<int> invalidValues = {-1,32767};
+
+    for(auto pair : pairsXY){
+        int x = pair.first;
+        int y = pair.second;
+
+        if(std::find(invalidValues.begin(), invalidValues.end(), x) != invalidValues.end()){
+            continue;
+        }
+        if(std::find(invalidValues.begin(), invalidValues.end(), y) != invalidValues.end()){
+            continue;
+        }
+
+        auto xy = std::make_pair(x,y);
+        clearPairsXY.push_back(xy);
+    }
+    std::sort(clearPairsXY.begin(),clearPairsXY.end());
+    return clearPairsXY;
+}
+
+std::vector<std::pair<int, int>> MsgManager::getFiltredPairsXY(const std::vector<std::pair<int, int> > &pairsXY)
+{
+    std::vector<std::pair<int, int>> filteredPairsXY = {};
+
+    int rangeOfCalculatedAvg = 9; //span of average calculation
+    float maxAvgDivergence = 0.5;
+
+    for(auto it = pairsXY.begin();it != pairsXY.end(); it ++){
+        int quantity = 0;
+        double sum   = 0;
+        int firsRelativeIndex = - rangeOfCalculatedAvg / 2;
+        int lastRelativeIndex =   rangeOfCalculatedAvg / 2 + 1;
+
+        for(int i = firsRelativeIndex ; i < lastRelativeIndex; i ++){
+
+            if((it + i) != pairsXY.begin() && (it + i) != pairsXY.end()){
+                quantity ++;
+                sum += (it + i)->second;
+            }
+
+        }
+
+        double avg = sum / quantity;
+
+        //value cannot be different more than 50% from average (maxAvgDivergance)
+        float diffInPercentage = std::abs( (float) it->second/avg -1.0);
+        if(diffInPercentage < maxAvgDivergence){
+            auto xy = std::make_pair(it->first,it->second);
+            filteredPairsXY.push_back(xy);
         }
     }
-    return result;
-}
 
-std::optional<std::string>
-MsgManager::isMessageInvalid(const std::vector<uint8_t>& message, const size_t& requiredSize, int sizeComparisonType) {
-    if(message.empty()){
-        return "ERROR - MESSAGE IS EMPTY";
-    }
-    std::string errorInfo = isItErrorMessage(message);
-    bool crcAndSizeCorrectness = not message.empty() and isMessageCrcValueCorrect(message) and
-                                 isMessageSizeCorrect(message.size(), requiredSize, sizeComparisonType);
-    if(crcAndSizeCorrectness){
-        return std::nullopt;
-    }else{
-        return  isItErrorMessage(message);
-    }
+    return filteredPairsXY;
 }
 
 
+std::vector<std::pair<int, int>> MsgManager::getWindowedPairsXY(const std::vector<std::pair<int, int> > &pairsXY){
+    int middlePairIndex = pairsXY.size() / 2; //hopefully its part of seed profile
+    auto middlePairIt = pairsXY.begin() + middlePairIndex;
+    bool areElementsLeftInFront = true;
+    bool areElementsLeftInBack  = true;
+    int radius = 1;
+
+    std::vector<std::pair<int, int>> windowedPairsXY = { *middlePairIt };
+    float maxSlopeDivergance = 1.2;
+
+    //implementation recognize the end of seed profile as a big value decrease, steep slope
+    while(areElementsLeftInFront or areElementsLeftInBack){
+
+        //front -> left side of chart
+        if( areElementsLeftInFront && (middlePairIt - radius) != pairsXY.begin() ){ //can I still go further
+            if((middlePairIt - radius)->second != 0){ //can I divide
+                //element before divided by element after -> overall difference in percent
+                float diffInPercentage = std::abs( (float) (middlePairIt - radius + 1)->second / (float) (middlePairIt - radius)->second - 1.0);
+                if(diffInPercentage > maxSlopeDivergance){
+                    areElementsLeftInFront = false;
+                    continue;
+                }else{
+                    windowedPairsXY.insert(windowedPairsXY.begin(),*(middlePairIt - radius));
+                }
+            }
+
+        }else{
+            areElementsLeftInFront = false;
+        }
+
+        //back -> right side of chart
+        if( areElementsLeftInBack && (middlePairIt + radius) != pairsXY.end() ){
+            if((middlePairIt + radius)->second != 0){
+                float diffInPercentage = std::abs( (float) (middlePairIt + radius - 1)->second / (float) (middlePairIt + radius)->second - 1.0);
+                qDebug()<<"diffInPercentage = "<<diffInPercentage<<", x = "<<(middlePairIt + radius)->first << ", y = "<<(middlePairIt + radius)->second<< "\n";
+                if(diffInPercentage > maxSlopeDivergance){
+                    areElementsLeftInBack = false;
+                    continue;
+                }else{
+                    windowedPairsXY.push_back(*(middlePairIt + radius));
+                }
+            }
+        }else{
+            areElementsLeftInBack = false;
+        }
+
+        radius ++;
+    }
+    return windowedPairsXY;
+}
 
 
 
