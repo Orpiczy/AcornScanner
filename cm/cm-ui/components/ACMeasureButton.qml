@@ -6,7 +6,6 @@ import QtQuick.Layouts 1.12
 
 Item {
     property alias status: status.mainText
-    signal measureButtonClicked
     Rectangle {
         id:edges
         anchors.fill: parent
@@ -52,10 +51,10 @@ Item {
                     Rectangle {
                         id:measureButtonEdges
                         anchors{
-                             fill: parent
-                             centerIn: parent
-                             margins: 10
-                             rightMargin: 16
+                            fill: parent
+                            centerIn: parent
+                            margins: 10
+                            rightMargin: 16
                         }
 
                         color: Style.colorAcEdges
@@ -83,8 +82,11 @@ Item {
                                 hoverEnabled: true
                                 onEntered: measureButtonBox.state = "hover";
                                 onExited:  measureButtonBox.state = "";
-                                onClicked:{ measureButtonClicked();
-                                            masterController.onMeasureButtonClicked();}
+                                onClicked:{
+                                        measureButtonBox.state = "clickedAndWorking";
+                                        masterController.onMeasureButtonClicked();
+                                        measureButtonBox.state = ""
+                                }
                             }
                             states: [
                                 State {
@@ -96,6 +98,17 @@ Item {
                                     PropertyChanges {
                                         target: measureButtonText
                                         text: "Click to Start"
+                                    }
+                                },
+                                State {
+                                    name: "clickedAndWorking"
+                                    PropertyChanges {
+                                        target: measureButtonBox
+                                        color: Style.colorAcMeasureButtonClickedAndWorking
+                                    }
+                                    PropertyChanges {
+                                        target: measureButtonText
+                                        text: "Measuring ..."
                                     }
                                 }
                             ]

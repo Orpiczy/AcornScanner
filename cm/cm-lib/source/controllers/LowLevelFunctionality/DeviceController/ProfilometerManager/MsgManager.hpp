@@ -49,20 +49,21 @@ public:
     //Message Modifiers
     static std::vector<uint8_t> getMessageFromStartSignToEndSign(std::vector<uint8_t> message, uint8_t startSign, uint8_t endSign, bool areStartAndStopSignsLeftInResultStream = true);
     static std::vector<uint8_t> getClearedMessageFromStream(std::vector<uint8_t> message);
-    static std::vector<std::pair<int,int>> getRisingPairsXY(const std::vector<std::pair<int,int>>& pairsXY);
+    static std::vector<std::pair<int,int>> getFiltredAndWindowedIntPairsXY(const std::vector<std::pair<uint16_t, uint16_t>>& uint16PairsXY);
 
 private:
-    //helpers
+    //Helpers
     static uint8_t calculateCheckSum(const std::vector<uint8_t>& message,const uint8_t startBit, const uint8_t endBit);
     static uint8_t calculateCheckSumForCommand(const std::vector<uint8_t>& message);
     static uint8_t calculateCheckSumForReceivedMessage(const std::vector<uint8_t>& message);
 
-    static void standardizePairsXYToStartFromZero(std::vector<std::pair<int,int>>& pairsXY);
-    static void invertProfile(std::vector<std::pair<int,int>>& pairsXY);
+    //Profile Manipulation Helpers
     static std::vector<std::pair<int,int>> getClearedAndSortedPairsXY(const std::vector<std::pair<int,int>>& pairsXY);
     static std::vector<std::pair<int,int>> getFiltredPairsXY(const std::vector<std::pair<int,int>>& pairsXY);
-    static std::vector<std::pair<int,int>> getWindowedPairsXY(const std::vector<std::pair<int, int> > &pairsXY);
+    static std::vector<std::pair<int,int>> getWindowedPairsXYUsingPercentage(const std::vector<std::pair<int, int> > &pairsXY);
     static std::vector<std::pair<int,int>> getWindowedPairsXYUsingDerivative(const std::vector<std::pair<int, int> > &pairsXY);
+    static void standardizePairsXYToStartFromZero(std::vector<std::pair<int,int>>& pairsXY);
+    static void invertProfile(std::vector<std::pair<int,int>>& pairsXY);
 };
 
 

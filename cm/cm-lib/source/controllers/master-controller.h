@@ -53,9 +53,12 @@ public:
 
 public slots:
     void onMeasureButtonClicked();
+
 private:
     class Implementation;
     QScopedPointer<Implementation> implementation;
+
+
 };
 }}
 #endif

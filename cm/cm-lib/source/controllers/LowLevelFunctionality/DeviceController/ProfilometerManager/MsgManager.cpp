@@ -236,9 +236,10 @@ std::vector<uint8_t> MsgManager::getClearedMessageFromStream(std::vector<uint8_t
     return getMessageFromStartSignToEndSign(message, 0x02, 0x03);
 }
 
-std::vector<std::pair<int, int>> MsgManager::getRisingPairsXY(const std::vector<std::pair<int, int> > &pairsXY)
+std::vector<std::pair<int, int>> MsgManager::getFiltredAndWindowedIntPairsXY(const std::vector<std::pair<uint16_t, uint16_t>>& uint16PairsXY)
 {
-    std::vector<std::pair<int, int>> checkedPairsXY  = getClearedAndSortedPairsXY(pairsXY);
+    std::vector<std::pair<int, int>> intPairsXY = translateUint16PairXYToIntPairXY(uint16PairsXY);
+    std::vector<std::pair<int, int>> checkedPairsXY  = getClearedAndSortedPairsXY(intPairsXY);
     std::vector<std::pair<int, int>> filteredPairsXY = getFiltredPairsXY(checkedPairsXY);
     std::vector<std::pair<int, int>> windowedPairsXY = getWindowedPairsXYUsingDerivative(filteredPairsXY);
     standardizePairsXYToStartFromZero(windowedPairsXY);
@@ -273,31 +274,6 @@ uint8_t MsgManager::calculateCheckSumForReceivedMessage(const std::vector<uint8_
     return calculateCheckSum(message, 1, 2);
 }
 
-void MsgManager::standardizePairsXYToStartFromZero(std::vector<std::pair<int,int>>& pairsXY){
-    auto minY = *std::min_element(pairsXY.cbegin(), pairsXY.cend(), [](const auto& lhs, const auto& rhs) {
-        return lhs.second < rhs.second;
-    });
-    auto minX = *std::min_element(pairsXY.cbegin(), pairsXY.cend(), [](const auto& lhs, const auto& rhs) {
-        return lhs.first < rhs.first;
-    });
-
-    for(auto& pair : pairsXY){
-        pair.first  -= minX.first;
-        pair.second -= minY.second;
-    }
-}
-
-void MsgManager::invertProfile(std::vector<std::pair<int,int>>& pairsXY){
-
-    auto maxY = *std::max_element(pairsXY.cbegin(), pairsXY.cend(), [](const auto& lhs, const auto& rhs) {
-        return lhs.second < rhs.second;
-    });
-
-    for(auto& pair : pairsXY){
-        pair.second -= maxY.second;
-        pair.second = pair.second * -1;
-    }
-}
 
 std::vector<std::pair<int,int>> MsgManager::getClearedAndSortedPairsXY(const std::vector<std::pair<int,int>>& pairsXY){
 
@@ -322,18 +298,20 @@ std::vector<std::pair<int,int>> MsgManager::getClearedAndSortedPairsXY(const std
     return clearPairsXY;
 }
 
+
+//Profile Manipulation Helpers
 std::vector<std::pair<int, int>> MsgManager::getFiltredPairsXY(const std::vector<std::pair<int, int> > &pairsXY)
 {
     std::vector<std::pair<int, int>> filteredPairsXY = {};
 
-    int rangeOfCalculatedAvg = 9; //span of average calculation
+    int rangeOfCalculatedAvg = 9; //range of average calculation
     float maxAvgDivergence = 0.5;
 
     for(auto it = pairsXY.begin();it != pairsXY.end(); it ++){
         int quantity = 0;
         double sum   = 0;
-        int firsRelativeIndex = - rangeOfCalculatedAvg / 2;
-        int lastRelativeIndex =   rangeOfCalculatedAvg / 2 + 1;
+        int firsRelativeIndex = - rangeOfCalculatedAvg / 2; //left end of range
+        int lastRelativeIndex =   rangeOfCalculatedAvg / 2 + 1; //right end of range
 
         for(int i = firsRelativeIndex ; i < lastRelativeIndex; i ++){
 
@@ -358,7 +336,7 @@ std::vector<std::pair<int, int>> MsgManager::getFiltredPairsXY(const std::vector
 }
 
 
-std::vector<std::pair<int, int>> MsgManager::getWindowedPairsXY(const std::vector<std::pair<int, int> > &pairsXY){
+std::vector<std::pair<int, int>> MsgManager::getWindowedPairsXYUsingPercentage(const std::vector<std::pair<int, int> > &pairsXY){
     int middlePairIndex = pairsXY.size() / 2; //hopefully its part of seed profile
     auto middlePairIt = pairsXY.begin() + middlePairIndex;
     bool areElementsLeftInFront = true;
@@ -392,7 +370,6 @@ std::vector<std::pair<int, int>> MsgManager::getWindowedPairsXY(const std::vecto
         if( areElementsLeftInBack && (middlePairIt + radius) != pairsXY.end() ){
             if((middlePairIt + radius)->second != 0){
                 float diffInPercentage = std::abs( (float) (middlePairIt + radius - 1)->second / (float) (middlePairIt + radius)->second - 1.0);
-                qDebug()<<"diffInPercentage = "<<diffInPercentage<<", x = "<<(middlePairIt + radius)->first << ", y = "<<(middlePairIt + radius)->second<< "\n";
                 if(diffInPercentage > maxSlopeDivergance){
                     areElementsLeftInBack = false;
                     continue;
@@ -411,17 +388,17 @@ std::vector<std::pair<int, int>> MsgManager::getWindowedPairsXY(const std::vecto
 }
 
 std::vector<std::pair<int, int>> MsgManager::getWindowedPairsXYUsingDerivative(const std::vector<std::pair<int, int> > &pairsXY){
+
     int middlePairIndex = pairsXY.size() / 2; //hopefully its part of seed profile
     auto middlePairIt = pairsXY.begin() + middlePairIndex;
     bool areElementsLeftInFront = true;
     bool areElementsLeftInBack  = true;
     int radius = 1;
-
     std::vector<std::pair<int, int>> windowedPairsXY = { *middlePairIt };
     float maxAngle = 80;
     float maxDerivative = tan(maxAngle * 3.14 /180);
-    qDebug()<<"maxDerivative"<<maxDerivative;
-    //implementation recognize the end of seed profile as a big value decrease, steep slope
+
+    //implementation recognize the end of seed profile as steep slope pitched up or down
     while(areElementsLeftInFront or areElementsLeftInBack){
 
         //front -> left side of chart
@@ -434,7 +411,6 @@ std::vector<std::pair<int, int>> MsgManager::getWindowedPairsXYUsingDerivative(c
                     areElementsLeftInFront = false;
                     continue;
                 }else{
-                    qDebug()<<"front derivative = "<<derivative<<", x = "<<(middlePairIt + radius)->first << ", y = "<<(middlePairIt + radius)->second<< "\n";
                     windowedPairsXY.insert(windowedPairsXY.begin(),*(middlePairIt - radius));
                 }
             }
@@ -453,7 +429,6 @@ std::vector<std::pair<int, int>> MsgManager::getWindowedPairsXYUsingDerivative(c
                     areElementsLeftInBack = false;
                     continue;
                 }else{
-                    qDebug()<<"back derivative = "<<derivative<<", x = "<<(middlePairIt + radius)->first << ", y = "<<(middlePairIt + radius)->second<< "\n";
                     windowedPairsXY.push_back(*(middlePairIt + radius));
                 }
             }
@@ -464,7 +439,30 @@ std::vector<std::pair<int, int>> MsgManager::getWindowedPairsXYUsingDerivative(c
     return windowedPairsXY;
 }
 
+void MsgManager::standardizePairsXYToStartFromZero(std::vector<std::pair<int,int>>& pairsXY){
+    auto minY = *std::min_element(pairsXY.cbegin(), pairsXY.cend(), [](const auto& lhs, const auto& rhs) {
+        return lhs.second < rhs.second;
+    });
+    auto minX = *std::min_element(pairsXY.cbegin(), pairsXY.cend(), [](const auto& lhs, const auto& rhs) {
+        return lhs.first < rhs.first;
+    });
 
+    for(auto& pair : pairsXY){
+        pair.first  -= minX.first;
+        pair.second -= minY.second;
+    }
+}
+
+void MsgManager::invertProfile(std::vector<std::pair<int,int>>& pairsXY){
+
+    auto max = *std::max_element(pairsXY.cbegin(), pairsXY.cend(), [](const auto& lhs, const auto& rhs) {
+        return lhs.second < rhs.second;});
+
+    for(auto& pair : pairsXY){
+        pair.second -= max.second;
+        pair.second = pair.second * -1;
+    }
+}
 
 
 

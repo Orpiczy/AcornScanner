@@ -70,6 +70,7 @@ Item {
     readonly property color colorAcProfileChartMain: "#309975"
     readonly property color colorAcMeasureButton: "#DAD873"
     readonly property color colorAcMeasureButtonClicked:"#F2F060"
+    readonly property color colorAcMeasureButtonClickedAndWorking: "#D6D6D6"
 
 
     //dim
