@@ -44,18 +44,22 @@ void ScannedData::set_ui_profile(QLineSeries *ui_profile)
 }
 
 void ScannedData::update_ui_profile(){
+     //minimal values are standarize in profilometerManagerto be equal 0
     convertedProfile->clear();
-    xAxisMin = std::numeric_limits<int>::max();
-    xAxisMax = std::numeric_limits<int>::min();
-    yAxisMin = std::numeric_limits<int>::max();
+
     yAxisMax = std::numeric_limits<int>::min();
+    xAxisMax = std::numeric_limits<int>::min();
+//    yAxisMin = std::numeric_limits<int>::max();
+//    xAxisMin = std::numeric_limits<int>::max();
+
     for(auto pair: profileData){
         auto x = pair.first;
         auto y = pair.second;
         convertedProfile->append(x,y);
+
         //axis limits
-        xAxisMin = x < xAxisMin ? x : xAxisMin;
-        yAxisMin = y < yAxisMin ? y : yAxisMin;
+//        xAxisMin = x < xAxisMin ? x : xAxisMin;
+//        yAxisMin = y < yAxisMin ? y : yAxisMin;
         xAxisMax = x > xAxisMax ? x : xAxisMax;
         yAxisMax = y > yAxisMax ? y : yAxisMax;
     }
@@ -63,15 +67,27 @@ void ScannedData::update_ui_profile(){
     //printProfile();
 
     //padding
-    float padding = 0.1;
-    auto xDiff = xAxisMax - xAxisMin;
-    auto yDiff = yAxisMax - yAxisMin;
-    xAxisMin -= padding*xDiff;
-    xAxisMax += padding*xDiff;
-    yAxisMin -= padding*yDiff;
-    yAxisMax += padding*yDiff;
-    //printAxisLimits();
+//    float padding = 0.1;
+//    auto xDiff = xAxisMax - xAxisMin;
+//    auto yDiff = yAxisMax - yAxisMin;
+//    yAxisMin -= padding*yDiff;
+//    xAxisMin -= padding*xDiff;
+//    xAxisMax += padding*xDiff;
+//    yAxisMax += padding*yDiff;
 
+
+
+    int precision = 100;
+    xAxisMax = (xAxisMax / precision + 1) * precision;
+    yAxisMax = (yAxisMax / precision + 1) * precision;
+    if(xAxisMax > yAxisMax){
+        yAxisMax = xAxisMax;
+    }else{
+        xAxisMax = yAxisMax;
+    }
+    yAxisMin = 0;
+    xAxisMin = 0;
+    //printAxisLimits();
     emit profile_changed();
 }
 

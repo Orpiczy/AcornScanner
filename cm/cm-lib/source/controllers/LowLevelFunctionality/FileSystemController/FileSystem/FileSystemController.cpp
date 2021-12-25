@@ -27,12 +27,12 @@ FileSystemController::FileSystemController(bool isLogInfoEnable, bool isLogError
     std::stringstream scanDataHeadlineSS;
     scanDataHeadlineSS << setw(initialPadding," ") << delimiter;
     scanDataHeadlineSS << setw(padding,"Result") << delimiter;
-    scanDataHeadlineSS << setw(padding,"Out1setw") << delimiter;
-    scanDataHeadlineSS << setw(padding,"Out2setw") << delimiter;
-    scanDataHeadlineSS << setw(padding,"Out3setw") << delimiter;
-    scanDataHeadlineSS << setw(padding,"OutAsetw") << delimiter;
-    scanDataHeadlineSS << setw(padding,"XCoordsetw") << delimiter;
-    scanDataHeadlineSS << setw(padding,"YCoordsetw") << delimiter;
+    scanDataHeadlineSS << setw(padding,"Out1") << delimiter;
+    scanDataHeadlineSS << setw(padding,"Out2") << delimiter;
+    scanDataHeadlineSS << setw(padding,"Out3") << delimiter;
+    scanDataHeadlineSS << setw(padding,"OutA") << delimiter;
+    scanDataHeadlineSS << setw(padding,"XCoord") << delimiter;
+    scanDataHeadlineSS << setw(padding,"YCoord") << delimiter;
     scanDataHeadline = scanDataHeadlineSS.str();
 
 }

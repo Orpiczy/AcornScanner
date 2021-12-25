@@ -47,16 +47,16 @@ Item {
                     axisX: ValuesAxis { id: xAxis;
                         min: masterController.ui_scannedData.ui_xAxisMin ;
                         max: masterController.ui_scannedData.ui_xAxisMax;
-                   //   tickCount: masterController.ui_scannedData.xAxisTickCount;
                         labelFormat: "%d"; color: Style.colorAcProfileChartBackground;
-                        labelsVisible: false; gridVisible:false
+                       // tickCount: masterController.ui_scannedData.xAxisTickCount;
+                       // labelsVisible: false; gridVisible:false
                     }
                     axisY: ValuesAxis { id: yAxis;
                         min: masterController.ui_scannedData.ui_yAxisMin ;
                         max: masterController.ui_scannedData.ui_yAxisMax;
-                    //   tickCount: masterController.ui_scannedData.yAxisTickCount;
                         labelFormat: "%d"; color: Style.colorAcProfileChartBackground;
-                        labelsVisible: false; gridVisible:false
+                       // labelsVisible: false; gridVisible:false
+                       // tickCount: masterController.ui_scannedData.yAxisTickCount;
                     }
 
                     borderColor: Style.colorAcEdges
