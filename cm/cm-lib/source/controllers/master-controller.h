@@ -53,6 +53,13 @@ public:
 
 public slots:
     void onMeasureButtonClicked();
+    void onMeasureLongitudinalCrossSectionButtonClicked();
+    void onMeasureTransverseCrossSectionButtonClicked();
+    void onTakeBasicPhotoButtonClicked();
+    void onTakeCrossSectionPhotoClicked();
+    void onCameraViewButtonClicked();
+    void onAnalyzeButtonClicked();
+    void onSaveButtonClicked();
 
 private:
     class Implementation;

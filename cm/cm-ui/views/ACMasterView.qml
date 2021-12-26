@@ -71,39 +71,37 @@ Item {
                     XYPoint { x: 2011; y: 1 }
                 }
 
-                statusOflongitudinalCrossSection: "Not Ready"
+                statusOflongitudinalCrossSection: masterController.ui_scannedData.ui_isLongitudinalCrossSectionReady
                 clickAreaLongitudinalCrossSectionBtn.onClicked:{
-
+                    masterController.onMeasureLongitudinalCrossSectionButtonClicked();
                 }
 
-                statusOfTransverseCrossSection: "Not Ready"
+                statusOfTransverseCrossSection: masterController.ui_scannedData.ui_isTransverseCrossSectionReady
                 clickAreaTransverseCrossSectionBtn.onClicked: {
-
+                    masterController.onMeasureTransverseCrossSectionButtonClicked();
                 }
 
-                statusOfBasicPhoto: "Not Ready"
+                statusOfBasicPhoto: masterController.ui_scannedData.ui_isCameraBasicPhotoReady
                 clickAreaBasicPhotoBtn.onClicked: {
-
+                    masterController.onTakeBasicPhotoButtonClicked();
                 }
 
-                statusOfCrossSectionPhoto: "Not Ready"
+                statusOfCrossSectionPhoto: masterController.ui_scannedData.ui_isCameraCrossSectionPhotoReady
                 clickAreaCrossSectionPhotoBtn.onClicked: {
-
+                    masterController.onTakeCrossSectionPhotoClicked();
                 }
 
 
                 clickAreaCameraViewBtn.onClicked: {
-
+                    masterController.onCameraViewButtonClicked();
                 }
 
                 clickAreaAnalyzeBtn.onClicked: {
-
+                    masterController.onAnalyzeButtonClicked();
                 }
 
-
-
                 clickAreaSaveBtn.onClicked: {
-
+                    masterController.onSaveButtonClicked();
                 }
 
 

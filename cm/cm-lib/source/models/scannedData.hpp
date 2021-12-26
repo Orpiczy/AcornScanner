@@ -42,6 +42,11 @@ class CMLIB_EXPORT ScannedData : public cm::data::Entity {
     Q_PROPERTY( QString                    ui_result   READ   get_ui_result                       NOTIFY profile_changed)
     Q_PROPERTY( QLineSeries*               ui_profile  READ   get_ui_profile WRITE set_ui_profile NOTIFY profile_changed)
 
+    //advance measurement
+    Q_PROPERTY( QString  ui_isLongitudinalCrossSectionReady READ   get_ui_longitudinalCrossSectionReadiness      NOTIFY profile_changed)
+    Q_PROPERTY( QString  ui_isTransverseCrossSectionReady   READ   get_ui_transverseCrossSectionReadiness        NOTIFY profile_changed)
+    Q_PROPERTY( QString  ui_isCameraBasicPhotoReady         READ   get_ui_cameraBasicPhotoReadiness        NOTIFY profile_changed)
+    Q_PROPERTY( QString  ui_isCameraCrossSectionPhotoReady  READ   get_ui_cameraCrossSectionPhotoReadiness NOTIFY profile_changed)
 
     //profile chart's look
     Q_PROPERTY( int ui_xAxisMin        MEMBER   xAxisMin        NOTIFY profile_changed)
@@ -81,7 +86,7 @@ public:
     ////Overall Result
     ScanResult finalResult {ScanResult::Healthy};
 
-    ////CHART value
+    ////Chart value
     QLineSeries* get_ui_profile() const;
     void set_ui_profile(QLineSeries *series);
     void update_ui_profile();
@@ -89,7 +94,13 @@ public:
     QString get_ui_result();
     QString get_ui_filename();
 
-    ////CHART look
+    ////Chart advance value
+    QString get_ui_longitudinalCrossSectionReadiness();
+    QString get_ui_transverseCrossSectionReadiness();
+    QString get_ui_cameraBasicPhotoReadiness();
+    QString get_ui_cameraCrossSectionPhotoReadiness();
+
+    ////Chart look
     int xAxisMin {0};
     int xAxisMax {1};
     int xAxisTickCount {20};
@@ -98,9 +109,27 @@ public:
     int yAxisMax {1};
     int yAxisTickCount {20};
 
+    ////Advance View
+    ScanResult resultProfilometerLongitudinalCrossSection {ScanResult::Unrecognized};
+    std::vector<std::pair<int,int>> profileDataLongitudinalCrossSection {};
+
+    ScanResult resultProfilometerTransverseCrossSection   {ScanResult::Unrecognized};
+    std::vector<std::pair<int,int>> profileDataTransverseCrossSection {};
+
+    ScanResult resultCameraBasicPhoto                     {ScanResult::Unrecognized};
+    cv::Mat cameraImageBasicPhoto {};
+
+    ScanResult resultCameraCrossSectionPhoto              {ScanResult::Unrecognized};
+    cv::Mat cameraImageCrossSectionPhoto {};
+
+
+
+
     ////debugging
     void printProfile();
     void printAxisLimits();
+
+
 signals:
     void profile_changed();
     void axis_limit_changed();
@@ -108,6 +137,7 @@ signals:
 
 private:
     QLineSeries* convertedProfile; //It's created in qml, we have only reference here
+    QMap<bool,QString> readinessInfoMap {{false,"Not Ready"},{true,"Ready"}};
 };
 }
 }

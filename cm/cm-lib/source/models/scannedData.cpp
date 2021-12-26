@@ -87,7 +87,7 @@ void ScannedData::update_ui_profile(){
     }
     yAxisMin = 0;
     xAxisMin = 0;
-    //printAxisLimits();
+    printAxisLimits();
     emit profile_changed();
 }
 
@@ -100,6 +100,27 @@ QString  ScannedData::get_ui_result()
 QString ScannedData::get_ui_filename()
 {
     return QString::fromStdString(fileName);
+}
+
+////Chart advance value
+QString ScannedData::get_ui_longitudinalCrossSectionReadiness()
+{
+    return readinessInfoMap[not profileDataLongitudinalCrossSection.empty()];
+}
+
+QString ScannedData::get_ui_transverseCrossSectionReadiness()
+{
+    return readinessInfoMap[not profileDataTransverseCrossSection.empty()];
+}
+
+QString ScannedData::get_ui_cameraBasicPhotoReadiness()
+{
+    return readinessInfoMap[not cameraImageBasicPhoto.empty()];
+}
+
+QString ScannedData::get_ui_cameraCrossSectionPhotoReadiness()
+{
+    return readinessInfoMap[not cameraImageCrossSectionPhoto.empty()];
 }
 
 

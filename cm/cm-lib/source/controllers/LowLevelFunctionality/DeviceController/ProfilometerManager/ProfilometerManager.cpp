@@ -224,7 +224,8 @@ bool ProfilometerManager::isConnectedAndWorking() {
 }
 
 
-const std::vector<std::pair<int, int>> ProfilometerManager::testProfileData = {{1001, 2001},
+const std::vector<std::pair<int, int>> ProfilometerManager::testProfileData = {
+                                                                               {1   , 1001},
                                                                                {1002, 2002},
                                                                                {1003, 2003},
                                                                                {1004, 2004},

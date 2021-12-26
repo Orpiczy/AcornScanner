@@ -48,12 +48,63 @@ void MasterController::measureAndSaveScannedData()
     recentlyScannedData()->update_ui_profile();
 }
 
-////SIGNALS
+////SLOTS
 void MasterController::onMeasureButtonClicked()
 {
     qDebug()<<"onMeasureButtonClicked() was initiated ";
     measureUpdateAndSaveData();
 }
+
+void MasterController::onMeasureLongitudinalCrossSectionButtonClicked()
+{
+    qDebug()<<"onMeasureLongitudinalCrossSectionButtonClicked()";
+    DeviceController::GetInstance()->getProfilometerData(*recentlyScannedData());
+    recentlyScannedData()->profileDataLongitudinalCrossSection = recentlyScannedData()->profileData;
+    recentlyScannedData()->update_ui_profile();
+    emit recentlyScannedData()->profile_changed();
+}
+
+void MasterController::onMeasureTransverseCrossSectionButtonClicked()
+{
+    qDebug()<<"onMeasureTransverseCrossSectionButtonClicked()";
+    DeviceController::GetInstance()->getProfilometerData(*recentlyScannedData());
+    recentlyScannedData()->profileDataTransverseCrossSection = recentlyScannedData()->profileData;
+    recentlyScannedData()->update_ui_profile();
+    emit recentlyScannedData()->profile_changed();
+}
+
+void MasterController::onTakeBasicPhotoButtonClicked()
+{
+    qDebug()<<"onTakeBasicPhotoButtonClicked()";
+    DeviceController::GetInstance()->getCameraData(*recentlyScannedData());
+    recentlyScannedData()->cameraImageBasicPhoto = recentlyScannedData()->cameraImage;
+    emit recentlyScannedData()->profile_changed();
+}
+
+void MasterController::onTakeCrossSectionPhotoClicked()
+{
+    qDebug()<<"onTakeCrossSectionPhotoClicked()";
+    DeviceController::GetInstance()->getCameraData(*recentlyScannedData());
+    recentlyScannedData()->cameraImageCrossSectionPhoto = recentlyScannedData()->cameraImage;
+    emit recentlyScannedData()->profile_changed();
+}
+
+void MasterController::onCameraViewButtonClicked()
+{
+    qDebug()<<"onCameraViewButtonClicked()";
+}
+
+void MasterController::onAnalyzeButtonClicked()
+{
+    qDebug()<<"onAnalyzeButtonClicked()";
+}
+
+void MasterController::onSaveButtonClicked()
+{
+    qDebug()<<"onSaveButtonClicked()";
+}
+
+
 
 //// VARIABLES -> setters and getters
 NavigationController* MasterController::navigationController()
