@@ -55,12 +55,6 @@ void MasterController::onMeasureButtonClicked()
     measureUpdateAndSaveData();
 }
 
-void MasterController::updateUI()
-{
-    QApplication::processEvents();
-    QCoreApplication::processEvents();
-}
-
 //// VARIABLES -> setters and getters
 NavigationController* MasterController::navigationController()
 {

@@ -4,7 +4,8 @@ import assets 1.0
 
 Item {
     property alias clickArea: clickArea
-    signal refreshButtonClicked()
+    property alias icon: textIcon.text
+    signal buttonClicked()
 
     height: Style.acButtonDimension
     width: Style.acButtonDimension
@@ -48,7 +49,7 @@ Item {
                 onEntered: box.state = "hover"
                 onExited: box.state = ""
                 onClicked: {
-                    refreshButtonClicked();
+                    buttonClicked();
                 }
             }
 
@@ -64,11 +65,3 @@ Item {
         }
     }
 }
-
-
-
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:16}
-}
-##^##*/

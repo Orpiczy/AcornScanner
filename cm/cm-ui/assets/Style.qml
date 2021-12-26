@@ -71,7 +71,14 @@ Item {
     readonly property color colorAcMeasureButton: "#DAD873"
     readonly property color colorAcMeasureButtonClicked:"#F2F060"
     readonly property color colorAcMeasureButtonClickedAndWorking: "#D6D6D6"
+    readonly property color colorAcVisualizationAnalyzeButton: "#DAD873"
+    readonly property color colorAcVisualizationSaveButton: "#309975"
 
+    function getColorAlpha(colorHex, alpha = 0.4) {
+        // TO DO - figure out this
+        //return Qt.hsla(color.hslHue, color.hslSaturation, color.hslLightness, alpha)
+        //return Qt.rgba(1, 0, 0, 0.4);
+    }
 
     //dim
     readonly property int   acEdgesRadius: 60

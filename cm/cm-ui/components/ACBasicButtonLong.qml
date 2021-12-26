@@ -4,17 +4,21 @@ import assets 1.0
 
 Item {
     property alias clickArea: clickArea
-    signal refreshButtonClicked()
+    property alias boxColor: box.color
+    property alias text: textArea.text
+    property real radiusProportionality: 1.2
+    property color boxClickedColor: Style.colorAcNavigationButtonBackgroundHovered
+    signal buttonClicked()
 
-    height: Style.acButtonDimension
-    width: Style.acButtonDimension
+    height: 1.1*Style.acButtonDimension
+    width: 2.5*Style.acButtonDimension
 
     Rectangle {
         id:edges
 
         anchors.fill: parent
         color: Style.colorAcEdges
-        radius: Style.acButtonEdgesRadius
+        radius: radiusProportionality*Style.acButtonEdgesRadius
 
         Rectangle {
             id:box
@@ -23,21 +27,16 @@ Item {
                 fill: parent
             }
             color: Style.colorAcNavigationButtonBackground
-            radius: Style.acButtonEdgesRadius
+            radius: radiusProportionality*Style.acButtonEdgesRadius
             Text {
-                id: textIcon
+                id:textArea
                 font {
-                    family: Style.fontAwesome
+                    family: Style.fontTypeAcMain
                     pixelSize: parent.height * 0.6
                 }
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                color: Style.colorAcEdges
-                anchors{
-                    fill: parent
-                }
-                //                text: "\uf2f1"
-                text: "\uf01e"
+                text: "LongButton"
+                color: Style.colorAcLetter
+                anchors.centerIn: parent
             }
 
             MouseArea {
@@ -48,7 +47,7 @@ Item {
                 onEntered: box.state = "hover"
                 onExited: box.state = ""
                 onClicked: {
-                    refreshButtonClicked();
+                    buttonClicked();
                 }
             }
 
@@ -57,18 +56,10 @@ Item {
                     name: "hover"
                     PropertyChanges {
                         target: box
-                        color: Style.colorAcNavigationButtonBackgroundHovered
+                        color:  boxClickedColor
                     }
                 }
             ]
         }
     }
 }
-
-
-
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:16}
-}
-##^##*/

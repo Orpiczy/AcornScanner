@@ -50,7 +50,7 @@ Item {
                 Layout.preferredHeight: 500
             }
 
-            ACMeasurementVisualization{
+            ACMeasurementVisualizationExtended{
                 Layout.preferredWidth: 700
                 Layout.preferredHeight: 500
 
@@ -71,10 +71,42 @@ Item {
                     XYPoint { x: 2011; y: 1 }
                 }
 
-                out1: masterController.ui_scannedData.ui_out1
-                out2: masterController.ui_scannedData.ui_out2
-                out3: masterController.ui_scannedData.ui_out3
-                outA: masterController.ui_scannedData.ui_outA
+                statusOflongitudinalCrossSection: "Not Ready"
+                clickAreaLongitudinalCrossSectionBtn.onClicked:{
+
+                }
+
+                statusOfTransverseCrossSection: "Not Ready"
+                clickAreaTransverseCrossSectionBtn.onClicked: {
+
+                }
+
+                statusOfBasicPhoto: "Not Ready"
+                clickAreaBasicPhotoBtn.onClicked: {
+
+                }
+
+                statusOfCrossSectionPhoto: "Not Ready"
+                clickAreaCrossSectionPhotoBtn.onClicked: {
+
+                }
+
+
+                clickAreaCameraViewBtn.onClicked: {
+
+                }
+
+                clickAreaAnalyzeBtn.onClicked: {
+
+                }
+
+
+
+                clickAreaSaveBtn.onClicked: {
+
+                }
+
+
             }
              Item{
                 width: 900
