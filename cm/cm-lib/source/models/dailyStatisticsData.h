@@ -44,7 +44,7 @@ signals:
     void dailyStatisticsDataChanged();
 
 private:
-    const int yAxisResolution = 3;
+    int yAxisResolution = 2;
 };
 
 }

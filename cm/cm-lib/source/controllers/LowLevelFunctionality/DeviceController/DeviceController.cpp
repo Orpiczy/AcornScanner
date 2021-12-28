@@ -54,7 +54,7 @@ int DeviceController::generateRaportAndSaveAdvanceMeasurement(ac::models::Scanne
                                                       data.profileDataLongitudinalCrossSection,
                                                       commonTimeStamp);
     fs -> addProfilometerScanDataToAdvanceMeasurement(data.finalResult,profileTypes_.at(1),
-                                                      data.trasverseProfileCoefficients,
+                                                      data.transverseProfileCoefficients,
                                                       data.profileDataTransverseCrossSection,
                                                       commonTimeStamp);
 
@@ -73,6 +73,9 @@ int DeviceController::generateRaportAndSaveAdvanceMeasurement(ac::models::Scanne
                                         data.resultCameraBasicPhoto,
                                         data.resultCameraCrossSectionPhoto,
                                         commonTimeStamp);
+    //Save final result
+    fs -> addScanToDailyStatistic(data.finalResult);
+
     return 0;
 
 }

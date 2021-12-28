@@ -81,6 +81,7 @@ int CameraManager::openCameraView(){
     int delay = 1000 / displayFrameRate_;
     while (true) {
         cam >> image;
+        rotateImage(image);
         cv::imshow("CameraView (press q to exit)", image);
         keyPressed = cv::waitKey(delay);
         if(keyPressed == 'q'){
@@ -89,6 +90,7 @@ int CameraManager::openCameraView(){
         }
     }
 
+    cam.release();
     return 0;
 }
 
@@ -107,13 +109,34 @@ cv::Mat CameraManager::getImage()
         LG_INF("SUCCESS - THE IMAGE WAS TAKEN AND THE RESULT IS NOT EMPTY - CameraManager::getImage()");
     }
     cam.release();
+    rotateImage(image);
     return image;
 }
 
+
+////HELPER
+void CameraManager::rotateImage(cv::Mat& image, int rotationInDegrees)
+{
+    cv::Point2f center((image.cols - 1) / 2.0, (image.rows - 1) / 2.0);
+    cv::Mat rotationMatix = cv::getRotationMatrix2D(center, rotationInDegrees, 1.0);
+    cv::warpAffine(image, image, rotationMatix, image.size());
+
+    //cropping
+    if(rotationInDegrees == -90){
+
+        int height = image.rows;
+        int halfHeight = height / 2;
+        int halfWidth = image.cols / 2;
+
+        cv::Rect croppingRectangle(halfWidth - halfHeight, 0, height, height);
+        image = image(croppingRectangle);
+    }
+}
 ////VARIABLES
 CameraManager* CameraManager::cam_ = nullptr;
 const int      CameraManager::CAMERA_ID_  = 0;
 const int      CameraManager::displayFrameRate_ = 30;
+const int      CameraManager::cameraRotation_ = -90;
 const std::string CameraManager::testImagePath_ = "E:/Dokumenty/AiR_rok_4/S7/EngineeringThesis/AcornScanner/"
-                                                 "cm/cm-lib/source/controllers/LowLevelFunctionality/DeviceController/CameraManager/TestData/Acorn.jpg";
+                                                  "cm/cm-lib/source/controllers/LowLevelFunctionality/DeviceController/CameraManager/TestData/Acorn.jpg";
 

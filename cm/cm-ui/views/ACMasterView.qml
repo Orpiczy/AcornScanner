@@ -71,6 +71,7 @@ Item {
                     XYPoint { x: 2011; y: 1 }
                 }
 
+                //click
                 statusOflongitudinalCrossSection: masterController.ui_scannedData.ui_isLongitudinalCrossSectionReady
                 clickAreaLongitudinalCrossSectionBtn.onClicked:{
                     masterController.onMeasureLongitudinalCrossSectionButtonClicked();
@@ -96,13 +97,17 @@ Item {
                     masterController.onCameraViewButtonClicked();
                 }
 
-                clickAreaAnalyzeBtn.onClicked: {
+                clickAreaAnalyzeBtn.onClicked: {                    
                     masterController.onAnalyzeButtonClicked();
                 }
 
                 clickAreaSaveBtn.onClicked: {
                     masterController.onSaveButtonClicked();
                 }
+
+                //control
+                isAnaylzeButtonEnabled: masterController.ui_scannedData.ui_isScannedDataReadyToAnalyze
+                isSaveButtonEnabled: masterController.ui_scannedData.ui_isScannedDataReadyToSave
 
 
             }

@@ -4,10 +4,11 @@ import assets 1.0
 
 Item {
     property alias clickArea: clickArea
-    property alias boxColor: box.color
-    property alias text: textArea.text
-    property real radiusProportionality: 1.2
+    property color boxColor: Style.colorAcNavigationButtonBackground
     property color boxClickedColor: Style.colorAcNavigationButtonBackgroundHovered
+    property alias text: textArea.text
+    property bool isButtonEnabled: false
+    property real radiusProportionality: 1.2  
     signal buttonClicked()
 
     height: 1.1*Style.acButtonDimension
@@ -26,7 +27,7 @@ Item {
                 margins: 2
                 fill: parent
             }
-            color: Style.colorAcNavigationButtonBackground
+            color: isButtonEnabled ? boxColor : Style.colorAcNavigationButtonBackgroundHovered
             radius: radiusProportionality*Style.acButtonEdgesRadius
             Text {
                 id:textArea
@@ -41,9 +42,10 @@ Item {
 
             MouseArea {
                 id:clickArea
+                enabled: isButtonEnabled
+                hoverEnabled: isButtonEnabled
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                hoverEnabled: true
                 onEntered: box.state = "hover"
                 onExited: box.state = ""
                 onClicked: {

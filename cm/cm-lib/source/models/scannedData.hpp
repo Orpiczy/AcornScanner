@@ -56,6 +56,10 @@ class CMLIB_EXPORT ScannedData : public cm::data::Entity {
     Q_PROPERTY( int ui_yAxisMin        MEMBER   yAxisMin        NOTIFY data_changed)
     Q_PROPERTY( int ui_yAxisMax        MEMBER   yAxisMax        NOTIFY data_changed)
     Q_PROPERTY( int ui_yAxisTickCount  MEMBER   yAxisTickCount  NOTIFY data_changed)
+
+    Q_PROPERTY( bool ui_isScannedDataReadyToAnalyze READ isScannedDataReadyToAnalyze NOTIFY data_changed)
+    Q_PROPERTY( bool ui_isScannedDataReadyToSave    READ isScannedDataReadyToSave    NOTIFY data_changed)
+
 public:
 
     ////CONNECTIONS
@@ -70,7 +74,7 @@ public:
     void updateFinalResult();
 
     ////Profilometer
-    std::string fileName {};
+    std::string fileName {"Measurement"};
     int     out1 {0};
     int     out2 {0};
     int     out3 {0};
@@ -85,7 +89,7 @@ public:
 
 
     ////Overall Result
-    ScanResult finalResult {ScanResult::Healthy};
+    ScanResult finalResult {ScanResult::Unrecognized};
 
     ////Chart value
     QLineSeries* get_ui_profile() const;
@@ -117,7 +121,7 @@ public:
 
     ScanResult resultProfilometerTransverseCrossSection   {ScanResult::Unrecognized};
     std::vector<std::pair<int,int>> profileDataTransverseCrossSection {};
-    std::vector<double> trasverseProfileCoefficients {};
+    std::vector<double> transverseProfileCoefficients {};
 
     ScanResult resultCameraBasicPhoto                     {ScanResult::Unrecognized};
     cv::Mat cameraImageBasicPhoto {};
@@ -126,6 +130,14 @@ public:
     cv::Mat cameraImageCrossSectionPhoto {};
 
 
+    ////UI Control
+    bool isScannedDataReadyToAnalyze(){
+        return (not profileDataLongitudinalCrossSection.empty()) and (not profileDataTransverseCrossSection.empty())
+                and (not cameraImageBasicPhoto.empty()) and (not cameraImageCrossSectionPhoto.empty());
+    }
+    bool isScannedDataReadyToSave(){
+        return (not longitudinalProfileCoefficients.empty()) and (not transverseProfileCoefficients.empty());
+    }
 
     ////Managment
     void clearDataAndUpdateUi();
@@ -143,6 +155,7 @@ signals:
 private:
     QLineSeries* convertedProfile; //It's created in qml, we have only reference here
     QMap<bool,QString> readinessInfoMap {{false,"Not Ready"},{true,"Ready"}};
+    std::string defaultFileName {"Measurement"};
 };
 }
 }

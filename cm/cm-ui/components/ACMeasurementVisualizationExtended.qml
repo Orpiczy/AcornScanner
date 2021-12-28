@@ -28,9 +28,43 @@ Item {
     property alias clickAreaCameraViewBtn: cameraViewBtn.clickArea
     property alias clickAreaSaveBtn: saveBtn.clickArea
 
+    //control
+    property alias isAnaylzeButtonEnabled: analyzeBtn.isButtonEnabled
+    property alias isSaveButtonEnabled: saveBtn.isButtonEnabled
 
     width: 380
     height: 250
+
+//    Dialog {
+//        id: saveDialog
+//        visible: false
+//        title: "Information"
+//        standardButtons: Dialog.Ok
+
+//        contentItem: {
+//                    ACTextAndDescription
+//                    {
+//                        mainText: "Advance Measurement Data was Save"
+//                        descriptionText: "Information"
+//                    }
+//        }
+
+////        Label {
+////            text: "Information"
+////        }
+
+
+//    }
+
+    ACPopup{
+        id:saveButtonPopup
+        height: parent.height
+        width: parent.width
+        anchors.centerIn: parent
+        mainText: "Advance Measurement Data was saved"
+        descriptionText: "click outside or push esc to close this information"
+    }
+
     Rectangle {
         id:edges
         anchors.fill: parent
@@ -245,6 +279,9 @@ Item {
                                 id: saveBtn
                                 text: "Save"
                                 anchors.centerIn: parent
+                                clickArea.onClicked: {
+                                    saveButtonPopup.open()
+                                }
                             }
 
                         }

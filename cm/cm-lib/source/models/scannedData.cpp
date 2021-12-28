@@ -7,7 +7,7 @@ namespace models {
 ScannedData::ScannedData(QObject *parent) : Entity(parent, "ScannedData")
 {
     name = static_cast<cm::data::StringDecorator*>(addDataItem(new cm::data::StringDecorator(this, "recentlyScannedData", "dataInfo")));
-    fileName = "ABCD";
+
     /*
      *
      *
@@ -47,6 +47,15 @@ void ScannedData::update_ui_profile(){
      //minimal values are standarize in profilometerManagerto be equal 0
     convertedProfile->clear();
 
+    //printProfile();
+
+    if(profileData.empty()){
+        xAxisMax = yAxisMax = 1;
+        convertedProfile->append(0,0); //otherwise there was horizontal line plotted
+        emit data_changed();
+        return;
+    }
+
     yAxisMax = std::numeric_limits<int>::min();
     xAxisMax = std::numeric_limits<int>::min();
 //    yAxisMin = std::numeric_limits<int>::max();
@@ -64,7 +73,7 @@ void ScannedData::update_ui_profile(){
         yAxisMax = y > yAxisMax ? y : yAxisMax;
     }
 
-    //printProfile();
+
 
     //padding
 //    float padding = 0.1;
@@ -87,7 +96,9 @@ void ScannedData::update_ui_profile(){
     }
     yAxisMin = 0;
     xAxisMin = 0;
-    printAxisLimits();
+
+    //printAxisLimits();
+
     emit data_changed();
 }
 
@@ -130,7 +141,7 @@ void ScannedData::clearDataAndUpdateUi()
 {
     out1 = out2 = out3 = outA = 0 ;
     profileData = profileDataLongitudinalCrossSection = profileDataTransverseCrossSection = {};
-    profileCoefficients = longitudinalProfileCoefficients = trasverseProfileCoefficients = {};
+    profileCoefficients = longitudinalProfileCoefficients = transverseProfileCoefficients = {};
     resultProfilometer = resultProfilometerLongitudinalCrossSection = resultProfilometerTransverseCrossSection = ScanResult::Unrecognized;
 
 
@@ -138,16 +149,15 @@ void ScannedData::clearDataAndUpdateUi()
     cameraImage = cameraImageBasicPhoto = cameraImageCrossSectionPhoto = cv::Mat {};
     resultCamera = resultCameraBasicPhoto = resultCameraCrossSectionPhoto = ScanResult::Unrecognized;
 
-    update_ui_profile();
 
-    fileName = "";
+
+    fileName = defaultFileName;
     finalResult = ScanResult::Unrecognized;
     xAxisMin = yAxisMin = 0;
-    xAxisMax = yAxisMax = 0;
+    xAxisMax = yAxisMax = 1;
     xAxisTickCount = yAxisTickCount = 20;
 
-    emit data_changed();
-
+    update_ui_profile();
 }
 
 

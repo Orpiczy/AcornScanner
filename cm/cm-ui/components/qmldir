@@ -24,4 +24,4 @@ ACMeasurementVisualizationExtended 1.0 ACMeasurementVisualizationExtended.qml
 ACMeasureButton                    1.0 ACMeasureButton.qml
 ACBasicButton                      1.0 ACBasicButton.qml
 ACBasicButtonLong                  1.0 ACBasicButtonLong.qml
-
+ACPopup                            1.0 ACPopup.qml

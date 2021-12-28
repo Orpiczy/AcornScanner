@@ -1,7 +1,0 @@
-
-
-///// WARNING THIS IS READONLY RAPORT DATA /////
-
-
-              id|Final Result|  LCS Result|  TCS Result|  BP  Result|  CSP Result|
-|010423_28122021|Unrecognized|Unrecognized|Unrecognized|Unrecognized|Unrecognized|

@@ -16,5 +16,6 @@
         <file alias="ACMeasureButton.qml">components/ACMeasureButton.qml</file>
         <file alias="ACBasicButton.qml">components/ACBasicButton.qml</file>
         <file alias="ACBasicButtonLong.qml">components/ACBasicButtonLong.qml</file>
+        <file alias="ACPopup.qml">components/ACPopup.qml</file>
     </qresource>
 </RCC>

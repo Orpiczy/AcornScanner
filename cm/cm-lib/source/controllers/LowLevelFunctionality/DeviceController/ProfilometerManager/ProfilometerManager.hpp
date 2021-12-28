@@ -31,7 +31,6 @@ public:
     int addInfoToScannedData(ac::models::ScannedData& data) override {
 
         if(IS_PROFILOMETER_AVAILABLE){
-            qDebug() << "PROGRAM IN GET SCANNED DATA LOOP";
             data.out1 = getOut1();
             data.out2 = getOut2();
             data.out3 = getOut3();
@@ -69,7 +68,6 @@ public:
     int addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData& data, std::string commonTimeStamp = {}) override {
 
         if(IS_PROFILOMETER_AVAILABLE){
-
             data.out1 = getOut1();
             data.out2 = getOut2();
             data.out3 = getOut3();

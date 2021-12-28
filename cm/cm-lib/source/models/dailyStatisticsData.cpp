@@ -63,6 +63,13 @@ void DailyStatisticsData::updateDailyData()
 
     //updating
     int maxInAllCategories = std::max({healthyMax,unrecognizedMax,unhealthyMax});
+
+    //update resolution
+    while( maxInAllCategories / yAxisResolution > 10){
+        yAxisResolution ++;
+    }
+
+    //update chart params
     yAxisTickCount = (int) maxInAllCategories / yAxisResolution + 1;
     yAxisMax = yAxisTickCount*yAxisResolution;
     yAxisTickCount += 1; //because 0 bar counts as a tick as well

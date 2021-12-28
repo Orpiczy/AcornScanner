@@ -12,7 +12,7 @@ DataController *DataController::GetInstance()
 }
 
 DataController::DataController(bool isLogInfoEnable, bool isLogErrorEnable)
-    : SimpleLogger(isLogInfoEnable, isLogErrorEnable, true) {}
+    : SimpleLogger(isLogInfoEnable, isLogErrorEnable) {}
 
 ////BASIC CMD
 
@@ -64,7 +64,7 @@ int DataController::analyzeTransverseCrossSectionAndUpdateResult(ac::models::Sca
        return -1;
     }
 
-    data.trasverseProfileCoefficients = getPolynomialCoefficients(data.profileDataTransverseCrossSection);
+    data.transverseProfileCoefficients = getPolynomialCoefficients(data.profileDataTransverseCrossSection);
 
     /*
      *
@@ -137,7 +137,7 @@ int DataController::updateFinalResult(ac::models::ScannedData &data)
      */
 
     LG_DBG("INFO - IN METHOD - DataController:::updateFinalResult()");
-    data.finalResult = ScanResult::Unrecognized;
+    data.finalResult = ScanResult::Healthy;
     return 0;
 }
 
@@ -154,9 +154,11 @@ std::vector<double> DataController::getPolynomialCoefficients(std::vector<std::p
 
     PolynomialRegression<double> pr;
     if(pr.fitIt(x,y,order,coeffs)){
-        pr.printCoeffs(coeffs);
-        pr.getYfromXAndPolynomialCoeffs(x,coeffs,y);
         LG_INF("SUCCESS - POLYNOMIAL FITTING WAS SUCCESSFUL - DataController::getPolynomialCoefficients");
+        if(isLogDebugEnable){
+            pr.printCoeffs(coeffs);
+            pr.getYfromXAndPolynomialCoeffs(x,coeffs,y);
+        }
         return coeffs;
 
     }

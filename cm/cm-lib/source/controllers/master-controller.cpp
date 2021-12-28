@@ -105,17 +105,15 @@ void MasterController::onAnalyzeButtonClicked()
     dataController->analyzeBasicPhotoAndUpdateResult(*recentlyScannedData());
     dataController->analyzeCrossSectionPhotoAndUpdateResult(*recentlyScannedData());
     dataController->updateFinalResult(*recentlyScannedData());
-
+    emit recentlyScannedData()->data_changed();
     qDebug()<<"onAnalyzeButtonClicked()";
 }
 
 void MasterController::onSaveButtonClicked()
 {
-
     DeviceController::GetInstance()->generateRaportAndSaveAdvanceMeasurement(*recentlyScannedData());
-    delete recentlyScannedData();
     recentlyScannedData()->clearDataAndUpdateUi();
-
+    obtainedDailyStatisticsData()->updateDailyData();
     qDebug()<<"onSaveButtonClicked()";
 }
 

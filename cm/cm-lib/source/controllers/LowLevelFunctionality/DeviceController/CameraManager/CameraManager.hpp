@@ -47,9 +47,13 @@ protected:
 
     ////INTEGRAL PARTS OF CLASS
     explicit CameraManager(bool isLogInfoEnable = true, bool isLogErrorEnable = true);
+private:
+    ////HELPERS
+    void rotateImage(cv::Mat& image,int rotationInDegrees = cameraRotation_);
+
 
     ////VARIABLES
-    ///
+
 protected:
     static CameraManager* cam_;
 
@@ -57,6 +61,7 @@ private:
     const static int CAMERA_ID_;
     const static std::string testImagePath_;
     const static int displayFrameRate_;
+    const static int cameraRotation_;
     cv::Mat testImage;
 };
 

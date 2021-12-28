@@ -8,20 +8,11 @@
 #include <string>
 
 class SimpleLogger {
-private:
 
-    bool isLogInfoEnable_;
-    bool isLogErrorEnable_;
-    bool isLogDebugEnable_;
-
-
-    const std::string infoString  = " >> INFO  - ";
-    const std::string errorString = " >> ERROR - ";
-    const std::string debugString = " >> DEBUG - ";
 
 protected:
     explicit SimpleLogger(bool isLogInfoEnable, bool isLogErrorEnable, bool isLogDebugEnable = false)
-            : isLogInfoEnable_(isLogInfoEnable), isLogErrorEnable_(isLogErrorEnable), isLogDebugEnable_(isLogDebugEnable){}
+            : isLogInfoEnable(isLogInfoEnable), isLogErrorEnable(isLogErrorEnable), isLogDebugEnable(isLogDebugEnable){}
 
 
 
@@ -34,6 +25,17 @@ protected:
     void LG_DBG(const std::string& info) const;
     void LG_DBG(const std::string& info, const int& intInfo) const;
 
+
+
+    const bool isLogInfoEnable;
+    const bool isLogErrorEnable;
+    const bool isLogDebugEnable;
+
+private:
+
+    const std::string infoString  = " >> INFO  - ";
+    const std::string errorString = " >> ERROR - ";
+    const std::string debugString = " >> DEBUG - ";
 
 };
 

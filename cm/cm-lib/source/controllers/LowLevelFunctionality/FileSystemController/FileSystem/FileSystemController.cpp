@@ -14,7 +14,7 @@ FileSystemController* FileSystemController::GetInstance() {
 }
 
 FileSystemController::FileSystemController(bool isLogInfoEnable, bool isLogErrorEnable) : SimpleLogger(isLogInfoEnable,
-                                                                                                       isLogErrorEnable) {
+                                                                                                       isLogErrorEnable, true) {
     std::stringstream statisticHeadlineSS;
     statisticHeadlineSS << delimiter;
     statisticHeadlineSS << setw(initialPadding,"id") << delimiter;
@@ -298,6 +298,13 @@ std::vector<std::tuple<std::string, int, int, int>> FileSystemController::getDai
 int FileSystemController::addProfilometerScanDataToAdvanceMeasurement(const ScanResult& finalResult, const std::string &profileType, const std::vector<double> &coeffs,
                                                                       const std::vector<std::pair<int, int> > &profileData, const std::string commonTimeStamp)
 {
+    LG_DBG("INFO - ENTERING - profileType = " + profileType + " - FileSystemController::addProfilometerScanDataToAdvanceMeasuremen");
+
+    if(coeffs.empty() or profileData.empty()){
+        LG_ERR("WARNING - ATTEMPT TO SAVE EMPTY PROFILE DATA - FileSystemController::addProfilometerScanDataToAdvanceMeasurement");
+        return -1;
+    }
+
     //if commonTimeStamp exists, it uses it
     auto scanId = commonTimeStamp.empty() ? getFullTimeStamp() : commonTimeStamp;
 
@@ -356,8 +363,10 @@ int FileSystemController::addProfilometerScanDataToAdvanceMeasurement(const Scan
 
 int FileSystemController::addCameraImageToAdvanceMeasurement(const ScanResult &finalResult, const std::string &photoType, const cv::Mat &image, const std::string commonTimeStamp)
 {
+    LG_DBG("INFO - ENTERING - photoType = " + photoType + " - FileSystemController::addCameraImageToAdvanceMeasurement ");
+
     if(image.empty()){
-        LG_ERR("IMAGE RECEIVED IS EMPTY - FileSystemController::addCameraImageToAdvanceMeasurement");
+        LG_ERR("WARNING - ATTEMPT TO SAVE EMPTY IMAGE - FileSystemController::addCameraImageToAdvanceMeasurement");
         return -1;
     }
 

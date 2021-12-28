@@ -3,5 +3,6 @@ cm/binaries/
 cm/cm-lib/build/
 cm/cm-tests/build/
 cm/cm-ui/build/
+cm/cm-lib/source/controllers/LowLevelFunctionality/FileSystemController/AdvanceMeasurement/
 cm/cm-lib/source/controllers/LowLevelFunctionality/FileSystemController/Database/
 shadow-builds/
