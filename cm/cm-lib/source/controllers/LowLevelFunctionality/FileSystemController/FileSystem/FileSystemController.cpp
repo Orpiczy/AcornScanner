@@ -25,7 +25,7 @@ FileSystemController::FileSystemController(bool isLogInfoEnable, bool isLogError
     statisticHeadline = statisticHeadlineSS.str();
 
     std::stringstream scanDataHeadlineSS;
-    scanDataHeadlineSS << setw(initialPadding," ") << delimiter;
+    scanDataHeadlineSS << setw(initialPadding,"id") << delimiter;
     scanDataHeadlineSS << setw(padding,"Result") << delimiter;
     scanDataHeadlineSS << setw(padding,"Out1") << delimiter;
     scanDataHeadlineSS << setw(padding,"Out2") << delimiter;
@@ -34,6 +34,27 @@ FileSystemController::FileSystemController(bool isLogInfoEnable, bool isLogError
     scanDataHeadlineSS << setw(padding,"XCoord") << delimiter;
     scanDataHeadlineSS << setw(padding,"YCoord") << delimiter;
     scanDataHeadline = scanDataHeadlineSS.str();
+
+    std::stringstream scanAdvanceDataHeadlineSS;
+    scanAdvanceDataHeadlineSS << setw(initialPadding,"id") << delimiter;
+    scanAdvanceDataHeadlineSS << setw(padding,"Profile Type") << delimiter;
+    scanAdvanceDataHeadlineSS << setw(padding,"a coeff") << delimiter;
+    scanAdvanceDataHeadlineSS << setw(padding,"b coeff") << delimiter;
+    scanAdvanceDataHeadlineSS << setw(padding,"c coeff") << delimiter;
+    scanAdvanceDataHeadlineSS << setw(padding,"d coeff") << delimiter;
+    scanAdvanceDataHeadlineSS << setw(padding,"XCoord") << delimiter;
+    scanAdvanceDataHeadlineSS << setw(padding,"YCoord") << delimiter;
+    scanAdvanceDataHeadline = scanAdvanceDataHeadlineSS.str();
+
+    std::stringstream raportHeadlineSS;
+    raportHeadlineSS << setw(initialPadding,"id")    << delimiter;
+    raportHeadlineSS << setw(padding,"Final Result") << delimiter;
+    raportHeadlineSS << setw(padding,"LCS Result")   << delimiter;  //Longitudinal Cross Section
+    raportHeadlineSS << setw(padding,"TCS Result")   << delimiter;  //Transverse Cross Section
+    raportHeadlineSS << setw(padding,"BP  Result")   << delimiter;  //Basic Photo
+    raportHeadlineSS << setw(padding,"CSP Result")   << delimiter;  //Cross Section Photo
+    raportHeadline = raportHeadlineSS.str();
+
 
 }
 
@@ -53,7 +74,7 @@ int FileSystemController::addProfilometerScanDataToCategorizedDataBase(ScanResul
     //check
     QFile testfile(QString::fromStdString(fullPath));
     if (testfile.exists()) {
-        LG_INF("FAILURE - FILE EXISTS - cmd addProfilometerScanDataToCategorizedDataBase");
+        LG_INF("FAILURE - FILE EXISTS - cmd FileSystemController::addProfilometerScanDataToCategorizedDataBase");
         return -1;
     }
 
@@ -69,11 +90,11 @@ int FileSystemController::addProfilometerScanDataToCategorizedDataBase(ScanResul
     std::ofstream file;
     file.open(fullPath);
     if (file.is_open()) {
-        LG_INF("SUCCESS - FILE WAS OPENED CORRECTLY - cmd addProfilometerScanDataToCategorizedDataBase");
+        LG_INF("SUCCESS - FILE WAS OPENED CORRECTLY - cmd FileSystemController::addProfilometerScanDataToCategorizedDataBase");
     } else {
         LG_ERR("FAILURE - FILE WAS NOT OPENED CORRECTLY " + std::string(strerror(errno)) + " - " + fullPath +
                " - " +
-               "cmd addProfilometerScanDataToCategorizedDataBase");
+               "cmd FileSystemController::addProfilometerScanDataToCategorizedDataBase");
         return -1;
     }
 
@@ -93,7 +114,7 @@ int FileSystemController::addProfilometerScanDataToCategorizedDataBase(ScanResul
         file << setw(padding,std::to_string(it->second)) << delimiter;
         if (it + 1 != profileData.end()) {
             file << std::endl;
-            // delimiter.size() to te 1
+            // 6 * delimiter.size()
             file << setw(initialPadding + padding * 5 + 6 * 1,std::string{delimiter});
         }
     }
@@ -118,7 +139,7 @@ int FileSystemController::addCameraImageToCategorizedDataBase(ScanResult result,
     //check
     QFile testfile(QString::fromStdString(fullPath));
     if (testfile.exists()) {
-        LG_ERR("FAILURE - IMAGE EXISTS - cmd addCameraImageToCategorizedDataBase");
+        LG_ERR("FAILURE - IMAGE EXISTS - cmd FileSystemController::addCameraImageToCategorizedDataBase");
         return -1;
     }
 
@@ -132,11 +153,11 @@ int FileSystemController::addCameraImageToCategorizedDataBase(ScanResult result,
 
     //saving image
     if (cv::imwrite(fullPath,image)) {
-        LG_INF("SUCCESS - IMAGE WAS SAVED - cmd addCameraImageToCategorizedDataBase");
+        LG_INF("SUCCESS - IMAGE WAS SAVED - cmd FileSystemController::addCameraImageToCategorizedDataBase");
     } else {
         LG_ERR("FAILURE - IMAGE WAS NOT SAVED - " + std::string(strerror(errno)) + " - " + directoryPath +
                " - " +
-               "cmd addCameraImageToCategorizedDataBase");
+               "cmd FileSystemController::addCameraImageToCategorizedDataBase");
         return -1;
     }
     return 0;
@@ -270,6 +291,159 @@ std::vector<std::tuple<std::string, int, int, int>> FileSystemController::getDai
     }
 
     return dailyData;
+}
+
+///BASIC CMD - ADVANCE DATA
+
+int FileSystemController::addProfilometerScanDataToAdvanceMeasurement(const ScanResult& finalResult, const std::string &profileType, const std::vector<double> &coeffs,
+                                                                      const std::vector<std::pair<int, int> > &profileData, const std::string commonTimeStamp)
+{
+    //if commonTimeStamp exists, it uses it
+    auto scanId = commonTimeStamp.empty() ? getFullTimeStamp() : commonTimeStamp;
+
+    auto resultAdvanceDirectoryPath = savePathForAdvanceMeasurement + ac::translators::getResultName(finalResult);
+    auto directoryPath =   resultAdvanceDirectoryPath + "/" + scanId ;
+    auto fullPath = directoryPath + "/" + scanId + "_" + profileType + "_profilometer" + ".txt";
+
+    //check
+    QFile testfile(QString::fromStdString(fullPath));
+    if (testfile.exists()) {
+        LG_INF("FAILURE - FILE EXISTS - cmd FileSystemController::addProfilometerScanDataToAdvanceMeasurement");
+        return -1;
+    }
+
+    //creating directories if needed
+    if( not QDir().exists(QString::fromStdString(resultAdvanceDirectoryPath))){
+        QDir().mkdir(QString::fromStdString(resultAdvanceDirectoryPath));
+    }
+    if( not QDir().exists(QString::fromStdString(directoryPath))){
+        QDir().mkdir(QString::fromStdString(directoryPath));
+    }
+
+    //saving data to file
+    std::ofstream file;
+    file.open(fullPath);
+    if (file.is_open()) {
+        LG_INF("SUCCESS - FILE WAS OPENED CORRECTLY - cmd FileSystemController::addProfilometerScanDataToAdvanceMeasurement");
+    } else {
+        LG_ERR("FAILURE - FILE WAS NOT OPENED CORRECTLY " + std::string(strerror(errno)) + " - " + fullPath +
+               " - " +
+               "cmd FileSystemController::addProfilometerScanDataToAdvanceMeasurement");
+        return -1;
+    }
+
+    file << warningScanData;
+    file << scanAdvanceDataHeadline << std::endl;
+    file << delimiter << setw(initialPadding - 1,scanId) << delimiter;
+    file << setw(padding,profileType) << delimiter;
+    file << setw(padding,std::to_string(coeffs.at(3))) << delimiter;
+    file << setw(padding,std::to_string(coeffs.at(2))) << delimiter;
+    file << setw(padding,std::to_string(coeffs.at(1))) << delimiter;
+    file << setw(padding,std::to_string(coeffs.at(0))) << delimiter;
+
+    for (auto it = profileData.begin(); it < profileData.end(); it++) {
+        file << setw(padding,std::to_string(it->first)) << delimiter;
+        file << setw(padding,std::to_string(it->second)) << delimiter;
+        if (it + 1 != profileData.end()) {
+            file << std::endl;
+            // 6 * delimiter.size()
+            file << setw(initialPadding + padding * 5 + 6 * 1, std::string{delimiter});
+        }
+    }
+    file.close();
+    return 0;
+}
+
+int FileSystemController::addCameraImageToAdvanceMeasurement(const ScanResult &finalResult, const std::string &photoType, const cv::Mat &image, const std::string commonTimeStamp)
+{
+    if(image.empty()){
+        LG_ERR("IMAGE RECEIVED IS EMPTY - FileSystemController::addCameraImageToAdvanceMeasurement");
+        return -1;
+    }
+
+    //if commonTimeStamp exists, it uses it
+    auto scanId = commonTimeStamp.empty() ? getFullTimeStamp() : commonTimeStamp;
+
+    auto resultAdvanceDirectoryPath = savePathForAdvanceMeasurement + ac::translators::getResultName(finalResult);
+    auto directoryPath =   resultAdvanceDirectoryPath + "/" + scanId ;
+    auto fullPath = directoryPath + "/" + scanId + "_" + photoType + "_camera" + ".jpg";
+
+    //check
+    QFile testfile(QString::fromStdString(fullPath));
+    if (testfile.exists()) {
+        LG_INF("FAILURE - IMAGE EXISTS - cmd FileSystemController::addCameraImageToAdvanceMeasurement");
+        return -1;
+    }
+
+    //creating directories if needed
+    if( not QDir().exists(QString::fromStdString(resultAdvanceDirectoryPath))){
+        QDir().mkdir(QString::fromStdString(resultAdvanceDirectoryPath));
+    }
+    if( not QDir().exists(QString::fromStdString(directoryPath))){
+        QDir().mkdir(QString::fromStdString(directoryPath));
+    }
+
+    //saving image
+    if (cv::imwrite(fullPath,image)) {
+        LG_INF("SUCCESS - IMAGE WAS SAVED - cmd FileSystemController::addCameraImageToAdvanceMeasurement");
+    } else {
+        LG_ERR("FAILURE - IMAGE WAS NOT SAVED - " + std::string(strerror(errno)) + " - " + directoryPath +
+               " - " +
+               "cmd FileSystemController::addCameraImageToAdvanceMeasurement");
+        return -1;
+    }
+    return 0;
+
+}
+
+int FileSystemController::createAndAddAdvanceDataRaport(const ScanResult &finalResult, const ScanResult &resultLongitudinalCrossSection, const ScanResult &resultTransverseCrossSection,
+                                                        const ScanResult &resultCameraBasicPhoto, const ScanResult &resultCameraCrossSectionPhoto, const std::string commonTimeStamp)
+{
+    //if commonTimeStamp exists, it uses it
+    auto scanId = commonTimeStamp.empty() ? getFullTimeStamp() : commonTimeStamp;
+
+    auto resultAdvanceDirectoryPath = savePathForAdvanceMeasurement + ac::translators::getResultName(finalResult);
+    auto directoryPath =   resultAdvanceDirectoryPath + "/" + scanId ;
+    auto fullPath = directoryPath + "/" + "raport" + ".txt";
+
+    //check
+    QFile testfile(QString::fromStdString(fullPath));
+    if (testfile.exists()) {
+        LG_INF("FAILURE - FILE EXISTS - cmd FileSystemController::createAndAddAdvanceDataRaport");
+        return -1;
+    }
+
+    //creating directories if needed
+    if( not QDir().exists(QString::fromStdString(resultAdvanceDirectoryPath))){
+        QDir().mkdir(QString::fromStdString(resultAdvanceDirectoryPath));
+    }
+    if( not QDir().exists(QString::fromStdString(directoryPath))){
+        QDir().mkdir(QString::fromStdString(directoryPath));
+    }
+
+    //saving data to file
+    std::ofstream file;
+    file.open(fullPath);
+    if (file.is_open()) {
+        LG_INF("SUCCESS - FILE WAS OPENED CORRECTLY - cmd FileSystemController::createAndAddAdvanceDataRaport");
+    } else {
+        LG_ERR("FAILURE - FILE WAS NOT OPENED CORRECTLY " + std::string(strerror(errno)) + " - " + fullPath +
+               " - " +
+               "cmd FileSystemController::createAndAddAdvanceDataRaport");
+        return -1;
+    }
+
+    file << warningRaportData;
+    file << raportHeadline << std::endl;
+    file << delimiter << setw(initialPadding - 1,scanId) << delimiter;
+    file << setw(padding,ac::translators::getResultName(finalResult)) << delimiter;
+    file << setw(padding,ac::translators::getResultName(resultLongitudinalCrossSection)) << delimiter;
+    file << setw(padding,ac::translators::getResultName(resultTransverseCrossSection)) << delimiter;
+    file << setw(padding,ac::translators::getResultName(resultCameraBasicPhoto)) << delimiter;
+    file << setw(padding,ac::translators::getResultName(resultCameraCrossSectionPhoto)) << delimiter;
+
+    file.close();
+    return 0;
 }
 
 ////BASIC CMD INTERNAL HELPERS

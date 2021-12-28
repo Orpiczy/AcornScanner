@@ -88,7 +88,7 @@ void ScannedData::update_ui_profile(){
     yAxisMin = 0;
     xAxisMin = 0;
     printAxisLimits();
-    emit profile_changed();
+    emit data_changed();
 }
 
 ////CHART value
@@ -121,6 +121,33 @@ QString ScannedData::get_ui_cameraBasicPhotoReadiness()
 QString ScannedData::get_ui_cameraCrossSectionPhotoReadiness()
 {
     return readinessInfoMap[not cameraImageCrossSectionPhoto.empty()];
+}
+
+
+
+////Managment
+void ScannedData::clearDataAndUpdateUi()
+{
+    out1 = out2 = out3 = outA = 0 ;
+    profileData = profileDataLongitudinalCrossSection = profileDataTransverseCrossSection = {};
+    profileCoefficients = longitudinalProfileCoefficients = trasverseProfileCoefficients = {};
+    resultProfilometer = resultProfilometerLongitudinalCrossSection = resultProfilometerTransverseCrossSection = ScanResult::Unrecognized;
+
+
+
+    cameraImage = cameraImageBasicPhoto = cameraImageCrossSectionPhoto = cv::Mat {};
+    resultCamera = resultCameraBasicPhoto = resultCameraCrossSectionPhoto = ScanResult::Unrecognized;
+
+    update_ui_profile();
+
+    fileName = "";
+    finalResult = ScanResult::Unrecognized;
+    xAxisMin = yAxisMin = 0;
+    xAxisMax = yAxisMax = 0;
+    xAxisTickCount = yAxisTickCount = 20;
+
+    emit data_changed();
+
 }
 
 

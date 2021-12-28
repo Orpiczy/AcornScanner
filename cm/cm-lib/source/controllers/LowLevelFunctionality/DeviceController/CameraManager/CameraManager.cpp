@@ -5,11 +5,6 @@
 #include "CameraManager.hpp"
 
 ////INTEGRAL PARTS OF CLASS
-CameraManager::CameraManager(bool isLogInfoEnable, bool isLogErrorEnable)
-    : SimpleLogger(isLogInfoEnable, isLogErrorEnable) {
-    //acorn image, if commented program saves nothing thanks to check in fileSystemController
-    testImage = cv::imread(testImagePath, cv::IMREAD_COLOR );
-}
 
 CameraManager* CameraManager::GetInstance() {
     if (cam_ == nullptr) {
@@ -18,7 +13,84 @@ CameraManager* CameraManager::GetInstance() {
     return cam_;
 }
 
+CameraManager::CameraManager(bool isLogInfoEnable, bool isLogErrorEnable)
+    : SimpleLogger(isLogInfoEnable, isLogErrorEnable) {
+    //acorn image, if commented program saves nothing thanks to check in fileSystemController
+    testImage = cv::imread(testImagePath_, cv::IMREAD_COLOR );
+}
 
+////BASIC CMDS
+int CameraManager::addInfoToScannedData(ac::models::ScannedData &data) {
+    if (IS_CAMERA_AVAILABLE) {
+        data.cameraImage = getImage();
+    }else{
+        data.cameraImage = testImage;
+    }
+
+    if(IS_CAMERA_RESULT_CHECK_ENABLED){
+
+        /*
+             *
+             *
+             *  IMPLEMENTATION
+             *
+             *
+             */
+
+    }else{
+        data.resultCamera = CAMERA_RESULT;
+    }
+    return 0;
+}
+
+int CameraManager::addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedData &data, std::string commonTimeStamp) {
+    if (IS_CAMERA_AVAILABLE) {
+        data.cameraImage = getImage();
+    }else{
+        data.cameraImage = testImage;
+    }
+
+    if(IS_CAMERA_RESULT_CHECK_ENABLED){
+
+        /*
+             *
+             *
+             *  IMPLEMENTATION
+             *
+             *
+             */
+
+    }else{
+        data.resultCamera = CAMERA_RESULT;
+    }
+
+
+    FileSystemController::GetInstance()->addCameraImageToCategorizedDataBase(data.resultCamera, data.cameraImage, commonTimeStamp);
+    return 0;
+}
+
+int CameraManager::openCameraView(){
+    cv::Mat image;
+    char keyPressed;
+    cv::VideoCapture cam(CAMERA_ID_);
+
+    if (!cam.isOpened()) {
+        LG_ERR("FAILURE - CAMERA COULD'T BE OPENED - CameraManager::openCameraView()");
+    }
+
+    int delay = 1000 / displayFrameRate_;
+    while (true) {
+        cam >> image;
+        cv::imshow("CameraView (press q to exit)", image);
+        keyPressed = cv::waitKey(delay);
+        if(keyPressed == 'q'){
+            cv::destroyAllWindows();
+            break;
+        }
+    }
+
+    return 0;
+}
 
 cv::Mat CameraManager::getImage()
 {
@@ -40,7 +112,8 @@ cv::Mat CameraManager::getImage()
 
 ////VARIABLES
 CameraManager* CameraManager::cam_ = nullptr;
-const int     CameraManager::CAMERA_ID_  = 0;
-const std::string CameraManager::testImagePath = "E:/Dokumenty/AiR_rok_4/S7/EngineeringThesis/AcornScanner/"
+const int      CameraManager::CAMERA_ID_  = 0;
+const int      CameraManager::displayFrameRate_ = 30;
+const std::string CameraManager::testImagePath_ = "E:/Dokumenty/AiR_rok_4/S7/EngineeringThesis/AcornScanner/"
                                                  "cm/cm-lib/source/controllers/LowLevelFunctionality/DeviceController/CameraManager/TestData/Acorn.jpg";
 

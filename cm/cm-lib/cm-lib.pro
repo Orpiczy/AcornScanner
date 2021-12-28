@@ -41,6 +41,8 @@ LIBS += E:/Programs/Libraries/opencv/release/bin/libopencv_videoio454.dll
 SOURCES += \
     source/controllers/LowLevelFunctionality/BaseClasses/SimpleLogger.cpp \
     source/controllers/LowLevelFunctionality/Common/Translators.cpp \
+    source/controllers/LowLevelFunctionality/DataController/DataController.cpp \
+    source/controllers/LowLevelFunctionality/DataController/PolynomialRegression.cpp \
     source/controllers/LowLevelFunctionality/DeviceController/CameraManager/CameraManager.cpp \
     source/controllers/LowLevelFunctionality/DeviceController/DeviceController.cpp \
     source/controllers/LowLevelFunctionality/DeviceController/ProfilometerManager/MsgManager.cpp \
@@ -69,6 +71,8 @@ HEADERS += \
     source/controllers/LowLevelFunctionality/Common/ControllersFlags.hpp \
     source/controllers/LowLevelFunctionality/Common/CustomEnumTypes.hpp \
     source/controllers/LowLevelFunctionality/Common/Translators.hpp \
+    source/controllers/LowLevelFunctionality/DataController/DataController.h \
+    source/controllers/LowLevelFunctionality/DataController/PolynomialRegression.h \
     source/controllers/LowLevelFunctionality/DeviceController/CameraManager/CameraManager.hpp \
     source/controllers/LowLevelFunctionality/DeviceController/DeviceController.hpp \
     source/controllers/LowLevelFunctionality/DeviceController/ProfilometerManager/CommandProvider.hpp \

@@ -1,5 +1,7 @@
 #include "master-controller.h"
 #include "LowLevelFunctionality/DeviceController/DeviceController.hpp"
+#include "LowLevelFunctionality/DataController/DataController.h"
+
 namespace cm {
 namespace controllers {
 ////INTEGRAL PARTS OF CLASS
@@ -61,7 +63,7 @@ void MasterController::onMeasureLongitudinalCrossSectionButtonClicked()
     DeviceController::GetInstance()->getProfilometerData(*recentlyScannedData());
     recentlyScannedData()->profileDataLongitudinalCrossSection = recentlyScannedData()->profileData;
     recentlyScannedData()->update_ui_profile();
-    emit recentlyScannedData()->profile_changed();
+    emit recentlyScannedData()->data_changed();
 }
 
 void MasterController::onMeasureTransverseCrossSectionButtonClicked()
@@ -70,7 +72,7 @@ void MasterController::onMeasureTransverseCrossSectionButtonClicked()
     DeviceController::GetInstance()->getProfilometerData(*recentlyScannedData());
     recentlyScannedData()->profileDataTransverseCrossSection = recentlyScannedData()->profileData;
     recentlyScannedData()->update_ui_profile();
-    emit recentlyScannedData()->profile_changed();
+    emit recentlyScannedData()->data_changed();
 }
 
 void MasterController::onTakeBasicPhotoButtonClicked()
@@ -78,7 +80,7 @@ void MasterController::onTakeBasicPhotoButtonClicked()
     qDebug()<<"onTakeBasicPhotoButtonClicked()";
     DeviceController::GetInstance()->getCameraData(*recentlyScannedData());
     recentlyScannedData()->cameraImageBasicPhoto = recentlyScannedData()->cameraImage;
-    emit recentlyScannedData()->profile_changed();
+    emit recentlyScannedData()->data_changed();
 }
 
 void MasterController::onTakeCrossSectionPhotoClicked()
@@ -86,21 +88,34 @@ void MasterController::onTakeCrossSectionPhotoClicked()
     qDebug()<<"onTakeCrossSectionPhotoClicked()";
     DeviceController::GetInstance()->getCameraData(*recentlyScannedData());
     recentlyScannedData()->cameraImageCrossSectionPhoto = recentlyScannedData()->cameraImage;
-    emit recentlyScannedData()->profile_changed();
+    emit recentlyScannedData()->data_changed();
 }
 
 void MasterController::onCameraViewButtonClicked()
 {
     qDebug()<<"onCameraViewButtonClicked()";
+    CameraManager::GetInstance()->openCameraView();
 }
 
 void MasterController::onAnalyzeButtonClicked()
 {
+    auto dataController = DataController::GetInstance();
+    dataController->analyzeLongitudinalCrossSectionAndUpdateResult(*recentlyScannedData());
+    dataController->analyzeTransverseCrossSectionAndUpdateResult(*recentlyScannedData());
+    dataController->analyzeBasicPhotoAndUpdateResult(*recentlyScannedData());
+    dataController->analyzeCrossSectionPhotoAndUpdateResult(*recentlyScannedData());
+    dataController->updateFinalResult(*recentlyScannedData());
+
     qDebug()<<"onAnalyzeButtonClicked()";
 }
 
 void MasterController::onSaveButtonClicked()
 {
+
+    DeviceController::GetInstance()->generateRaportAndSaveAdvanceMeasurement(*recentlyScannedData());
+    delete recentlyScannedData();
+    recentlyScannedData()->clearDataAndUpdateUi();
+
     qDebug()<<"onSaveButtonClicked()";
 }
 

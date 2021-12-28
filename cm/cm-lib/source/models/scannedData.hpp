@@ -34,28 +34,28 @@ namespace models {
 class CMLIB_EXPORT ScannedData : public cm::data::Entity {
     //values
     Q_OBJECT
-    Q_PROPERTY( QString                    ui_filename READ get_ui_filename                       NOTIFY profile_changed)
-    Q_PROPERTY( int                        ui_out1     MEMBER out1                                NOTIFY profile_changed)
-    Q_PROPERTY( int                        ui_out2     MEMBER out2                                NOTIFY profile_changed)
-    Q_PROPERTY( int                        ui_out3     MEMBER out3                                NOTIFY profile_changed)
-    Q_PROPERTY( int                        ui_outA     MEMBER outA                                NOTIFY profile_changed)
-    Q_PROPERTY( QString                    ui_result   READ   get_ui_result                       NOTIFY profile_changed)
-    Q_PROPERTY( QLineSeries*               ui_profile  READ   get_ui_profile WRITE set_ui_profile NOTIFY profile_changed)
+    Q_PROPERTY( QString                    ui_filename READ get_ui_filename                       NOTIFY data_changed)
+    Q_PROPERTY( int                        ui_out1     MEMBER out1                                NOTIFY data_changed)
+    Q_PROPERTY( int                        ui_out2     MEMBER out2                                NOTIFY data_changed)
+    Q_PROPERTY( int                        ui_out3     MEMBER out3                                NOTIFY data_changed)
+    Q_PROPERTY( int                        ui_outA     MEMBER outA                                NOTIFY data_changed)
+    Q_PROPERTY( QString                    ui_result   READ   get_ui_result                       NOTIFY data_changed)
+    Q_PROPERTY( QLineSeries*               ui_profile  READ   get_ui_profile WRITE set_ui_profile NOTIFY data_changed)
 
     //advance measurement
-    Q_PROPERTY( QString  ui_isLongitudinalCrossSectionReady READ   get_ui_longitudinalCrossSectionReadiness      NOTIFY profile_changed)
-    Q_PROPERTY( QString  ui_isTransverseCrossSectionReady   READ   get_ui_transverseCrossSectionReadiness        NOTIFY profile_changed)
-    Q_PROPERTY( QString  ui_isCameraBasicPhotoReady         READ   get_ui_cameraBasicPhotoReadiness        NOTIFY profile_changed)
-    Q_PROPERTY( QString  ui_isCameraCrossSectionPhotoReady  READ   get_ui_cameraCrossSectionPhotoReadiness NOTIFY profile_changed)
+    Q_PROPERTY( QString  ui_isLongitudinalCrossSectionReady READ   get_ui_longitudinalCrossSectionReadiness NOTIFY data_changed)
+    Q_PROPERTY( QString  ui_isTransverseCrossSectionReady   READ   get_ui_transverseCrossSectionReadiness   NOTIFY data_changed)
+    Q_PROPERTY( QString  ui_isCameraBasicPhotoReady         READ   get_ui_cameraBasicPhotoReadiness         NOTIFY data_changed)
+    Q_PROPERTY( QString  ui_isCameraCrossSectionPhotoReady  READ   get_ui_cameraCrossSectionPhotoReadiness  NOTIFY data_changed)
 
     //profile chart's look
-    Q_PROPERTY( int ui_xAxisMin        MEMBER   xAxisMin        NOTIFY profile_changed)
-    Q_PROPERTY( int ui_xAxisMax        MEMBER   xAxisMax        NOTIFY profile_changed)
-    Q_PROPERTY( int ui_xAxisTickCount  MEMBER   xAxisTickCount  NOTIFY profile_changed)
+    Q_PROPERTY( int ui_xAxisMin        MEMBER   xAxisMin        NOTIFY data_changed)
+    Q_PROPERTY( int ui_xAxisMax        MEMBER   xAxisMax        NOTIFY data_changed)
+    Q_PROPERTY( int ui_xAxisTickCount  MEMBER   xAxisTickCount  NOTIFY data_changed)
 
-    Q_PROPERTY( int ui_yAxisMin        MEMBER   yAxisMin        NOTIFY profile_changed)
-    Q_PROPERTY( int ui_yAxisMax        MEMBER   yAxisMax        NOTIFY profile_changed)
-    Q_PROPERTY( int ui_yAxisTickCount  MEMBER   yAxisTickCount  NOTIFY profile_changed)
+    Q_PROPERTY( int ui_yAxisMin        MEMBER   yAxisMin        NOTIFY data_changed)
+    Q_PROPERTY( int ui_yAxisMax        MEMBER   yAxisMax        NOTIFY data_changed)
+    Q_PROPERTY( int ui_yAxisTickCount  MEMBER   yAxisTickCount  NOTIFY data_changed)
 public:
 
     ////CONNECTIONS
@@ -76,6 +76,7 @@ public:
     int     out3 {0};
     int     outA {0};
     std::vector<std::pair<int,int>> profileData {};
+    std::vector<double> profileCoefficients {};
     ScanResult resultProfilometer {ScanResult::Unrecognized};
 
     ////Camera
@@ -112,9 +113,11 @@ public:
     ////Advance View
     ScanResult resultProfilometerLongitudinalCrossSection {ScanResult::Unrecognized};
     std::vector<std::pair<int,int>> profileDataLongitudinalCrossSection {};
+    std::vector<double> longitudinalProfileCoefficients {};
 
     ScanResult resultProfilometerTransverseCrossSection   {ScanResult::Unrecognized};
     std::vector<std::pair<int,int>> profileDataTransverseCrossSection {};
+    std::vector<double> trasverseProfileCoefficients {};
 
     ScanResult resultCameraBasicPhoto                     {ScanResult::Unrecognized};
     cv::Mat cameraImageBasicPhoto {};
@@ -124,6 +127,8 @@ public:
 
 
 
+    ////Managment
+    void clearDataAndUpdateUi();
 
     ////debugging
     void printProfile();
@@ -131,7 +136,7 @@ public:
 
 
 signals:
-    void profile_changed();
+    void data_changed();
     void axis_limit_changed();
     void axis_tick_count_changed();
 
