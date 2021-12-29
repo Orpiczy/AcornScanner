@@ -70,9 +70,15 @@ int CameraManager::addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedDa
 }
 
 int CameraManager::openCameraView(){
+    try
+    {
+
     cv::Mat image;
     char keyPressed;
     cv::VideoCapture cam(CAMERA_ID_);
+
+    cam.set(cv::CAP_PROP_FRAME_WIDTH, cameraResolution_.first);
+    cam.set(cv::CAP_PROP_FRAME_HEIGHT, cameraResolution_.second);
 
     if (!cam.isOpened()) {
         LG_ERR("FAILURE - CAMERA COULD'T BE OPENED - CameraManager::openCameraView()");
@@ -91,26 +97,56 @@ int CameraManager::openCameraView(){
     }
 
     cam.release();
+
+    }
+    catch(cv::Exception& e ){
+        std::string errorMsg = e.what();
+        LG_ERR("EXCEPTION CAUGHT - " + errorMsg + " - CameraManager::openCameraView()");
+        std::terminate();
+    }
+
     return 0;
 }
 
 cv::Mat CameraManager::getImage()
 {
+    try
+    {
+
     cv::Mat image {};
     cv::VideoCapture cam(CAMERA_ID_);
+
+    cam.set(cv::CAP_PROP_FRAME_WIDTH, cameraResolution_.first);
+    cam.set(cv::CAP_PROP_FRAME_HEIGHT, cameraResolution_.second);
+
     if(not cam.isOpened()){
         LG_ERR("ERROR - PROGRAM WAS UNABLE TO OPEN CAMERA - CameraManager::getImage() - CAMERA_ID_ = ",CAMERA_ID_);
         cam.release();
+        std::terminate();
         return {};
     }
-    cam >> image;
+
+    //first photo sometimes is corrupted
+    for(int i = 0; i < imageRetake_; i++){
+        cam >> image;
+    }
+
 
     if(not image.empty()){
         LG_INF("SUCCESS - THE IMAGE WAS TAKEN AND THE RESULT IS NOT EMPTY - CameraManager::getImage()");
     }
     cam.release();
+
     rotateImage(image);
+
     return image;
+
+    }
+    catch(cv::Exception& e ){
+        std::string errorMsg = e.what();
+        LG_ERR("EXCEPTION CAUGHT - " + errorMsg + " - CameraManager::openCameraView()");
+    }
+    return {};
 }
 
 
@@ -133,10 +169,12 @@ void CameraManager::rotateImage(cv::Mat& image, int rotationInDegrees)
     }
 }
 ////VARIABLES
-CameraManager* CameraManager::cam_ = nullptr;
-const int      CameraManager::CAMERA_ID_  = 0;
-const int      CameraManager::displayFrameRate_ = 30;
-const int      CameraManager::cameraRotation_ = -90;
-const std::string CameraManager::testImagePath_ = "E:/Dokumenty/AiR_rok_4/S7/EngineeringThesis/AcornScanner/"
+CameraManager*            CameraManager::cam_ = nullptr;
+const int                 CameraManager::CAMERA_ID_  = 0;
+const int                 CameraManager::displayFrameRate_ = 30;
+const int                 CameraManager::cameraRotation_ = -90;
+const std::pair<int,int>  CameraManager::cameraResolution_ = {640,320};
+const int                 CameraManager::imageRetake_ = 10;
+const std::string         CameraManager::testImagePath_ = "E:/Dokumenty/AiR_rok_4/S7/EngineeringThesis/AcornScanner/"
                                                   "cm/cm-lib/source/controllers/LowLevelFunctionality/DeviceController/CameraManager/TestData/Acorn.jpg";
 

@@ -137,7 +137,7 @@ int DataController::updateFinalResult(ac::models::ScannedData &data)
      */
 
     LG_DBG("INFO - IN METHOD - DataController:::updateFinalResult()");
-    data.finalResult = ScanResult::Healthy;
+    data.finalResult = ScanResult::Unhealthy;
     return 0;
 }
 

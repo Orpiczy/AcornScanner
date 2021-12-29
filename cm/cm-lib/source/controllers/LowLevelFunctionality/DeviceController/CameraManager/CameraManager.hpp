@@ -61,7 +61,9 @@ private:
     const static int CAMERA_ID_;
     const static std::string testImagePath_;
     const static int displayFrameRate_;
+    const static std::pair<int,int> cameraResolution_;
     const static int cameraRotation_;
+    const static int imageRetake_; // defines how many pictures are taken before saving the final one
     cv::Mat testImage;
 };
 
