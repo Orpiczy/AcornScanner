@@ -22,7 +22,6 @@ using DailyStatisticsData = ac::models::DailyStatisticsData;
 class CMLIB_EXPORT MasterController : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY( QString                                ui_welcomeMessage       READ welcomeMessage       CONSTANT )
 //    we are adding here namespace info because it is access from ui side
     Q_PROPERTY( cm::controllers::NavigationController* ui_navigationController READ navigationController CONSTANT )
     Q_PROPERTY( cm::controllers::CommandController*    ui_commandController    READ commandController    CONSTANT )
@@ -45,7 +44,6 @@ public:
     //// VARIABLES
     NavigationController* navigationController();
     CommandController* commandController();
-    const QString& welcomeMessage() const;
     ScannedData *recentlyScannedData();
     DailyStatisticsData *obtainedDailyStatisticsData();
     CameraDeviceUi      *cameraDeviceModel();

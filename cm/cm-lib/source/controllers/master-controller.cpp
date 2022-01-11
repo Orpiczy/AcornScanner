@@ -21,7 +21,6 @@ class MasterController::Implementation
     MasterController* masterController{nullptr};
     NavigationController* navigationController{nullptr};
     CommandController* commandController{nullptr};
-    QString welcomeMessage = "This is MasterController to Major Tom";
     ScannedData* recentlyScannedData{nullptr};
     DailyStatisticsData* obtainedDailyStatisticsData {nullptr};
     CameraDeviceUi* cameraDeviceModel {nullptr};
@@ -128,10 +127,6 @@ NavigationController* MasterController::navigationController()
 CommandController *MasterController::commandController()
 {
     return implementation->commandController;
-}
-const QString& MasterController::welcomeMessage() const
-{
-    return implementation->welcomeMessage;
 }
 
 ScannedData *MasterController::recentlyScannedData()

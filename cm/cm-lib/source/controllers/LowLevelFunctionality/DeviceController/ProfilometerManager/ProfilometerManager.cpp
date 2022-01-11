@@ -225,13 +225,13 @@ bool ProfilometerManager::isConnectedAndWorking() {
 
 
 const std::vector<std::pair<int, int>> ProfilometerManager::testProfileData = {
-                                                                               {1   , 1001},
-                                                                               {1002, 2002},
-                                                                               {1003, 2003},
-                                                                               {1004, 2004},
-                                                                               {1005, 2005},
-                                                                               {1006, 2006},
-                                                                               {1007, 2007}};
+                                                                               {10, 10},
+                                                                               {20, 20},
+                                                                               {30, 30},
+                                                                               {40, 40},
+                                                                               {50, 30},
+                                                                               {60, 20},
+                                                                               {70, 10}};
 
 ////NOT TESTED
 

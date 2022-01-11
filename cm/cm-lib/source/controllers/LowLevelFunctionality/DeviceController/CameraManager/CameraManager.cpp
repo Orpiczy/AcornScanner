@@ -70,6 +70,11 @@ int CameraManager::addInfoToScannedDataAndSaveItToDataBase(ac::models::ScannedDa
 }
 
 int CameraManager::openCameraView(){
+
+    if (not IS_CAMERA_AVAILABLE){
+        return -1;
+    }
+
     try
     {
 
@@ -110,6 +115,10 @@ int CameraManager::openCameraView(){
 
 cv::Mat CameraManager::getImage()
 {
+    if (not IS_CAMERA_AVAILABLE){
+        return {};
+    }
+
     try
     {
 

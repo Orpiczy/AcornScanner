@@ -35,13 +35,11 @@ int DeviceController::getAndSaveAllData(ac::models::ScannedData &data){
 }
 
 int DeviceController::getCameraData(ac::models::ScannedData &data){
-    CameraManager::GetInstance() -> addInfoToScannedData(data);
-    return 0;
+    return CameraManager::GetInstance() -> addInfoToScannedData(data);
 }
 
 int DeviceController::getProfilometerData(ac::models::ScannedData &data){
-    ProfilometerManager::GetInstance() -> addInfoToScannedData(data);
-    return 0;
+    return ProfilometerManager::GetInstance() -> addInfoToScannedData(data);
 }
 
 int DeviceController::generateRaportAndSaveAdvanceMeasurement(ac::models::ScannedData &data){

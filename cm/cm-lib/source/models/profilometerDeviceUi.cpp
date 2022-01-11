@@ -1,5 +1,6 @@
 #include "profilometerDeviceUi.h"
-
+#include "../controllers/LowLevelFunctionality/DeviceController/DeviceController.hpp"
+#include "scannedData.hpp"
 ProfilometerDeviceUi::ProfilometerDeviceUi(QObject *parent) : QObject(parent)
 {
 
@@ -14,10 +15,17 @@ void ProfilometerDeviceUi::updateStatus()
  *
  *
  */
-// connectionStatus = QString::fromStdString(ac::translators::getDeviceConnectionStatusName(DeviceConnectionStatus::Yes));
-// functionalStatus = QString::fromStdString(ac::translators::getDeviceFuntionalStatusName(DeviceFunctionalStatus::Alright));
+ ac::models::ScannedData testData;
+ switch(DeviceController::GetInstance()->getProfilometerData(testData)){
+     case 0:
+         connectionStatus = "Connected";
+         functionalStatus = "Available";
+         break;
+     default:
+         connectionStatus = "Not Connected";
+         functionalStatus = "Not Ready";
+ }
+
  qDebug() << "updateProfilometerClicked()";
- connectionStatus = "Yes";
- functionalStatus = "Alright";
  emit device_status_change();
 }
